@@ -1,0 +1,92 @@
+{
+  "claims": [
+    {
+      "claim_id": "formal.registry_record_count",
+      "value": 11,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:30",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.definition_6",
+      "value": 6,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:45",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.definition_7",
+      "value": 7,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:50",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.definition_8",
+      "value": 8,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:55",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.ordered_pair_count",
+      "value": 9,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:156",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.definition_12",
+      "value": 12,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:97",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.definition_13",
+      "value": 13,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:117",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.first_decay_transition",
+      "value": 91,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:173",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.second_decay_transition",
+      "value": 121,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:173",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.third_decay_transition",
+      "value": 181,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:173",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    },
+    {
+      "claim_id": "formal.fourth_decay_transition",
+      "value": 366,
+      "kind": "number",
+      "source": "manuscript/03b_formalism.md:173",
+      "artifact_path": "manuscript/03b_formalism.md",
+      "source_tier": "claim_ledger"
+    }
+  ]
+}

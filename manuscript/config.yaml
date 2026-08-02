@@ -1,0 +1,50 @@
+paper:
+  title: "White Line: A Typed Ledger for the Edge of the Claim"
+  subtitle: "Keeping missing evidence, ethical boundaries, and open questions from becoming unsupported claims"
+  version: "0.7.0"
+  date: "2026-07-18"
+  description: "A typed absence ledger for epistemic gaps, ethical restraint, and contemplative negative space."
+  cover:
+    image: "output/figures/white_cover_art.png"
+
+authors:
+  - name: "Daniel Ari Friedman"
+    orcid: "0000-0001-6232-9096"
+    email: "daniel@activeinference.institute"
+    affiliation: "Active Inference Institute"
+
+publication:
+  doi: "10.5281/zenodo.21754242"
+  github_repository: "docxology/white_line"
+  repository_url: "https://github.com/docxology/white_line"
+
+rendering:
+  # Pandoc emits width= and height= together with keepaspectratio, so the
+  # smaller bound wins. At the renderer's 0.50 default the height cap bound
+  # the tall landscape plates and shrank their labels to between 3.39 and
+  # 4.91 pt, which is unreadable in print and silently broke the figures'
+  # shape-and-text accessibility contract. Setting the cap to 1.0 lets width
+  # bind for every plate, so a label's printed size follows only from its
+  # canvas size and the embed width. Page safety moves from this blunt cap to
+  # an explicit gate: tests/test_figure_legibility.py asserts that every plate
+  # still prints within 85% of \textheight, leaving room for its caption.
+  #
+  # The renderer applies front_matter_figure_height_fraction to the *first*
+  # figure in the combined document and figure_height_fraction to every later
+  # one. The two are held equal here so a plate's printed size does not depend
+  # on where it happens to fall in the document; the legibility gate refuses a
+  # config in which they differ.
+  figure_height_fraction: 1.0
+  front_matter_figure_height_fraction: 1.0
+render:
+  formats:
+    pdf: true
+    html: true
+    slides: false
+    docx: false
+    epub: false
+
+metadata:
+  license: "CC-BY-4.0 (prose); MIT (code)"
+  status: "living document — versioned and revisable"
+  geometry: "left=0.33in,right=0.33in,top=0.55in,bottom=0.55in"

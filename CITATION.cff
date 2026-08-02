@@ -1,0 +1,83 @@
+cff-version: 1.2.0
+message: "If you use or refer to this work, please cite it as below."
+type: software
+title: "White Line: A Typed Ledger for the Edge of the Claim"
+version: "0.7.0"
+date-released: "2026-07-18"
+authors:
+  - family-names: "Friedman"
+    given-names: "Daniel Ari"
+    orcid: "https://orcid.org/0000-0001-6232-9096"
+    affiliation: "Active Inference Institute"
+    email: "daniel@activeinference.institute"
+repository-code: "https://github.com/docxology/white_line"
+url: "https://github.com/docxology/white_line"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21754242"
+  - type: url
+    value: "https://github.com/docxology/white_line"
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - "absence"
+  - "epistemic gaps"
+  - "missing evidence"
+  - "withheld material"
+  - "uncertainty"
+  - "negative results"
+  - "research ethics"
+  - "open science"
+abstract: >-
+  A typed ledger for absence: epistemic gaps, ethical restraint, and
+  contemplative negative space. It records what is missing, withheld, or
+  unresolved under a total caution order, decays stale namings past their
+  review horizons, and refuses to infer why anything is absent.
+  Withholding is recorded as a boundary, never mined as missing evidence.
+references:
+  - type: software
+    title: "red_line"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+        orcid: "https://orcid.org/0000-0001-6232-9096"
+    repository-code: "https://github.com/docxology/red_line"
+    notes: "line — what I refuse (personal security boundary)"
+    doi: "10.5281/zenodo.21754240"
+  - type: software
+    title: "black_line"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+        orcid: "https://orcid.org/0000-0001-6232-9096"
+    repository-code: "https://github.com/docxology/black_line"
+    notes: "line — how I try to do strong work (declaration coverage)"
+    doi: "10.5281/zenodo.21754236"
+  - type: software
+    title: "golden_line"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+        orcid: "https://orcid.org/0000-0001-6232-9096"
+    repository-code: "https://github.com/docxology/golden_line"
+    notes: "line — what is worth reaching toward (directional readings)"
+    doi: "10.5281/zenodo.21754238"
+  - type: software
+    title: "line_set"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+        orcid: "https://orcid.org/0000-0001-6232-9096"
+    repository-code: "https://github.com/docxology/line_set"
+    notes: "the reader that declares the set and checks vocabulary separation"
+    doi: "10.5281/zenodo.21754244"
+  - type: software
+    title: "witness_register"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+        orcid: "https://orcid.org/0000-0001-6232-9096"
+    repository-code: "https://github.com/docxology/witness_register"
+    notes: "companion beside the set — co-registration without aggregation"
+    doi: "10.5281/zenodo.21754246"
