@@ -14,3 +14,15 @@ Read [README.md](README.md), [../AGENTS.md](../AGENTS.md), and
 [../docs/reproducibility.md](../docs/reproducibility.md).
 
 Project root: [AGENTS.md](../AGENTS.md) and [README.md](../README.md).
+
+## Formalism claim ledger (2026-08-29)
+
+`formalism_claim_ledger.json` declares the manuscript's formalism-block labels
+(`def:`/`prop:`) and the facet-lattice numbers stated in 03b_formalism.md, so
+the render engine's evidence registry resolves those `[@...]` cross-references
+instead of reporting them as unsupported bibliography citations. Every row is
+derived from the manuscript or the package;
+`tests/test_formalism_claim_ledger.py` re-derives the whole set (including a
+live `project_facets` sweep over all settlement × stance × temporality
+combinations) and fails if a block is added, renamed, or removed without this
+file following.

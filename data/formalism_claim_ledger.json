@@ -1,0 +1,277 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Declares the manuscript's formalism-block labels and the facet-lattice numbers the formalism section states, so the render engine's evidence registry can resolve a [@def:...]/[@prop:...] cross-reference and the stated counts instead of reporting them as unsupported citations. Every row is derived from the manuscript or the package; tests/test_formalism_claim_ledger.py re-derives the whole set and fails if a block is added, renamed, or removed without this file following.",
+  "boundary": "A row here records that a label is declared and that a number is re-derivable. It is not evidence that the proposition it names is true, and it grants no claim any weight.",
+  "claims": [
+    {
+      "claim_id": "def_assessment-map",
+      "kind": "citation",
+      "value": "def:assessment-map",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_caution-order",
+      "kind": "citation",
+      "value": "def:caution-order",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_date-resolution",
+      "kind": "citation",
+      "value": "def:date-resolution",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_directive",
+      "kind": "citation",
+      "value": "def:directive",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_envelope",
+      "kind": "citation",
+      "value": "def:envelope",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_event",
+      "kind": "citation",
+      "value": "def:event",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_facets",
+      "kind": "citation",
+      "value": "def:facets",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_finding",
+      "kind": "citation",
+      "value": "def:finding",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_intake",
+      "kind": "citation",
+      "value": "def:intake",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_kinds",
+      "kind": "citation",
+      "value": "def:kinds",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_observation",
+      "kind": "citation",
+      "value": "def:observation",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_projection",
+      "kind": "citation",
+      "value": "def:projection",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_record",
+      "kind": "citation",
+      "value": "def:record",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_registry",
+      "kind": "citation",
+      "value": "def:registry",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_report",
+      "kind": "citation",
+      "value": "def:report",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_return",
+      "kind": "citation",
+      "value": "def:return",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_scoring",
+      "kind": "citation",
+      "value": "def:scoring",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "def_states",
+      "kind": "citation",
+      "value": "def:states",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_bounded-follow-up",
+      "kind": "citation",
+      "value": "prop:bounded-follow-up",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_caution-monotonicity",
+      "kind": "citation",
+      "value": "prop:caution-monotonicity",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_context-traceability",
+      "kind": "citation",
+      "value": "prop:context-traceability",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_defect-detection",
+      "kind": "citation",
+      "value": "prop:defect-detection",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_factorization",
+      "kind": "citation",
+      "value": "prop:factorization",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_no-silent-discard",
+      "kind": "citation",
+      "value": "prop:no-silent-discard",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_reserved-meta-state",
+      "kind": "citation",
+      "value": "prop:reserved-meta-state",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_staleness",
+      "kind": "citation",
+      "value": "prop:staleness",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "prop_totality",
+      "kind": "citation",
+      "value": "prop:totality",
+      "source": "manuscript/03b_formalism.md: formalism block declared with this label",
+      "source_path": "manuscript/03b_formalism.md",
+      "source_tier": "manuscript_formalism_block",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "facets_total_combinations",
+      "kind": "number",
+      "value": 24,
+      "source": "len(EpistemicSettlement) x len(DisclosureStance) x len(TemporalStatus) = 4 x 2 x 3",
+      "source_path": "src/white_line/facets.py",
+      "source_tier": "derived_package_constant",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "facets_project_combinations",
+      "kind": "number",
+      "value": 21,
+      "source": "project_facets returns for 21 of 24 combinations",
+      "source_path": "src/white_line/facets.py",
+      "source_tier": "derived_package_constant",
+      "freshness": "active"
+    },
+    {
+      "claim_id": "facets_fail_closed_combinations",
+      "kind": "number",
+      "value": 3,
+      "source": "project_facets fails closed on 3 UNDISCLOSED-without-WITHHELD combinations",
+      "source_path": "src/white_line/facets.py",
+      "source_tier": "derived_package_constant",
+      "freshness": "active"
+    }
+  ]
+}

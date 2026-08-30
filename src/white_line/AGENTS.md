@@ -40,16 +40,39 @@ nothing here is submodule-only.
 - `dates.py`: `coerce_date(value, argument) -> date` and
   `coerce_review_date(value) -> date` are supported caller-boundary helpers
   for explicit review-date coercion.
+- `facets.py`: `finding_facets(finding) -> WitnessFacets`,
+  `report_facets(report) -> tuple[WitnessFacets, ...]`, and
+  `project_facets(facets) -> AbsenceState`: the caution order factored into
+  epistemic settlement x disclosure stance x temporal status, with the
+  projection recovering the shipped state. A derived view, never a new
+  observation.
+- `returns.py`: `return_contracts(report) -> tuple[ReturnContract, ...]` reads
+  each review horizon forward as a bounded follow-up obligation — trigger, due
+  date, expected return, and acceptance condition per finding.
+- `envelope.py`: `report_envelope(report, subject_id) -> ReportEnvelope`,
+  `canonical_envelope(envelope)`, `envelope_matches_report(envelope, report)`,
+  and `SCOPE_AND_NONCLAIMS`: the cross-instrument
+  `line.report-envelope/1.0` transport record pointing at the complete
+  canonical report by digest.
+- `formalism.py`: `parse_blocks`, `declared_prefixes`, `split_citations`,
+  `hand_written_numbers`, `strip_code`, `read_manuscript`, `FORMALISM_TITLES`,
+  and `FORMALISM_PREFIXES` read the manuscript's fenced formalism blocks the
+  way the renderer's numbering filter does, so the audit and the tests share
+  one reading.
 - `worked_examples.py`: `WORKED_AS_OF`, `worked_intake_observations() ->
   tuple[object, ...]`, and `worked_report() -> WhiteReport` are the shared
-  deterministic documentation and figure fixture.
+  deterministic documentation and figure fixture; `EXPIRY_AS_OF`/
+  `expiry_observations()`/`expiry_report()`, `intake_reachability_battery()`,
+  and `scoring_branch_observations()`/`scoring_branch_battery()` back the
+  expiry, reachability, and branch-coverage figures.
 - `audit.py`: `audit_project(project_root) -> dict[str, Any]`,
   `digest_inputs(project_root) -> tuple[str, list[str]]`,
   `figure_link_errors(...) -> list[str]`, `manifest_blocking_errors(errors) ->
   list[str]`, and `write_source_manifest(project_root, report) -> Path` check
   source/render agreement. They do not verify an observation's truth.
-- `version.py` defines `__version__` and `LEDGER_VERSION`; registry-content
-  changes require the latter to be bumped. `models.py` is an import-compatible
+- `version.py` defines `__version__`, `LEDGER_VERSION`, and
+  `LEDGER_VERSION_DIGEST`; registry-content changes require `LEDGER_VERSION`
+  to be bumped and the pinned digest re-verified, or the audit fails. `models.py` is an import-compatible
   re-export of `model` and must remain faithful.
 
 The immutable types and their methods are documented in
