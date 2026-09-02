@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .figures.build import artifact_digest
+from .figures.legibility import manuscript_dir
 from .formalism import declared_prefixes, parse_blocks, split_citations
 from .invariants import all_ledger_checks
 from .model import AbsenceRecord
@@ -43,10 +44,12 @@ RENDER_HEADINGS_ERROR_PREFIX = "rendered manuscript is missing source headings:"
 
 #: Mirrors the sibling template renderer's manuscript exclusion contract.
 RENDERER_EXCLUDED_MANUSCRIPT_FILES: frozenset[str] = frozenset(
-    {"AGENTS.md", "README.md", "SYNTAX.md"}
+    {"AGENTS.md", "README.md", "SYNTAX.md", "MANUSCRIPT_STATUS.md"}
 )
 
-FIGURE_REFERENCE_RE = re.compile(r"\]\(\.\./output/figures/([^)]+\.png)\)")
+#: Accepts any ``../`` depth so the same embed form resolves from either
+#: manuscript layout (``manuscript/`` or ``docs/manuscript/``).
+FIGURE_REFERENCE_RE = re.compile(r"\]\((?:\./|\.\./)*output/figures/([^)]+\.png)\)")
 FIGURE_LABEL_RE = re.compile(r"\{#(fig:[^\s}]+)")
 SECTION_LABEL_RE = re.compile(r"^# .+\{#(sec:[^\s}]+)\}\s*$")
 BIBLIOGRAPHY_ENTRY_RE = re.compile(r"@\w+\{\s*([^,\s]+)", re.MULTILINE)
@@ -56,11 +59,19 @@ def digest_inputs(project_root: Path) -> tuple[str, list[str]]:
     """Hash the files that must agree with a rendered publication bundle."""
 
     root = project_root.resolve()
+    try:
+        manuscript_root: Path | None = manuscript_dir(root)
+    except FileNotFoundError:
+        # The audit reports absence instead of crashing mid-digest; the
+        # manuscript checks below carry the named error.
+        manuscript_root = None
     paths = sorted(
         [
             *(
                 path
-                for path in root.glob("manuscript/*")
+                for path in (
+                    manuscript_root.glob("*") if manuscript_root is not None else ()
+                )
                 if path.name not in RENDERER_EXCLUDED_MANUSCRIPT_FILES
             ),
             root / "output/figures/figure_registry.json",
@@ -272,9 +283,18 @@ def audit_project(
         ):
             errors.append("white registry artifact records do not match WHITE_RECORDS")
 
+    try:
+        manuscript_root = manuscript_dir(root)
+    except FileNotFoundError:
+        errors.append(
+            "no manuscript directory found; expected docs/manuscript/ or manuscript/"
+        )
+        manuscript_root = None
     manuscript_files = sorted(
         path
-        for path in (root / "manuscript").glob("*.md")
+        for path in (
+            manuscript_root.glob("*.md") if manuscript_root is not None else ()
+        )
         if path.name not in RENDERER_EXCLUDED_MANUSCRIPT_FILES
     )
     manuscript_sources = {
@@ -324,7 +344,9 @@ def audit_project(
     # Read like every other artifact: a missing file is a reported error, not
     # an unhandled traceback out of the middle of the audit.
     try:
-        bibliography = (root / "manuscript/references.bib").read_text(encoding="utf-8")
+        bibliography = (manuscript_dir(root) / "references.bib").read_text(
+            encoding="utf-8"
+        )
     except OSError:
         errors.append("manuscript/references.bib is missing")
         bibliography = ""

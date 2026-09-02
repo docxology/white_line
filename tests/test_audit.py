@@ -12,6 +12,7 @@ from typing import Any
 
 import pytest
 
+from white_line.figures.legibility import manuscript_dir
 from white_line.audit import (
     FIGURE_LABEL_RE,
     FIGURE_REFERENCE_RE,
@@ -46,15 +47,15 @@ def materialize_passing_project(project_root: Path) -> Path:
         entry["source_digest"] == registry_digest(WHITE_RECORDS)
         for entry in figure_registry["figures"]
     )
-    manuscript_dir = project_root / "manuscript"
-    manuscript_dir.mkdir()
+    manuscript_root = project_root / "manuscript"  # earlier-layout fixture
+    manuscript_root.mkdir()
     figure_embeds = "\n".join(
         f"![{plate.caption}](../output/figures/{plate.name}.png){{#{plate.label}}}"
         for plate in FIGURE_PLATES
     )
     manuscript = f"# Minimal audit fixture {{#sec:minimal-audit}}\n\nKnown citation @Known2026.\n\n{figure_embeds}\n"
-    (manuscript_dir / "01_minimal.md").write_text(manuscript, encoding="utf-8")
-    (manuscript_dir / "references.bib").write_text(
+    (manuscript_root / "01_minimal.md").write_text(manuscript, encoding="utf-8")
+    (manuscript_root / "references.bib").write_text(
         "@article{Known2026, title={Known}}\n", encoding="utf-8"
     )
     web_dir = project_root / "output/web"
@@ -184,7 +185,7 @@ def test_real_manuscript_embeds_every_registered_figure_and_vice_versa() -> None
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
     manuscript_text = "\n".join(
         path.read_text(encoding="utf-8")
-        for path in sorted((PROJECT_ROOT / "manuscript").glob("*.md"))
+        for path in sorted(manuscript_dir(PROJECT_ROOT).glob("*.md"))
     )
     errors = figure_link_errors(
         referenced_figures=set(FIGURE_REFERENCE_RE.findall(manuscript_text)),
@@ -520,7 +521,7 @@ def test_figure_regexes_match_the_manuscript_embed_form() -> None:
 
 
 def test_manuscript_section_labels_match_the_sidecar_convention() -> None:
-    for path in sorted((PROJECT_ROOT / "manuscript").glob("*.md")):
+    for path in sorted(manuscript_dir(PROJECT_ROOT).glob("*.md")):
         if (
             path.name == "preamble.md"
             or path.name in RENDERER_EXCLUDED_MANUSCRIPT_FILES

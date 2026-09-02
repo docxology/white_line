@@ -14,6 +14,7 @@ from white_line.analysis import (
     reconciliation_matrix,
 )
 from white_line.figures import FIGURE_PLATES, FigurePlate, build_figures
+from white_line.figures.legibility import manuscript_dir
 from white_line.serialization import FIGURE_REGISTRY_SCHEMA
 from white_line.figures.plates import contract, overview
 from white_line.model import AbsenceKind, IntakeCode
@@ -294,7 +295,7 @@ def test_distribution_panels_are_computed_through_the_public_api(
 def test_distribution_embed_caption_matches_the_worked_computation() -> None:
     """The manuscript embed cites the same review date and input count the code runs."""
 
-    text = (PROJECT_ROOT / "manuscript" / "04b_distributional_views.md").read_text(
+    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
         encoding="utf-8"
     )
     embed = next(
@@ -308,7 +309,7 @@ def test_distribution_embed_caption_matches_the_worked_computation() -> None:
 
 
 def test_distributional_views_document_uses_the_shared_worked_computation() -> None:
-    text = (PROJECT_ROOT / "manuscript" / "04b_distributional_views.md").read_text(
+    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
         encoding="utf-8"
     )
     assert "worked_intake_observations()" in text
@@ -663,7 +664,7 @@ def test_the_facets_lattice_cells_re_derive_from_the_projection() -> None:
 def test_the_facets_lattice_embed_carries_the_projection_boundary() -> None:
     """The manuscript embed keeps the plate's non-claim attached to it."""
 
-    text = (PROJECT_ROOT / "manuscript" / "04b_distributional_views.md").read_text(
+    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
         encoding="utf-8"
     )
     embed = next(

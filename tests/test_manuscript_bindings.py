@@ -35,10 +35,11 @@ from white_line import (
     worked_report,
 )
 from white_line.analysis import ASSERTABLE_STATES
+from white_line.figures.legibility import manuscript_dir
 from white_line.formalism import split_citations
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-MANUSCRIPT = PROJECT_ROOT / "manuscript"
+MANUSCRIPT = manuscript_dir(PROJECT_ROOT)
 
 #: English spellings for the small counts this manuscript writes out in words.
 #: This is a spelling table, not an expectation: every count compared against
@@ -364,7 +365,7 @@ FORBIDDEN_COLOUR_WORDS = ("blue", "green", "red", "yellow", "pink", "grey", "gra
 #: Only caption and alt text is scanned. Body prose legitimately names the
 #: sibling works Red Line, Black Line, and Golden Line, which are titles rather
 #: than descriptions of any drawn artifact.
-CAPTION_RE = re.compile(r"!\[(?P<caption>.+?)\]\(\.\./output/figures/[^)]+\)", re.S)
+CAPTION_RE = re.compile(r"!\[(?P<caption>.+?)\]\((?:\./|\.\./)*output/figures/[^)]+\)", re.S)
 
 
 def _colour_words(value: str) -> list[str]:

@@ -4,6 +4,7 @@ from importlib.metadata import version as installed_version
 from pathlib import Path
 import re
 
+from white_line.figures.legibility import manuscript_dir
 from white_line import (
     LEDGER_VERSION,
     WHITE_RECORDS,
@@ -46,7 +47,9 @@ def test_every_record_carries_a_prompt_and_positive_horizon() -> None:
 
 def test_version_markers_are_exposed() -> None:
     assert LEDGER_VERSION
-    config = (PROJECT_ROOT / "manuscript" / "config.yaml").read_text(encoding="utf-8")
+    config = (manuscript_dir(PROJECT_ROOT) / "config.yaml").read_text(
+        encoding="utf-8"
+    )
     paper_version = re.search(r'^  version: "([^"]+)"$', config, re.MULTILINE)
     assert paper_version is not None
     assert paper_version.group(1) == __version__

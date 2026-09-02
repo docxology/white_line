@@ -51,7 +51,7 @@ _FRONT_MATTER_FRACTION_RE = re.compile(
     r"^\s*front_matter_figure_height_fraction:\s*([0-9.]+)\s*$", re.MULTILINE
 )
 _EMBED_RE = re.compile(
-    r"\]\(\.\./output/figures/([^)]+\.png)\)\{([^}]*)\}",
+    r"\]\((?:\./|\.\./)*output/figures/([^)]+\.png)\)\{([^}]*)\}",
 )
 _WIDTH_ATTRIBUTE_RE = re.compile(r"width=(\d+(?:\.\d+)?)%")
 _TEX_WIDTH_RE = re.compile(r"\\textwidth=([\d.]+)pt")
@@ -92,6 +92,32 @@ def _margins(geometry: str) -> dict[str, float]:
     return margins
 
 
+# White Line carries its manuscript under ``docs/manuscript/``; the earlier
+# ``manuscript/`` layout is still resolved for compatibility so a checkout
+# from either layout (or the transition between them) audits and measures
+# against the real sources rather than a missing directory.
+MANUSCRIPT_DIR_NAMES: tuple[str, ...] = ("docs/manuscript", "manuscript")
+
+
+def manuscript_dir(project_root: Path) -> Path:
+    """Return the manuscript directory: ``docs/manuscript/`` if present,
+    else the earlier ``manuscript/`` layout.
+
+    Raises ``FileNotFoundError`` when neither layout exists, so a caller never
+    silently measures an empty glob.
+    """
+
+    root = project_root.resolve()
+    for relative in MANUSCRIPT_DIR_NAMES:
+        candidate = root / relative
+        if candidate.is_dir():
+            return candidate
+    raise FileNotFoundError(
+        f"no manuscript directory under {root}: expected one of "
+        + ", ".join(MANUSCRIPT_DIR_NAMES)
+    )
+
+
 def page_metrics(project_root: Path) -> PageMetrics:
     """Read the text-block size and figure height cap from ``config.yaml``.
 
@@ -111,7 +137,9 @@ def page_metrics(project_root: Path) -> PageMetrics:
             model, and would therefore report wrongly rather than not at all.
     """
 
-    config = (project_root / "manuscript" / "config.yaml").read_text(encoding="utf-8")
+    config = (manuscript_dir(project_root) / "config.yaml").read_text(
+        encoding="utf-8"
+    )
     geometry_match = _GEOMETRY_RE.search(config)
     if geometry_match is None:
         raise ValueError("manuscript/config.yaml declares no metadata.geometry")
@@ -150,7 +178,7 @@ def embedded_figure_widths(project_root: Path) -> dict[str, float]:
     """
 
     widths: dict[str, float] = {}
-    for path in sorted((project_root / "manuscript").glob("*.md")):
+    for path in sorted(manuscript_dir(project_root).glob("*.md")):
         for filename, attributes in _EMBED_RE.findall(path.read_text(encoding="utf-8")):
             match = _WIDTH_ATTRIBUTE_RE.search(attributes)
             widths[filename] = float(match.group(1)) / 100.0 if match else 1.0

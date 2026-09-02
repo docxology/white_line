@@ -57,6 +57,7 @@ from white_line import (
     scoring_branch_battery,
     usable_observation_date,
 )
+from white_line.figures.legibility import manuscript_dir
 from white_line.formalism import (
     FORMALISM_PREFIXES,
     FORMALISM_TITLES,
@@ -70,7 +71,7 @@ from white_line.formalism import (
 from white_line.model import SET_ASIDE_CODES
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-MANUSCRIPT = PROJECT_ROOT / "manuscript"
+MANUSCRIPT = manuscript_dir(PROJECT_ROOT)
 
 SOURCES = read_manuscript(MANUSCRIPT)
 BLOCKS = parse_blocks(SOURCES)

@@ -16,11 +16,12 @@ import re
 from pathlib import Path
 
 from white_line import __version__
+from white_line.figures.legibility import manuscript_dir
 
 ROOT = Path(__file__).resolve().parents[1]
 CITATION = ROOT / "CITATION.cff"
 ZENODO = ROOT / ".zenodo.json"
-CONFIG = ROOT / "manuscript" / "config.yaml"
+CONFIG = manuscript_dir(ROOT) / "config.yaml"
 LICENSE = ROOT / "LICENSE"
 
 SELF = "white_line"

@@ -271,8 +271,8 @@ def test_derived_geometry_matches_the_last_rendered_latex() -> None:
 def test_page_metrics_refuses_a_geometry_without_margins(tmp_path: Path) -> None:
     """Positive control: a guessed text width would make every number fiction."""
 
-    manuscript = tmp_path / "manuscript"
-    manuscript.mkdir()
+    manuscript = tmp_path / "manuscript"  # earlier-layout fixture tree
+    manuscript.mkdir(parents=True)
     (manuscript / "config.yaml").write_text(
         'metadata:\n  geometry: "top=0.55in,bottom=0.55in"\n', encoding="utf-8"
     )
@@ -389,8 +389,8 @@ def test_geometry_readback_is_none_before_any_render(tmp_path: Path) -> None:
 def test_non_inch_geometry_units_are_not_read_as_inches(tmp_path: Path) -> None:
     """A margin in millimetres is not silently treated as a margin in inches."""
 
-    manuscript = tmp_path / "manuscript"
-    manuscript.mkdir()
+    manuscript = tmp_path / "manuscript"  # earlier-layout fixture tree
+    manuscript.mkdir(parents=True)
     (manuscript / "config.yaml").write_text(
         'metadata:\n  geometry: "left=0.42in,right=0.42in,top=14mm,bottom=0.55in"\n',
         encoding="utf-8",
@@ -407,8 +407,8 @@ def test_page_metrics_refuses_unequal_figure_height_fractions(tmp_path: Path) ->
     module does not model. It must raise rather than report a wrong number.
     """
 
-    manuscript = tmp_path / "manuscript"
-    manuscript.mkdir()
+    manuscript = tmp_path / "manuscript"  # earlier-layout fixture tree
+    manuscript.mkdir(parents=True)
     geometry = 'metadata:\n  geometry: "left=0.42in,right=0.42in,top=0.55in,bottom=0.55in"\n'
     (manuscript / "config.yaml").write_text(
         "rendering:\n  figure_height_fraction: 1.0\n"

@@ -22,6 +22,7 @@ import re
 from itertools import product
 from pathlib import Path
 
+from white_line.figures.legibility import manuscript_dir
 from white_line.facets import (
     DisclosureStance,
     EpistemicSettlement,
@@ -31,7 +32,7 @@ from white_line.facets import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-MANUSCRIPT = ROOT / "manuscript"
+MANUSCRIPT = manuscript_dir(ROOT)
 LEDGER = ROOT / "data" / "formalism_claim_ledger.json"
 
 #: A formalism block opener: ``::: {.definition #def:x title="X"}``.
@@ -143,11 +144,27 @@ def test_every_referenced_label_is_both_declared_and_ledgered() -> None:
     )
 
 
+def _evidence_path(source_path: str) -> Path:
+    """Resolve a ledger evidence path against either manuscript layout.
+
+    The manuscript lives under ``docs/manuscript/`` in the current tree and
+    under the earlier ``manuscript/`` layout in previous checkouts; evidence
+    rows recorded against either layout must resolve, so the same fallback
+    ``white_line.figures.legibility.manuscript_dir`` applies is used here.
+    """
+
+    candidate = ROOT / source_path
+    if candidate.is_file() or not source_path.startswith("manuscript/"):
+        return candidate
+    relocated = ROOT / "docs" / source_path
+    return relocated
+
+
 def test_every_ledger_source_path_exists() -> None:
     """A row pointing at a file that is not there is dead evidence."""
 
     for row in _ledger()["claims"]:
-        assert (ROOT / row["source_path"]).is_file(), row["claim_id"]
+        assert _evidence_path(row["source_path"]).is_file(), row["claim_id"]
         assert row["freshness"] == "active", row["claim_id"]
 
 
