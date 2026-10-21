@@ -2,12 +2,12 @@
 
 ## How to cite
 
-Version 0.8.0 is an unreleased repository candidate. Cite the candidate by
-repository reference, keeping that status in the citation:
+Version 0.8.0 is a repository release. Cite this software version by its tagged
+repository reference, separately from the last verified Zenodo deposition:
 
 > Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim* (version
-> 0.8.0 candidate, unreleased) [Software and manuscript]. GitHub.
-> <https://github.com/docxology/white_line>
+> 0.8.0) [Software and manuscript]. GitHub.
+> <https://github.com/docxology/white_line/tree/v0.8.0>
 
 BibTeX:
 
@@ -17,25 +17,25 @@ BibTeX:
   title   = {White Line: A Typed Ledger for the Edge of the Claim},
   version = {0.8.0},
   year    = {2026},
-  url     = {https://github.com/docxology/white_line},
-  note    = {Unreleased repository candidate; no version DOI minted}
+  url     = {https://github.com/docxology/white_line/tree/v0.8.0},
+  note    = {Repository release; the next Zenodo version DOI remains pending}
 }
 ```
 
 For the last verified deposition, cite the DOI separately, without attributing
-the candidate version to it:
+the repository version to it:
 
 > Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim*
 > [Software and manuscript]. Zenodo. <https://doi.org/10.5281/zenodo.21754242>
 
 `CITATION.cff`, `.zenodo.json`, and `manuscript/config.yaml` carry synchronized
-candidate version metadata and retain the last verified DOI as required by the
-release procedure. That retained identifier does not identify a new candidate
+version metadata and retain the last verified DOI as required by the
+release procedure. That retained identifier does not identify a new 0.8.0
 deposition. `tests/test_publication_metadata.py` checks their agreement.
 
 ## Persistent Identifiers and Verification
 
-Version 0.8.0 is a repository candidate. The DOI below remains the last verified
+Version 0.8.0 is a repository release. The DOI below remains the last verified
 deposition; it does not assert that Zenodo has published this software version.
 Daniel must reserve and mint the new version DOI using the procedure below.
 

@@ -49,3 +49,16 @@ horizons before deriving temporality. Candidate citations now use repository
 references with an unreleased label; the verified deposition is cited separately.
 The focused post-fix run passed all 172 tests, with clean lint and type checks.
 This response does not clear the independently blocked external publication gate.
+
+## Publication gate resolution
+
+On resumption the unchanged engine's native pipe call still hung across the
+available macOS interpreters. The exact reproduction succeeded in Linux on
+the same input and returned the same output byte count. The complete Stage 04
+validator then passed in a compatible Linux environment after supplying its
+documented source epoch and Git provenance through an independent detached
+engine checkout. The canonical engine was not changed. A truncated-PDF control
+on a disposable project clone exited 1; the canonical artifact hash was
+unchanged. The declared Python 3.10 floor also passed all 491 tests without
+skips. Final release commands, custody, and remaining DOI work are recorded
+in the release packet and validation recipe.
