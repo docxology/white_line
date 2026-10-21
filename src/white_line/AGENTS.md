@@ -54,6 +54,11 @@ nothing here is submodule-only.
   and `SCOPE_AND_NONCLAIMS`: the cross-instrument
   `line.report-envelope/1.0` transport record pointing at the complete
   canonical report by digest.
+- `binding.py` validates the producing registry and finding identities.
+  `return_matches_contract` checks exact report/record references;
+  `validate_envelope_contract` and `envelope_digest` check different boundaries
+  from report matching. Read [witness_contracts.md](../../docs/witness_contracts.md)
+  for compatibility, retention, and caller-provenance limits.
 - `formalism.py`: `parse_blocks`, `declared_prefixes`, `split_citations`,
   `hand_written_numbers`, `strip_code`, `read_manuscript`, `FORMALISM_TITLES`,
   and `FORMALISM_PREFIXES` read the manuscript's fenced formalism blocks the

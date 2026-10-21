@@ -2,11 +2,12 @@
 
 ## How to cite
 
-Cite this work via its minted DOI or repository:
+Version 0.8.0 is an unreleased repository candidate. Cite the candidate by
+repository reference, keeping that status in the citation:
 
 > Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim* (version
-> 0.7.0) [Software and manuscript]. Zenodo.
-> <https://doi.org/10.5281/zenodo.21754242>
+> 0.8.0 candidate, unreleased) [Software and manuscript]. GitHub.
+> <https://github.com/docxology/white_line>
 
 BibTeX:
 
@@ -14,18 +15,29 @@ BibTeX:
 @software{friedman_white_line_2026,
   author  = {Friedman, Daniel Ari},
   title   = {White Line: A Typed Ledger for the Edge of the Claim},
-  version = {0.7.0},
+  version = {0.8.0},
   year    = {2026},
-  doi     = {10.5281/zenodo.21754242}
+  url     = {https://github.com/docxology/white_line},
+  note    = {Unreleased repository candidate; no version DOI minted}
 }
 ```
 
-`CITATION.cff` carries the same metadata in machine-readable form, and
-`.zenodo.json` carries the deposit metadata. All three are generated from
-`manuscript/config.yaml`; `tests/test_publication_metadata.py` fails if they
-disagree.
+For the last verified deposition, cite the DOI separately, without attributing
+the candidate version to it:
+
+> Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim*
+> [Software and manuscript]. Zenodo. <https://doi.org/10.5281/zenodo.21754242>
+
+`CITATION.cff`, `.zenodo.json`, and `manuscript/config.yaml` carry synchronized
+candidate version metadata and retain the last verified DOI as required by the
+release procedure. That retained identifier does not identify a new candidate
+deposition. `tests/test_publication_metadata.py` checks their agreement.
 
 ## Persistent Identifiers and Verification
+
+Version 0.8.0 is a repository candidate. The DOI below remains the last verified
+deposition; it does not assert that Zenodo has published this software version.
+Daniel must reserve and mint the new version DOI using the procedure below.
 
 This repository carries an asserted, verified Zenodo DOI (`10.5281/zenodo.21754242`).
 `tests/test_publication_metadata.py` refuses any unverified DOI-shaped string in

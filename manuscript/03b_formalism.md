@@ -49,7 +49,9 @@ semantics.
 ::: {.definition #def:caution-order title="Caution order"}
 Caution is the total order induced by the rank map $c : S \to \{0,1,2,3\}$,
 
-$$c(\texttt{NOT\_RECORDED}) = 0 < c(\texttt{NAMED}) = 1 < c(\texttt{UNRESOLVED}) = 2 < c(\texttt{WITHHELD}) = 3.$$
+$$
+c(\texttt{NOT\_RECORDED}) = 0 < c(\texttt{NAMED}) = 1 < c(\texttt{UNRESOLVED}) = 2 < c(\texttt{WITHHELD}) = 3.
+$$
 
 Withholding outranks an open question, which outranks a settled naming, which
 outranks silence.
@@ -67,8 +69,10 @@ but cannot participate in staleness accounting.
 ::: {.definition #def:finding title="Finding"}
 A finding is a frozen tuple
 $f = (\mathit{record\_id}, \mathit{kind}, \mathit{state}, \mathit{reasons},
-\mathit{observed\_on})$ carrying the assessed state together with the ordered
-trail of reasons that produced it.
+\mathit{observed\_on}, \mathit{asserted\_state})$ carrying the assessed state,
+the retained assertion (or none for an unobserved record), and the ordered
+trail of reasons. Typed assertion metadata distinguishes decay from asserted
+doubt without interpreting display prose.
 :::
 
 ::: {.definition #def:report title="Report"}
@@ -99,7 +103,9 @@ supplied the input.
 ::: {.definition #def:assessment-map title="Assessment map"}
 The evaluator is the function
 
-$$\texttt{assess\_absence} : \mathrm{Obs}^{*} \cup \{\bot\} \;\times\; R^{*} \;\times\; (\mathrm{ISO} \cup \mathrm{Date} \cup \{\bot\}) \;\longrightarrow\; \mathrm{Report},$$
+$$
+\texttt{assess\_absence} : \mathrm{Obs}^{*} \cup \{\bot\} \;\times\; R^{*} \;\times\; (\mathrm{ISO} \cup \mathrm{Date} \cup \{\bot\}) \;\longrightarrow\; \mathrm{Report},
+$$
 
 whose three parameters are `observations`, `records`, and `as_of`. The third
 resolves to a review date $d$ (today when $\bot$), and an invalid date fails
@@ -170,7 +176,9 @@ absent), and review date $d$, the scoring rule $\varphi$ reports:
    $\mathit{age} = (d - t)$ in days: reason `the absence is explicitly named`
    when the naming is current, and otherwise the decay stated below.
 
-$$\varphi_{\texttt{NAMED}}(r, o, d) = \begin{cases} \texttt{UNRESOLVED} & \text{if } t \neq \bot \text{ and } \mathit{age} > H \quad (\text{staleness decay}),\\ \texttt{NAMED} & \text{otherwise.}\end{cases}$$
+$$
+\varphi_{\texttt{NAMED}}(r, o, d) = \begin{cases} \texttt{UNRESOLVED} & \text{if } t \neq \bot \text{ and } \mathit{age} > H \quad (\text{staleness decay}),\\ \texttt{NAMED} & \text{otherwise.}\end{cases}
+$$
 
 Any date issue note from $\delta$ and any recorded note are appended to the
 finding's reasons in that order.
@@ -291,8 +299,13 @@ emits; every object is derived from data a report already carries.
 
 ::: {.definition #def:facets title="Witness facets"}
 The facet alphabets are the epistemic settlement
-$E = \{\texttt{NOT\_RECORDED}, \texttt{NAMED}, \texttt{UNRESOLVED},
-\texttt{UNDISCLOSED}\}$, the disclosure stance
+
+$$
+E = \{\texttt{NOT\_RECORDED}, \texttt{NAMED}, \texttt{UNRESOLVED},
+\texttt{UNDISCLOSED}\},
+$$
+
+the disclosure stance
 $D = \{\texttt{OPEN}, \texttt{WITHHELD}\}$, and the temporal status
 $T = \{\texttt{CURRENT}, \texttt{STALE}, \texttt{UNDATED}\}$, with
 $|E| = 4$, $|D| = 2$, and $|T| = 3$. A witness facet record is a frozen tuple
@@ -303,14 +316,25 @@ and `STALE` describes the age of a recording under the record's horizon,
 through the same date-resolution rule $\delta$ of [@def:date-resolution],
 never the world the record points at. The facets describe recorded data only:
 `finding_facets` derives them from a finding the evaluator produced and fails
-closed on a finding this evaluator could not have written.
+closed on malformed state, kind, date, or typed assertion combinations. It
+does not authenticate the reasons or establish who produced a finding.
+Projection requires actual facet enum members; a bare string never falls
+through to a naming. Report-level derivation also validates the complete
+registry and its canonical digest, finding IDs and kinds, and uniqueness.
+Registry reordering is harmless; changed content and missing digests are
+rejected rather than silently reassessed. The shared finding consistency and
+review-date checks also precede return and expiry derivation, even when every
+record is unobserved. Direct facet calls reject matching invalid kinds or
+identifiers and nonpositive or untyped horizons before deriving temporality.
 :::
 
 ::: {.definition #def:projection title="Projection rule"}
 The projection $\pi : E \times D \times T \to S$ is partial and restates the
 caution order as a projection of the facets:
 
-$$\pi(w) = \begin{cases} \texttt{WITHHELD} & \text{if } w.\mathit{disclosure} = \texttt{WITHHELD},\\ \bot \text{ (fails closed)} & \text{if } w.\mathit{settlement} = \texttt{UNDISCLOSED} \text{ otherwise},\\ \texttt{NOT\_RECORDED} & \text{if } w.\mathit{settlement} = \texttt{NOT\_RECORDED},\\ \texttt{UNRESOLVED} & \text{if } w.\mathit{settlement} = \texttt{UNRESOLVED},\\ \texttt{UNRESOLVED} & \text{if } w.\mathit{temporality} = \texttt{STALE} \quad (\text{staleness decay}),\\ \texttt{NAMED} & \text{otherwise.}\end{cases}$$
+$$
+\pi(w) = \begin{cases} \texttt{WITHHELD} & \text{if } w.\mathit{disclosure} = \texttt{WITHHELD},\\ \bot \text{ (fails closed)} & \text{if } w.\mathit{settlement} = \texttt{UNDISCLOSED} \text{ otherwise},\\ \texttt{NOT\_RECORDED} & \text{if } w.\mathit{settlement} = \texttt{NOT\_RECORDED},\\ \texttt{UNRESOLVED} & \text{if } w.\mathit{settlement} = \texttt{UNRESOLVED},\\ \texttt{UNRESOLVED} & \text{if } w.\mathit{temporality} = \texttt{STALE} \quad (\text{staleness decay}),\\ \texttt{NAMED} & \text{otherwise.}\end{cases}
+$$
 
 Of the $24$ combinations in $E \times D \times T$, $21$ project and $3$ fail
 closed: an `UNDISCLOSED` settlement without a `WITHHELD` stance is not a state
@@ -332,17 +356,27 @@ asserted doubt. The property is proven branch by branch over the live scoring
 battery, not against a restatement of the rules.
 :::
 
+\newpage
+
 ::: {.definition #def:return title="Return contract"}
 A return contract is a frozen tuple
-$(\mathit{record\_id}, \mathit{state}, \mathit{action}, \mathit{trigger},
-\mathit{due\_on}, \mathit{expected\_return}, \mathit{acceptance\_condition},
-\mathit{review\_date}, \mathit{registry\_digest})$, one per finding, derived
+
+$$
+\begin{aligned}
+(&\mathit{record\_id}, \mathit{state}, \mathit{action}, \mathit{trigger},\\
+ &\mathit{due\_on}, \mathit{expected\_return}, \mathit{acceptance\_condition},\\
+ &\mathit{review\_date}, \mathit{registry\_digest},
+ \mathit{originating\_report\_ref}).
+\end{aligned}
+$$
+
+There is one per finding, derived
 deterministically from the finding, its record, and the report's own review
 date through the same $\delta$ of [@def:date-resolution] the evaluator scored
 with. The action is the protocol's own directive from [@def:directive]; the
 trigger, expected return, and acceptance condition are the pinned module
-constants a live contract carries; and the review date and registry digest
-point back at the producing report, so a return answers an exact prior state
+constants a live contract carries; and `originating_report_ref` is the exact
+canonical report digest, so a return answers an exact retained prior state
 rather than rewriting history. Fulfilling a contract earns a re-review, never
 a pass: an `UNRESOLVED` return may honestly leave the question open, and a
 `WITHHELD` contract's return is boundary confirmation, never disclosure.
@@ -355,6 +389,8 @@ which review state it returns to. For a current dated naming the two meet at
 one boundary: under the strict $\mathit{age} > H$ rule of [@def:scoring],
 `due_on` is the observation date plus the horizon — the *last* review date on
 which the naming is still current, since a review one day later decays it.
+If adding the horizon would exceed the representable calendar, contract
+derivation raises an explicit error; it does not emit a false empty due date.
 The binding test proves the boundary through the evaluator itself, assessing
 the same observation on `due_on` (still `NAMED`) and one day after
 (`UNRESOLVED`), rather than restating the arithmetic.
@@ -363,20 +399,50 @@ the same observation on `due_on` (still `NAMED`) and one day after
 The canonical report is a stable serialization of a complete report —
 findings, reasons, intake events, and notes — whose SHA-256 digest is the
 report's `report_digest`. The report envelope is the tuple
-$(\mathit{schema\_version}, \mathit{line\_id}, \mathit{subject\_id},
-\mathit{review\_date}, \mathit{registry\_version}, \mathit{registry\_digest},
-\mathit{native\_status}, \mathit{report\_ref},
-\mathit{source\_snapshot\_refs}, \mathit{scope\_and\_nonclaims})$ exported
+
+$$
+\begin{aligned}
+(&\mathit{schema\_version}, \mathit{line\_id}, \mathit{subject\_id},\\
+ &\mathit{review\_date}, \mathit{registry\_version}, \mathit{registry\_digest},\\
+ &\mathit{native\_status}, \mathit{report\_ref},\\
+ &\mathit{source\_snapshot\_refs}, \mathit{scope\_and\_nonclaims}).
+\end{aligned}
+$$
+
+It is exported
 under the schema string `line.report-envelope/1.0`, where `report_ref` is
 that digest: the envelope points at the complete native report and never
 reinterprets it. `native_status` is deliberately typed in this line's own
 vocabulary — the complete ordered per-record states, because this instrument
 has no single overall verdict — and the transportable non-claims ride inside,
-so a stored envelope cannot quietly outgrow what the instrument was allowed
-to say. Sibling instruments export the same shape by publishing the same
+and `validate_envelope_contract` refuses missing required non-claims.
+Only the pinned registry digest receives the shipped registry version; custom
+digests are labeled `custom/unknown`. Sibling instruments export the same shape by publishing the same
 schema string, never by importing one another, and envelopes from different
 lines must not be compared, ranked, averaged, or merged.
 :::
+
+The native report schema is `white-line.report/1.1`, and the return tuple is
+versioned as `white-line.return-contract/1.1`. `return_matches_contract` checks
+the cited report/record pair and deterministic contract terms; it grants no
+approval. `envelope_matches_report` checks only report reference, review date,
+registry digest, and ordered native statuses. Schema/line identity, version
+policy, shapes, and required non-claims belong to contract validation. Changes
+to subject or source references require comparison of `envelope_digest` with
+a separately trusted manifest; neither matching nor a digest authenticates
+caller provenance. Snapshot references must be a collection, not a scalar string.
+
+The complete report is the exact retained derivation, not a lossless input
+transcript. Two histories differing only in a displaced note can serialize
+identically. Displaced notes/dates and original unsupported date objects are
+not retained. Authorized opaque snapshot references may distinguish archives
+under the caller's retention and access policy; a minimal archive need not
+retain sensitive contents. No return requires withheld material.
+
+Observation producers must be finite and well-behaved. A producer exception
+propagates without a partial report. Accepted unsupported date objects remain
+undated and are not compared or coerced. Timeline sweeps check remaining days
+before advancing, including at the maximum representable date.
 
 ## Structural invariants
 
@@ -408,8 +474,9 @@ absence of every conceivable structural fault.
 
 The battery is not only a test fixture. `invariant_defect_battery` in
 `white_line.invariants` constructs each defective registry, runs the whole
-check suite over it, and refuses to return unless the targeted check failed and
-every other check that the defect does not implicate still passed. The plate
+check suite over it, and refuses to return unless the targeted check failed.
+Other failures are reported in `also_failed`; the battery does not enforce
+an exclusivity or allowed-collateral-failure claim. The plate
 below draws what that call returned, so the claim above is visible rather than
 merely asserted.
 
@@ -458,3 +525,7 @@ leaving a claim quietly unbound.
 | [@def:return] at the boundary | `test_witness_layer.py::test_the_due_date_is_the_last_current_day_proven_through_the_assessor` |
 | [@def:envelope] as a tuple | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:envelope] points, never reinterprets | `test_witness_layer.py::test_the_envelope_points_at_the_native_report_without_reinterpreting_it` |
+| [@def:facets] registry binding | `test_review_binding.py::test_consumers_reject_replacement_registry` |
+| [@def:finding] typed provenance | `test_review_robustness.py::test_display_prose_does_not_decide_assertion_or_decay` |
+| [@def:return] exact report identity | `test_review_identity.py::test_exact_return_reference_distinguishes_notes_and_events` |
+| [@def:envelope] validation boundaries | `test_review_identity.py::test_envelope_fields_have_separate_validation_boundaries` |

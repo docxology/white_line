@@ -17,7 +17,7 @@ artifact generation; those are owned by sibling modules.
   message: str, position: int | None = None, record_id: str = "", state:
   AbsenceState | None = None)`, `AbsenceFinding(record_id: str, kind:
   AbsenceKind, state: AbsenceState, reasons: tuple[str, ...], observed_on:
-  str = "")`, and `WhiteReport(findings: tuple[AbsenceFinding, ...],
+  str = "", asserted_state: AbsenceState | None = None)`, and `WhiteReport(findings: tuple[AbsenceFinding, ...],
   intake_notes: tuple[str, ...] = (), review_date: str = "", registry_digest:
   str = "", intake_events: tuple[IntakeEvent, ...] = ())` are frozen data
   classes. `WhiteReport.tally() -> dict[AbsenceState, int]`,

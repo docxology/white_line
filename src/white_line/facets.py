@@ -27,8 +27,8 @@ from enum import Enum
 
 from collections.abc import Iterable
 
-from .assessor import REASON_UNRESOLVED
-from .dates import coerce_date, usable_observation_date
+from .binding import _validate_finding, validate_report_registry
+from .dates import coerce_date
 from .model import (
     AbsenceFinding,
     AbsenceRecord,
@@ -100,6 +100,11 @@ def project_facets(facets: WitnessFacets) -> AbsenceState:
     stated withholding is not a state this ledger can have recorded.
     """
 
+    if (not isinstance(facets, WitnessFacets)
+            or not isinstance(facets.settlement, EpistemicSettlement)
+            or not isinstance(facets.disclosure, DisclosureStance)
+            or not isinstance(facets.temporality, TemporalStatus)):
+        raise ValueError("facets require typed settlement, disclosure, and temporality enums")
     if facets.disclosure is DisclosureStance.WITHHELD:
         return AbsenceState.WITHHELD
     if facets.settlement is EpistemicSettlement.UNDISCLOSED:
@@ -121,7 +126,7 @@ def _temporality(
 ) -> TemporalStatus:
     """Age the finding's recorded date under the single date-resolution rule."""
 
-    observed, _issue = usable_observation_date(finding.observed_on, review_date)
+    observed = _validate_finding(finding, record, review_date)
     if observed is None:
         return TemporalStatus.UNDATED
     age_days = (review_date - observed).days
@@ -138,20 +143,11 @@ def finding_facets(
     """Derive the three facets one assessed finding actually recorded.
 
     The derivation reads only data the assessor wrote: the state, the
-    retained ``observed_on``, and — to separate an asserted open question
-    from a naming that decayed — membership of the pinned ``REASON_UNRESOLVED``
-    constant in the reasons trail, the same string the manuscript quotes
-    verbatim. A finding whose reasons contradict its dates (an undecayed
-    ``UNRESOLVED`` with no asserted-unresolved reason and no stale date) did
-    not come from this package's assessor, and the derivation fails closed
-    rather than guessing.
+    retained ``observed_on`` and typed ``asserted_state``. State, kind, date,
+    and assertion must agree; display reasons do not determine provenance.
+    Older observed findings without typed assertion metadata are rejected.
     """
 
-    if finding.record_id != record.id:
-        raise ValueError(
-            f"finding names record {finding.record_id!r} but the supplied "
-            f"record is {record.id!r}"
-        )
     resolved = coerce_date(review_date, "review_date")
     temporality = _temporality(finding, record, resolved)
     if finding.state is AbsenceState.NOT_RECORDED:
@@ -176,18 +172,12 @@ def finding_facets(
             temporality,
         )
     # UNRESOLVED: either asserted by an observer, or a naming that decayed.
-    if REASON_UNRESOLVED in finding.reasons:
+    if finding.asserted_state is AbsenceState.UNRESOLVED:
         return WitnessFacets(
             finding.record_id,
             EpistemicSettlement.UNRESOLVED,
             DisclosureStance.OPEN,
             temporality,
-        )
-    if temporality is not TemporalStatus.STALE:
-        raise ValueError(
-            f"finding for {finding.record_id!r} is UNRESOLVED without an "
-            "asserted-unresolved reason or a stale date; it cannot have come "
-            "from this assessor and its facets are not derivable"
         )
     return WitnessFacets(
         finding.record_id,
@@ -207,14 +197,10 @@ def report_facets(
     read back tomorrow factors exactly as it scored today.
     """
 
-    records_by_id = {record.id: record for record in records}
+    records_by_id = validate_report_registry(report, records)
     facets: list[WitnessFacets] = []
     for finding in report.findings:
-        record = records_by_id.get(finding.record_id)
-        if record is None:
-            raise ValueError(
-                f"finding references unknown record id {finding.record_id!r}"
-            )
+        record = records_by_id[finding.record_id]
         facets.append(finding_facets(finding, record, report.review_date))
     return tuple(facets)
 

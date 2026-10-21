@@ -20,7 +20,7 @@ from .version import LEDGER_VERSION, __version__
 REGISTRY_MANIFEST_SCHEMA = "white-line.registry-manifest/1.1"
 REGISTRY_ARTIFACT_SCHEMA = "white-line.registry-artifact/1.1"
 FIGURE_REGISTRY_SCHEMA = "white-line.figure-registry/1.3"
-REPORT_SCHEMA = "white-line.report/1.0"
+REPORT_SCHEMA = "white-line.report/1.1"
 
 
 def canonical_registry(records: tuple[AbsenceRecord, ...]) -> str:
@@ -45,8 +45,9 @@ def canonical_report(report: WhiteReport) -> str:
     report be diffed, cited, and pointed at by digest in a review record. The
     serialization is complete — findings with their full reasons trails,
     typed intake events including any displaced state, notes, review date,
-    and registry digest — because a reference to a report is only a witness
-    if the whole derivation is behind it.
+    and registry digest. This is the exact retained derivation, not a lossless
+    input transcript: displaced notes/dates and original unsupported objects
+    are intentionally not retained.
     """
 
     payload = {
@@ -74,6 +75,7 @@ def canonical_report(report: WhiteReport) -> str:
                 "state": finding.state.value,
                 "reasons": list(finding.reasons),
                 "observed_on": finding.observed_on,
+                "asserted_state": finding.asserted_state.value if finding.asserted_state else None,
             }
             for finding in report.findings
         ],

@@ -42,6 +42,8 @@ from .envelope import (
     WHITE_LINE_ID,
     canonical_envelope,
     envelope_matches_report,
+    envelope_digest,
+    validate_envelope_contract,
     report_envelope,
 )
 from .facets import (
@@ -101,6 +103,8 @@ from .protocol import (
 )
 from .registry import WHITE_RECORDS, record_ids, records_by_kind
 from .returns import (
+    RETURN_CONTRACT_SCHEMA,
+    return_matches_contract,
     ACCEPT_BOUNDARY_RESTATED,
     ACCEPT_OPEN_IS_HONEST,
     ACCEPT_SCOPE_IS_EXPLICIT,
@@ -181,6 +185,10 @@ __all__ = [
     "RETURN_OBSERVATION_OR_SCOPE",
     "ReportEnvelope",
     "ReturnContract",
+    "RETURN_CONTRACT_SCHEMA",
+    "return_matches_contract",
+    "envelope_digest",
+    "validate_envelope_contract",
     "ReviewAction",
     "ReviewDirective",
     "SCOPE_AND_NONCLAIMS",

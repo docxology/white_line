@@ -173,7 +173,7 @@ from white_line import report_envelope, canonical_envelope, envelope_matches_rep
 
 envelope = report_envelope(report, subject_id="your reference for what was reviewed")
 canonical_envelope(envelope)              # store beside canonical_report(report)
-envelope_matches_report(envelope, report) # read-back check for an archived pair
+envelope_matches_report(envelope, report) # narrow native-report matching only
 ```
 
 One `line.report-envelope/1.0` record pointing at the complete canonical
@@ -182,6 +182,15 @@ ordered per-record states; the ledger's non-claims travel inside the record.
 The witness layer also ships `facets.py` (settlement x disclosure x
 temporality, `project_facets` recovers the shipped state) and `returns.py`
 (one `ReturnContract` per finding).
+
+Before reading custom or archived reports, follow
+[witness_contracts.md](../../../docs/witness_contracts.md): report-level views
+require the producing registry digest; old observed findings without typed
+assertions fail explicitly; return contracts carry an exact report reference.
+Use `validate_envelope_contract` separately from matching, and compare
+`envelope_digest` to a separately trusted manifest for archival integrity.
+Custom registry versions are `custom/unknown`. Subject/source references are
+unverified caller provenance; retained reports are not lossless input histories.
 
 ## Claim boundaries
 

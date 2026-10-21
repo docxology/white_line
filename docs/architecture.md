@@ -67,6 +67,12 @@ how near they are to their review boundary, returning `ExpiryEntry` values.
 
 ## The witness layer: facets, returns, and the envelope
 
+The binding and compatibility contract is in
+[witness_contracts.md](witness_contracts.md). `binding.py` supplies shared
+registry/report validation. `return_matches_contract` checks an exact prior
+report/record pair. `validate_envelope_contract` and `envelope_digest` are
+separate from the narrow `envelope_matches_report` check.
+
 Three downstream modules make the assessment contract transportable without
 changing it.
 
@@ -81,7 +87,8 @@ derived facets of any live finding recovers the finding's state — including
 decay, which the factorization recovers as `NAMED` + `STALE` projecting to
 `UNRESOLVED`, so a decayed naming keeps its prior naming and its age rather
 than being rewritten as asserted doubt. The derivation reads only recorded
-data and fails closed on a finding this assessor could not have produced.
+data and rejects malformed typed assertion/state/date combinations. It does
+not authenticate display reasons or establish a finding's author.
 
 `returns.py` reads the review horizon forward as an obligation rather than a
 clock: one `ReturnContract` per finding with a trigger, a due date (the last
@@ -90,7 +97,7 @@ the assessor at the boundary), the artifact class that would count as a
 return, and an observable acceptance condition. A `WITHHELD` contract's
 return is boundary confirmation, never disclosure; an `UNRESOLVED` return may
 honestly leave the question open. Every contract points back at the review
-date and registry digest of the report that set it.
+date, registry digest, and exact canonical report reference that set it.
 
 `envelope.py` exports the cross-instrument report envelope
 (`line.report-envelope/1.0`): the review date, the ledger and registry

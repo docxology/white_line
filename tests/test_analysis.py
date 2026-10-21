@@ -368,7 +368,7 @@ def test_expiry_horizon_fails_closed_for_an_unknown_named_record() -> None:
         ),
         review_date="2026-07-18",
     )
-    with pytest.raises(ValueError, match="missing-record"):
+    with pytest.raises(ValueError, match="unbound report"):
         expiry_horizon(report)
 
 
@@ -383,18 +383,9 @@ def test_expiry_horizon_omits_a_naming_the_assessor_could_not_date() -> None:
     """
 
     for stored in ("not-a-date", "2027-01-01"):
-        report = WhiteReport(
-            (
-                AbsenceFinding(
-                    "unobserved-dependency",
-                    AbsenceKind.EPISTEMIC,
-                    AbsenceState.NAMED,
-                    (),
-                    stored,
-                ),
-            ),
-            review_date="2026-07-18",
-        )
+        report = assess_absence((AbsenceObservation(
+            "unobserved-dependency", AbsenceState.NAMED, "scope", stored
+        ),), as_of="2026-07-18")
         assert expiry_horizon(report) == ()
 
 

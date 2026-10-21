@@ -264,6 +264,7 @@ def _finding(
         state,
         tuple(reasons),
         observation.observed_on if isinstance(observation.observed_on, str) else "",
+        observation.state,
     )
 
 
@@ -277,6 +278,9 @@ def assess_absence(
     ``as_of`` anchors staleness accounting (ISO string, ``date``, or ``None``
     for today). Calling ``assess_absence(observations)`` against the default
     registry keeps its behavior for well-formed, undated input.
+
+    Producers must be finite and well-behaved. Exceptions while consuming an
+    iterable propagate; no partial assessment is returned.
     """
 
     review_date = coerce_review_date(as_of)

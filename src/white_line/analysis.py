@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 
 from .assessor import assess_absence
+from .binding import validate_report_registry
 from .dates import coerce_date, usable_observation_date
 from .model import (
     AbsenceKind,
@@ -95,11 +96,13 @@ def decay_timeline(
     record_tuple = tuple(records)
     points: list[DecayPoint] = []
     current = start_date
-    while current <= end_date:
+    while True:
         report = assess_absence(observation_tuple, record_tuple, as_of=current)
         points.append(
             DecayPoint(current.isoformat(), (current - start_date).days, report.tally())
         )
+        if step_days > (end_date - current).days:
+            break
         current += timedelta(days=step_days)
     return tuple(points)
 
@@ -200,7 +203,7 @@ def expiry_horizon(
     """
 
     review_date = coerce_date(report.review_date, "report.review_date")
-    records_by_id = {record.id: record for record in records}
+    records_by_id = validate_report_registry(report, records)
     entries: list[ExpiryEntry] = []
     for finding in report.findings:
         if finding.state is not AbsenceState.NAMED:
@@ -208,11 +211,7 @@ def expiry_horizon(
         observed, _issue = usable_observation_date(finding.observed_on, review_date)
         if observed is None:
             continue
-        record = records_by_id.get(finding.record_id)
-        if record is None:
-            raise ValueError(
-                f"NAMED finding references unknown record id {finding.record_id!r}"
-            )
+        record = records_by_id[finding.record_id]
         age_days = (review_date - observed).days
         entries.append(
             ExpiryEntry(

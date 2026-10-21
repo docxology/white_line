@@ -50,3 +50,8 @@ The audit is intentionally local. It can detect source/render disagreement and
 registry drift; it cannot establish that a note is true, that an observation is
 independent, that a withheld boundary is justified, or that a person has
 consented. Those are human and domain-governed questions.
+
+For report archives, [witness_contracts.md](witness_contracts.md) distinguishes
+exact retained serialization from input replay and separates matching,
+contract validity, and trusted archival integrity. Release evidence records
+the actual Python, uv, lint/type, rasterizer, and template revision used.

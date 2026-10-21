@@ -99,6 +99,7 @@ class AbsenceFinding:
     state: AbsenceState
     reasons: tuple[str, ...]
     observed_on: str = ""
+    asserted_state: AbsenceState | None = None
 
 
 @dataclass(frozen=True)

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.0 — 2026-10-21
+
+Bind derived views to the producing registry and return contracts to the exact
+native report. Add independent envelope contract validation and whole-envelope
+digests, with custom registry versions explicitly unknown. Typed assertion
+provenance replaces display-reason parsing in facets. Reject malformed facet
+values, fix unsupported-date equality, require whole-string slugs, and guard
+calendar endpoints. Document finite producer and retained-history boundaries.
+Add a standing Python 3.10/3.14 matrix, locked lint/type tooling, and executed
+counterexamples. The state alphabet, caution order, registry content, and
+withholding boundary are unchanged. See the
+[review disposition](docs/reviews/2026-10-20-resolution.md) and release packet.
+
 ## 0.7.0 — 2026-07-29
 
 The witness layer: facets, returns, envelope, conflict co-presence, plus its

@@ -331,7 +331,7 @@ def test_facets_fail_closed_on_an_unresolved_finding_this_assessor_never_wrote()
 
 def test_report_facets_fail_closed_on_an_unknown_record_id() -> None:
     report = assess_absence((), as_of=WORKED_AS_OF)
-    with pytest.raises(ValueError, match="unknown record id"):
+    with pytest.raises(ValueError, match="structural"):
         report_facets(report, WHITE_RECORDS[:3])
 
 
@@ -429,7 +429,7 @@ def test_an_unrecorded_category_owes_an_observation_or_an_explicit_scope() -> No
 
 def test_return_contracts_fail_closed_on_an_unknown_record_id() -> None:
     report = assess_absence((), as_of=WORKED_AS_OF)
-    with pytest.raises(ValueError, match="unknown record id"):
+    with pytest.raises(ValueError, match="structural"):
         return_contracts(report, WHITE_RECORDS[:3])
 
 

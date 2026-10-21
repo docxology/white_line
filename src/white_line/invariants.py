@@ -57,7 +57,7 @@ def ids_are_canonical_slugs(records: tuple[AbsenceRecord, ...]) -> LedgerCheck:
     bad = [
         repr(record.id)
         for record in records
-        if not isinstance(record.id, str) or not _SLUG.match(record.id)
+        if not isinstance(record.id, str) or not _SLUG.fullmatch(record.id)
     ]
     return LedgerCheck(
         "ids_are_canonical_slugs",

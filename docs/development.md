@@ -6,7 +6,8 @@ Run the pure-standard-library instrument and its reproducible outputs with:
 uv run python scripts/check_registry.py
 uv run python scripts/build_figures.py
 uv run pytest tests/ --cov=src --cov-branch --cov-report=term-missing
-uvx ruff check src tests scripts
+uv run ruff check src tests scripts
+uv run mypy src
 uv run python scripts/audit_project.py --report
 ```
 
@@ -21,9 +22,11 @@ The lint rules and the `py310` target are pinned in `pyproject.toml`, so the
 lint command reproduces rather than depending on whatever settings happen to be
 in effect. The target version is load-bearing and not cosmetic: the package
 declares `requires-python = ">=3.10"`, and ruff is the only gate here that
-catches a construct which parses on 3.12 but not on the declared floor. There
-is no interpreter matrix, so the floor is checked statically and not by running
-the suite on 3.10.
+catches a construct which parses on 3.12 but not on the declared floor. The
+standing `.github/workflows/ci.yml` matrix runs the suite on Python 3.10 and
+3.14. Each job builds figures and checks branch coverage, lint, types, the
+registry and source audit. Template publication checks remain a separate
+external release gate. Use `uv sync --locked` for the recorded tool versions.
 
 `white_line.figures.build_figures` writes seventeen deterministic SVG/PNG
 compositions plus the
@@ -32,7 +35,7 @@ figure metadata and links, the recorded PNG and SVG byte digests, bibliography
 keys in both directions, required PDF/HTML artifacts, and
 source headings in the rendered combined manuscript. It is a consistency gate,
 not a truth verifier. For visual iteration, pass a disposable `project_root`
-under `~/Downloads/` to `build_figures`, inspect the resulting PNGs, and copy
+on the mounted development volume to `build_figures`, inspect the resulting PNGs, and copy
 only the reviewed generated artifacts into the project output directory.
 
 `tests/test_figure_legibility.py` is the printed-size gate. It reads each

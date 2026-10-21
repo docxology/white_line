@@ -22,6 +22,27 @@ from .serialization import (
     registry_digest,
 )
 from .version import LEDGER_VERSION_DIGEST
+from .facets import project_facets, report_facets
+from .returns import return_contracts
+from .envelope import envelope_matches_report, report_envelope, validate_envelope_contract
+from .serialization import report_digest
+from .worked_examples import worked_report
+from .model import WhiteReport
+
+
+def _witness_contract_sound(report: WhiteReport) -> bool:
+    try:
+        facets = report_facets(report)
+        contracts = return_contracts(report)
+        envelope = report_envelope(report)
+        validate_envelope_contract(envelope)
+        return (
+            all(project_facets(facet) is finding.state for facet, finding in zip(facets, report.findings))
+            and all(contract.originating_report_ref == report_digest(report) for contract in contracts)
+            and envelope_matches_report(envelope, report)
+        )
+    except (TypeError, ValueError):
+        return False
 
 MANIFEST_STALE_ERROR = (
     "source manifest digest does not match current manuscript and figure inputs"
@@ -158,6 +179,9 @@ def audit_project(
     errors: list[str] = []
     warnings: list[str] = []
     checks: dict[str, bool] = {}
+    checks["witness_contracts"] = _witness_contract_sound(worked_report())
+    if not checks["witness_contracts"]:
+        errors.append("witness report/registry, facet, return, or envelope binding failed")
 
     record_tuple = tuple(records)
     ledger_results = all_ledger_checks(record_tuple)

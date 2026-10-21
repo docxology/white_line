@@ -372,8 +372,8 @@ def facets_lattice() -> str:
         _text(
             110,
             216,
-            "Marked cells are inhabited by the live scoring battery, factored "
-            "through finding_facets at build time.",
+            "Marked cells use typed assertions from the live scoring battery, "
+            "factored through finding_facets at build time.",
             22,
             MUTED,
         ),

@@ -20,6 +20,16 @@ are not truth labels for a person, population, institution, or unseen
 mechanism. In particular, `WITHHELD` is not evidence of deception, and
 `NOT_RECORDED` is not evidence that nobody knew or that nothing happened.
 
+Derived witness views require the producing registry's canonical digest and
+typed finding identity. Return contracts bind the exact native report, not
+only its review context. Envelope matching, local contract validation, and
+comparison to a separately trusted archival digest establish different kinds
+of structural agreement; none establishes truth, authorship, consent,
+permission, or standing. Subject and snapshot references remain unverified
+caller provenance. The retained report is not a lossless observation history.
+See [witness_contracts.md](witness_contracts.md) for compatibility, field-level
+checks, retention limits, and producer failure behavior.
+
 The scholarship is deliberately used as constraint rather than ornament. Work
 on situated knowledge asks where an account is located; epistemologies of
 ignorance ask how gaps can be produced and sustained; missing-data methodology

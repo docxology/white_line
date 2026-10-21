@@ -1,8 +1,8 @@
 paper:
   title: "White Line: A Typed Ledger for the Edge of the Claim"
   subtitle: "Keeping missing evidence, ethical boundaries, and open questions from becoming unsupported claims"
-  version: "0.7.0"
-  date: "2026-07-18"
+  version: "0.8.0"
+  date: "2026-10-21"
   description: "A typed absence ledger for epistemic gaps, ethical restraint, and contemplative negative space."
   cover:
     image: "output/figures/white_cover_art.png"

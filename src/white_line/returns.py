@@ -5,7 +5,7 @@ says what has to come back, what would count as an earned change, and which
 review state it returns to. The difference is the difference between a
 calendar reminder and a record that can meet new evidence without erasing the
 path by which it got here. Each contract therefore carries the review date
-and registry digest of the report that produced it, so a later return points
+and registry digest plus the exact canonical report reference, so a later return points
 back at the exact state it answers.
 
 Every field is derived deterministically from the finding, its record, and
@@ -20,14 +20,18 @@ holds, from someone with standing to say so.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import date, timedelta
 
 from collections.abc import Iterable
 
 from .dates import coerce_date, usable_observation_date
+from .binding import validate_report_registry
 from .model import AbsenceRecord, AbsenceState, WhiteReport
 from .protocol import ReviewAction, review_action_for_state
 from .registry import WHITE_RECORDS
+from .serialization import report_digest
+
+RETURN_CONTRACT_SCHEMA = "white-line.return-contract/1.1"
 
 
 #: The constant trigger and return language, one entry per contract class.
@@ -84,7 +88,7 @@ class ReturnContract:
     ``due_on`` is the last review date on which a current dated naming is
     still current — a strictly later review decays it — and is empty for
     every contract whose trigger is not a horizon lapse. ``review_date`` and
-    ``registry_digest`` point back at the producing report so a return can
+    ``registry_digest`` name context; ``originating_report_ref`` binds the complete report so a return can
     name the exact prior state it answers, rather than rewriting history.
     """
 
@@ -97,6 +101,7 @@ class ReturnContract:
     acceptance_condition: str
     review_date: str
     registry_digest: str
+    originating_report_ref: str
 
 
 def _named_contract_terms(
@@ -115,6 +120,8 @@ def _named_contract_terms(
             RETURN_DATED_NAMING,
             ACCEPT_USABLE_DATE,
         )
+    if record.review_horizon_days > (date.max - observed).days:
+        raise ValueError("contract due date is outside the representable date range")
     due = observed + timedelta(days=record.review_horizon_days)
     return (
         TRIGGER_HORIZON,
@@ -137,14 +144,11 @@ def return_contracts(
     points back at the producing report. None of this authorizes anything.
     """
 
-    records_by_id = {record.id: record for record in records}
+    records_by_id = validate_report_registry(report, records)
+    originating_report_ref = report_digest(report)
     contracts: list[ReturnContract] = []
     for finding in report.findings:
-        record = records_by_id.get(finding.record_id)
-        if record is None:
-            raise ValueError(
-                f"finding references unknown record id {finding.record_id!r}"
-            )
+        record = records_by_id[finding.record_id]
         if finding.state is AbsenceState.NAMED:
             trigger, due_on, expected, acceptance = _named_contract_terms(
                 finding.observed_on, record, report.review_date
@@ -181,9 +185,24 @@ def return_contracts(
                 acceptance,
                 report.review_date,
                 report.registry_digest,
+                originating_report_ref,
             )
         )
     return tuple(contracts)
+
+
+def return_matches_contract(
+    contract: ReturnContract,
+    report: WhiteReport,
+    originating_report_ref: str,
+    record_id: str,
+    records: Iterable[AbsenceRecord] = WHITE_RECORDS,
+) -> bool:
+    return (
+        originating_report_ref == contract.originating_report_ref == report_digest(report)
+        and record_id == contract.record_id
+        and contract in return_contracts(report, records)
+    )
 
 
 __all__ = [
@@ -197,10 +216,12 @@ __all__ = [
     "RETURN_FRESH_NAMING",
     "RETURN_OBSERVATION_OR_SCOPE",
     "ReturnContract",
+    "RETURN_CONTRACT_SCHEMA",
     "TRIGGER_BOUNDARY_CYCLE",
     "TRIGGER_HORIZON",
     "TRIGGER_NO_OBSERVATION",
     "TRIGGER_OPEN_QUESTION",
     "TRIGGER_UNDATED_NAMING",
     "return_contracts",
+    "return_matches_contract",
 ]

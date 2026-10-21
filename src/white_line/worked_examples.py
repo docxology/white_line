@@ -8,6 +8,8 @@ transcript that could drift from the code.
 
 from __future__ import annotations
 
+import json
+
 from dataclasses import dataclass
 from datetime import date
 
@@ -285,7 +287,7 @@ def intake_probe_inputs() -> tuple[tuple[IntakeCode, object], ...]:
         ),
         (
             IntakeCode.UNTYPED_STATE,
-            (AbsenceObservation("unasked-question", "NAMED", "a bare string"),),
+            (AbsenceObservation("unasked-question", json.loads('"NAMED"'), "a bare string"),),
         ),
         (
             IntakeCode.RESERVED_STATE,

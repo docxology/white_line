@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use or refer to this work, please cite it as below."
 type: software
 title: "White Line: A Typed Ledger for the Edge of the Claim"
-version: "0.7.0"
-date-released: "2026-07-18"
+version: "0.8.0"
+date-released: "2026-10-21"
 authors:
   - family-names: "Friedman"
     given-names: "Daniel Ari"

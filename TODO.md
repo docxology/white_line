@@ -4,7 +4,13 @@ This file tracks only open work. Completed windows are logged at the bottom;
 `docs/claim_boundaries.md` and the audit gate define what the instrument may
 claim regardless of anything listed here.
 
-## Open — inside the current instrument boundary
+## Completed — review of 2026-10-20
+
+The review is resolved in [docs/reviews/2026-10-20-resolution.md](docs/reviews/2026-10-20-resolution.md).
+The standing Python 3.10/3.14 workflow replaces the historical one-off floor
+measurements below; current measured results belong to the release packet.
+
+## Historical interpreter measurements (superseded by the standing matrix)
 
 - The 3.10 floor now has two real measurements beside the static check: on
   2026-07-29 the full suite was run under an actual Python 3.10 interpreter
@@ -18,6 +24,8 @@ claim regardless of anything listed here.
   on 3.10 while local runs stayed green) is exactly the kind a one-off
   measurement ages out of. A standing interpreter matrix would close the
   gap properly; the one-command recipe above makes re-measuring cheap.
+## Open — inside the current instrument boundary
+
 - `expiry_horizon`, `omitted_namings`, and the refresh-queue plate read one
   pinned observation set. The queue is therefore a demonstration of the helper
   over a constructed input, not a view of any accumulated review history.

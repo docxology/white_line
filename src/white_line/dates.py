@@ -68,10 +68,12 @@ def usable_observation_date(
         observation was ordinary undated input.
     """
 
-    if raw is None or raw == "":
+    if raw is None:
         return None, ""
     if not isinstance(raw, str):
         return None, UNDATED_OBJECT_NOTE
+    if raw == "":
+        return None, ""
     try:
         observed = coerce_date(raw, "observation date")
     except ValueError:
