@@ -19,11 +19,16 @@ contracts.
 - `test_figure_legibility.py` — printed text size and page-fit constraints
 - `test_manuscript_bindings.py` — prose, figure, and bibliography bindings
 - `test_formalism.py` — formalism block parsing, prefixes, citation split
+- `test_formalism_claim_ledger.py` — the formalism claim ledger re-derived from manuscript and package
 - `test_audit.py` — audit_project gate checks
 - `test_docs.py` — documentation recipes produce expected output
 - `test_publication_metadata.py` — publication metadata across config and package
 - `test_scripts_cli.py` — every read-only script passes on good input
 - `test_standalone.py` — the package works without sibling repos
+- `test_review_binding.py` — witness consumers reject a registry the report is not bound to
+- `test_review_controls.py` — positive and negative controls for the witness contract checks
+- `test_review_identity.py` — return-contract and envelope references and validation boundaries
+- `test_review_robustness.py` — malformed input fails explicitly instead of degrading
 - `test_witness_layer.py` — witness-layer contracts and return envelopes
 - `test_no_mocks.py` — lexical ban on mocks, stand-in names, path hardcodes
 

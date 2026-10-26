@@ -50,11 +50,12 @@ measurements below; current measured results belong to the release packet.
 - The registry is source-configured in Python. Moving it to an editable data
   file requires a separate validation and provenance contract (same ladder as the
   sibling instruments).
-- Public release: the project now has its own repository, `docxology/white_line`,
-  and `STANDALONE.md` states what a separated copy can and cannot do. Promotion
-  to a citable release still needs a citation/release workflow, a release packet
-  with the exact audit report attached, and a re-render +
-  `audit_project.py --write-manifest --report` pass at the release tree.
+- Public release: `v0.8.0` shipped a tagged repository release with a release
+  packet and compatible publication validation (`docs/releases/`), and
+  `CITATION.cff`, `.zenodo.json`, and `docs/publication.md` carry the citation
+  workflow. Still open: reserving and minting the next Zenodo version DOI
+  using the reserve-first procedure, which the release packet records as
+  pending.
 
 ## Standing discipline
 

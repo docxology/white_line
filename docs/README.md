@@ -56,7 +56,8 @@ so the audit and the tests share one reading of them.
 `white_line.audit.audit_project` checks source/render agreement;
 `scripts/build_figures.py` and `scripts/audit_project.py` are their
 command-line entry points. The plate count lives in
-[development.md](development.md), which is the only place it is written down.
+[development.md](development.md) and in `tests/test_figures.py`, the only two
+places to update when a plate is added.
 
 Agent-facing operating guidance: the repository-root [AGENTS.md](../AGENTS.md)
 (working contract and invariants) and the local skill at

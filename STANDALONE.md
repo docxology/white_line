@@ -19,8 +19,8 @@ is unreachable.
 From a clone of this repository and nothing else:
 
 - Install: `pyproject.toml` declares `dependencies = []`. The package is pure
-  standard library on Python 3.10 or later; the `dev` group is `pytest` and
-  `pytest-cov`.
+  standard library on Python 3.10 or later; the `dev` group adds `mypy`,
+  `pytest`, `pytest-cov`, and `ruff`.
 - Run the full test suite and meet the coverage gate (`fail_under = 90`).
 - `scripts/check_registry.py` — the live registry and its invariant battery.
 - `scripts/build_figures.py` — every SVG/PNG plate plus `figure_registry.json`
