@@ -7,7 +7,7 @@ name = "white_line"
 version = "0.8.0"
 description = "An absence ledger for unknowns, restraint, and negative space"
 authors = [{name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"}]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 
 [dependency-groups]
