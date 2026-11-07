@@ -74,9 +74,9 @@ located anywhere on disk, with the qualified project name `working/white_line`
 — a name the template resolves inside its own `projects/` tree, not a path
 relative to this repository. [docs/development.md](docs/development.md) gives
 the path-independent invocation. After rendering, run
-`uv run python scripts/audit_project.py --write-manifest --report`. A passing
-audit means the source and rendered bundle agree structurally; it is not
-verification of any observation, boundary, or safety property.
+`uv run python scripts/audit_project.py --require-render --write-manifest --report`.
+A passing strict audit means the source and rendered bundle agree structurally;
+it is not verification of any observation, boundary, or safety property.
 
 The render is this project's only external dependency, and it is declared, not
 hidden: without it the tests, coverage gate, registry check, figure build,

@@ -19,7 +19,7 @@ it, and `white_line.audit` never inspects it.
 - **The root [AGENTS.md](../AGENTS.md) is authoritative.** Where a descriptor
   and the working contract disagree, the contract wins and the descriptor is
   the defect.
-- **Gotchas are probed, not recalled.** Every behaviour the skill describes as
+- **Gotchas are probed, not recalled.** Every behavior the skill describes as
   a gotcha — the undated date object recording `UNDATED_OBJECT`, `as_of=None`
   anchoring to today, a future-dated observation being ignored, duplicate
   handling keeping the last-listed — was executed against the real API before

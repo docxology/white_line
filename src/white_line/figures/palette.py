@@ -1,4 +1,4 @@
-"""Define figure colours and display maps without assessing ledger records."""
+"""Define figure colors and display maps without assessing ledger records."""
 
 from __future__ import annotations
 
@@ -22,9 +22,9 @@ KIND_COLOR = {
     AbsenceKind.ETHICAL: OCHRE,
     AbsenceKind.CONTEMPLATIVE: VIOLET,
 }
-#: A distinct marker shape per kind, so a kind is readable without colour.
-#: The figures are printed and read in greyscale as often as in colour; a
-#: colour-only encoding would make the kind unrecoverable in either case.
+#: A distinct marker shape per kind, so a kind is readable without color.
+#: The figures are printed and read in grayscale as often as in color; a
+#: color-only encoding would make the kind unrecoverable in either case.
 KIND_MARKER = {
     AbsenceKind.EPISTEMIC: "circle",
     AbsenceKind.ETHICAL: "square",

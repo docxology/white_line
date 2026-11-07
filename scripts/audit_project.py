@@ -8,13 +8,13 @@ well enough for a human to review them together.
 Typical release sequence::
 
     uv run python scripts/build_figures.py
-    uv run python scripts/audit_project.py --write-manifest
+    uv run python scripts/audit_project.py --report
     # render through the external docxology/template engine; see
     # docs/development.md for the path-independent invocation
-    uv run python scripts/audit_project.py --write-manifest
+    uv run python scripts/audit_project.py --require-render --write-manifest --report
 
-The second manifest write is the meaningful one: it records the exact
-manuscript and figure inputs that the rendered bundle passed against.
+The manifest is written only after the rendered bundle passes the strict
+post-render gate; source-only success is not publication approval.
 """
 
 from __future__ import annotations

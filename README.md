@@ -1,6 +1,6 @@
 # White Line
 
-White Line is the absence ledger of the four-line governance set. It records
+White Line is the absence ledger among the eight peer instruments of the Line Set. It records
 epistemic gaps, ethical restraint, and contemplative negative space without
 collapsing them into one claim or asserting a literal invisible causal force.
 
@@ -54,17 +54,25 @@ and the manuscript's distributional-views section; none of them is a
 completeness, diligence, or negligence score. `expiry_horizon` in particular
 returns a refresh schedule for supplied observations and deliberately omits two
 classes of naming — one that cannot be dated, and one that has already decayed
-— which the refresh-queue figure draws as labelled bands rather than dropping.
+— which the refresh-queue figure draws as labeled bands rather than dropping.
 
-White Line is standalone and lives in its own repository. Its companions in the
-four-line set each have one too: [Red Line](https://github.com/docxology/red_line)
-is the personal security boundary, [Black
-Line](https://github.com/docxology/black_line) describes strong practice, and
-[Golden Line](https://github.com/docxology/golden_line) describes aspiration. A
-fifth work, [line_set](https://github.com/docxology/line_set), is a thin reader
-that declares the set and carries its shared framing. White Line does not copy
-their prose, registries, or implementation modules, and imports none of them —
-those links are orientation, not dependencies.
+White Line is standalone and lives in its own repository. The original four
+colors were [Red](https://github.com/docxology/red_line) (refusal and personal
+security boundaries), [Black](https://github.com/docxology/black_line)
+(disciplined work), [Golden](https://github.com/docxology/golden_line)
+(aspiration and direction), and White (absence, withholding, and epistemic
+restraint). The current eight also include Silver (memory, custody, succession,
+and deliberate lapse/release), Violet (affected-party consent, never inferred
+from silence), Blue (ongoing stewardship), and Green (capacity under
+cultivation, not competence certification).
+
+The colorless [line_set](https://github.com/docxology/line_set) wrapper declares
+membership and shared framing; [Witness Register](https://github.com/docxology/witness_register)
+co-registers reports and relations without aggregation. Neither is a color.
+Membership does not guarantee source installation or access: optional or
+access-controlled sources may be unavailable to a particular reader. White Line
+copies no sibling prose, registries, or implementation modules and imports none
+of them. These references are orientation, not dependencies.
 
 ```mermaid
 flowchart LR
@@ -103,12 +111,13 @@ For a publication bundle you need one tool that is not in this repository: the
 `docxology/template` render engine. Clone or locate it anywhere, link this
 checkout in as its `projects/working/white_line`, render with the qualified
 project name `working/white_line`, then run `uv run python
-scripts/audit_project.py --write-manifest --report` back here. The
+scripts/audit_project.py --require-render --write-manifest --report` back here. The
 path-independent commands are in
 [docs/development.md](docs/development.md), and
 [STANDALONE.md](STANDALONE.md) states what a separated copy can and cannot do.
-A passing audit means the local source and rendered bundle agree structurally;
-it does not verify the truth of observations.
+A passing strict post-render audit means the local source and rendered bundle
+agree structurally; a source-only zero exit code does not. Neither verifies the
+truth of observations.
 
 Agent-facing guidance lives in [AGENTS.md](AGENTS.md) (working contract and
 invariants) and the local skill at

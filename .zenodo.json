@@ -12,7 +12,7 @@
   ],
   "license": "cc-by-4.0",
   "access_right": "open",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "keywords": [
     "absence",
     "epistemic gaps",
@@ -80,5 +80,5 @@
       "scheme": "doi"
     }
   ],
-  "notes": "One of six related works (the line set and its witness register). The five sibling DOIs are listed in related_identifiers with relation 'cites'; this work's own DOI is recorded in CITATION.cff identifiers and the record link."
+  "notes": "White Line is one of eight peer color instruments; the original four were Red, Black, Golden, and White. The colorless line_set wrapper and Witness Register are not colors. The five existing sibling DOI relationships are a retained citation cohort, not an exhaustive current membership or publication inventory. This work's own DOI is recorded in CITATION.cff identifiers and the record link. Membership does not establish installation or access to optional or access-controlled sources."
 }

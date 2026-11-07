@@ -47,7 +47,7 @@ from ..palette import (
 from .overview import live_kinds
 
 #: The two omissions ``expiry_horizon`` documents, with the reason each one
-#: is not a queue entry. Drawing them as labelled bands rather than dropping
+#: is not a queue entry. Drawing them as labeled bands rather than dropping
 #: them is the point: an omitted record is exactly the thing this instrument
 #: exists to keep visible.
 _UNDATED_BAND = "UNDATED NAMING — cannot expire, so it never enters the queue"
@@ -55,7 +55,7 @@ _DECAYED_BAND = "ALREADY DECAYED — past its horizon, so the ledger reports UNR
 
 
 def _record_titles() -> dict[str, str]:
-    """Map record id to title for labelling, read from the live registry."""
+    """Map record id to title for labeling, read from the live registry."""
 
     return {record.id: record.title for record in WHITE_RECORDS}
 
@@ -156,15 +156,33 @@ def expiry_queue() -> str:
             "700",
         ),
         _text(150, 314, "RECORD", 18, VIOLET, "700"),
-        _text(bar_x, 314, "AGE AND REMAINING DAYS AGAINST THE RECORD'S HORIZON", 18, VIOLET, "700"),
+        _text(
+            bar_x,
+            314,
+            "AGE AND REMAINING DAYS AGAINST THE RECORD'S HORIZON",
+            18,
+            VIOLET,
+            "700",
+        ),
     ]
     for index, entry in enumerate(entries):
         y = top + index * row_h
         color = _KIND_COLOR[entry.kind]
-        parts.append(_rect(110, y, 1380, row_h - 18, PANEL if index % 2 == 0 else CREAM, LINE, 1))
+        parts.append(
+            _rect(110, y, 1380, row_h - 18, PANEL if index % 2 == 0 else CREAM, LINE, 1)
+        )
         parts.append(_marker(_KIND_MARKER[entry.kind], 152, y + 44, 13, color))
         parts.append(_text(184, y + 52, titles[entry.record_id], 21, INK, "700"))
-        parts.append(_text(184, y + 84, f"{entry.kind.value} · observed {entry.observed_on}", 18, color, "700"))
+        parts.append(
+            _text(
+                184,
+                y + 84,
+                f"{entry.kind.value} · observed {entry.observed_on}",
+                18,
+                color,
+                "700",
+            )
+        )
         span = int(bar_w * entry.horizon_days / widest)
         aged = int(span * entry.age_days / entry.horizon_days)
         parts.append(
@@ -188,11 +206,11 @@ def expiry_queue() -> str:
     ):
         y = bands_top + offset * band_h
         parts.append(_rect(110, y, 1380, band_h - 20, CREAM, MUTED, 3))
-        parts.append(
-            f'<rect x="110" y="{y}" width="1380" height="8" fill="{MUTED}"/>'
-        )
+        parts.append(f'<rect x="110" y="{y}" width="1380" height="8" fill="{MUTED}"/>')
         parts.append(_text(140, y + 50, band_title, 19, MUTED, "700"))
-        listed = ", ".join(titles[record_id] for record_id in ids) or "none in this input"
+        listed = (
+            ", ".join(titles[record_id] for record_id in ids) or "none in this input"
+        )
         parts.append(_text(140, y + 82, f"{len(ids)} in this input: {listed}", 18, INK))
     parts.extend(
         [
@@ -219,7 +237,7 @@ def expiry_queue() -> str:
 
 
 def horizon_dispersion() -> str:
-    """Draw one labelled dot per record on a days axis, grouped by kind.
+    """Draw one labeled dot per record on a days axis, grouped by kind.
 
     Every position, median, and count is read from ``WHITE_RECORDS``. Records
     get one row each rather than sharing an axis line, so no label hides
@@ -274,7 +292,7 @@ def horizon_dispersion() -> str:
         _text(
             110,
             216,
-            "Kinds differ by colour and by marker shape; a horizon is a review cadence,",
+            "Kinds differ by color and by marker shape; a horizon is a review cadence,",
             22,
             MUTED,
         ),
@@ -338,7 +356,14 @@ def horizon_dispersion() -> str:
             )
             parts.append(_marker(shape, cx, y, 12, color))
             parts.append(
-                _text(cx + 22, y + 7, f"{record.review_horizon_days} days", 18, color, "700")
+                _text(
+                    cx + 22,
+                    y + 7,
+                    f"{record.review_horizon_days} days",
+                    18,
+                    color,
+                    "700",
+                )
             )
         parts.append(
             f'<line x1="{x0}" y1="{axis_y}" x2="{x1}" y2="{axis_y}" stroke="{MUTED}" stroke-width="3"/>'
@@ -348,7 +373,13 @@ def horizon_dispersion() -> str:
                 f'<line x1="{sx(days)}" y1="{axis_y}" x2="{sx(days)}" y2="{axis_y + 14}" stroke="{MUTED}" stroke-width="2"/>'
             )
             parts.append(
-                _text(sx(days) - int(_advance(str(days), 18, False) / 2), axis_y + 46, f"{days}", 18, MUTED)
+                _text(
+                    sx(days) - int(_advance(str(days), 18, False) / 2),
+                    axis_y + 46,
+                    f"{days}",
+                    18,
+                    MUTED,
+                )
             )
         parts.append(_text(label_right - 90, axis_y + 46, "days", 18, MUTED))
     parts.extend(
@@ -365,7 +396,7 @@ def horizon_dispersion() -> str:
             _text(
                 140,
                 rule_top + 122,
-                "A longer horizon means the ledger asks about that record less often; it says nothing about the record\'s weight.",
+                "A longer horizon means the ledger asks about that record less often; it says nothing about the record's weight.",
                 19,
                 MUTED,
             ),
@@ -437,7 +468,14 @@ def intake_reachability() -> str:
             TEAL,
             "700",
         ),
-        _text(150, 322, "CODE, TRIGGERING INPUT, AND THE TYPED NOTE PRODUCED", 18, VIOLET, "700"),
+        _text(
+            150,
+            322,
+            "CODE, TRIGGERING INPUT, AND THE TYPED NOTE PRODUCED",
+            18,
+            VIOLET,
+            "700",
+        ),
     ]
     for index, probe in enumerate(probes):
         y = row_tops[index]

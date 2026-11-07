@@ -24,7 +24,8 @@ The projection rule over valid enum members is unchanged.
 
 Return contracts use `white-line.return-contract/1.1` and carry
 `originating_report_ref = report_digest(report)`. To record a return, retain
-that reference and `record_id` beside the returned material, then call
+that reference and `record_id` beside an authorized return or boundary
+confirmation, never protected material merely to satisfy a contract, then call
 `return_matches_contract(contract, prior_report, reference, record_id,
 records=original_registry)`. This checks identity and the deterministic
 contract terms, not fulfillment, standing, truth, or approval. No standalone
@@ -32,6 +33,15 @@ contract identifier is needed: the exact report reference and record ID name
 the contract. An honest return may remain unresolved; a withholding asks only
 for boundary confirmation. A due date outside Python's representable calendar
 raises `ValueError`; it is never wrapped or converted to an empty due date.
+
+The caller separately records human/domain acceptance and retains every
+unaccepted exact prior key. `return_contracts(prior_report)` always derives the
+complete prior obligations; matching never removes one. `assess_absence` is a
+fresh assessment of its supplied cohort, not a partial update to that prior
+report. Omitted records are `NOT_RECORDED` in the fresh report and do not erase
+prior obligations or overwrite protected findings. The
+[partial-remainder recipe](review_protocol.md#exact-returns-and-a-partial-remainder)
+shows this without adding an acceptance evaluator.
 
 ## Three envelope checks
 

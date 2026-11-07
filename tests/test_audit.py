@@ -126,6 +126,17 @@ def assert_rejected(report: dict[str, Any], fragment: str) -> None:
     assert any(fragment in error for error in report["errors"]), report["errors"]
 
 
+@pytest.mark.parametrize("payload", (b"", b"not a PDF\n"))
+def test_invalid_pdf_cannot_pass_rendered_bundle_check(
+    passing_project: Path, payload: bytes,
+) -> None:
+    (passing_project / "output/pdf/white_line_combined.pdf").write_bytes(payload)
+    report = audit_project(passing_project)
+    assert report["passed"] is False
+    assert report["checks"]["rendered_bundle"] is False
+    assert manifest_blocking_errors(report["errors"])
+
+
 def test_matching_reference_and_registry_sets_yield_no_errors() -> None:
     errors = figure_link_errors(
         referenced_figures={"a.png", "b.png"},
@@ -210,11 +221,13 @@ def test_real_project_has_no_release_blocker_beyond_manifest_staleness() -> None
     report = audit_project(PROJECT_ROOT)
     blocking = manifest_blocking_errors(report["errors"])
 
-    missing = [str(path) for path in RENDERED_BUNDLE if not (PROJECT_ROOT / path).is_file()]
+    missing = [
+        str(path) for path in RENDERED_BUNDLE if not (PROJECT_ROOT / path).is_file()
+    ]
     if missing:
         # Positive control: the audit must *report* the absent bundle rather
         # than pass silently, and it must report nothing else. Asserting the
-        # residue keeps this branch bound to real behaviour instead of
+        # residue keeps this branch bound to real behavior instead of
         # degrading into an unconditional skip that would hide a genuine
         # source-side blocker.
         assert source_blocking_errors(report["errors"]) == []
@@ -317,7 +330,8 @@ def test_wrong_figure_registry_schema_is_rejected(passing_project: Path) -> None
     registry["schema_version"] = "wrong"
     write_figure_registry(passing_project, registry)
     assert_rejected(
-        refresh_manifest(passing_project), "figure registry schema_version is not white-line.figure-registry/1.3"
+        refresh_manifest(passing_project),
+        "figure registry schema_version is not white-line.figure-registry/1.3",
     )
 
 
@@ -410,7 +424,7 @@ def test_mismatched_white_registry_records_are_rejected(passing_project: Path) -
     )
 
 
-def test_unlabelled_first_manuscript_heading_is_rejected(passing_project: Path) -> None:
+def test_unlabeled_first_manuscript_heading_is_rejected(passing_project: Path) -> None:
     manuscript = passing_project / "manuscript/01_minimal.md"
     manuscript.write_text(
         manuscript.read_text(encoding="utf-8").replace(" {#sec:minimal-audit}", "", 1),
@@ -418,10 +432,9 @@ def test_unlabelled_first_manuscript_heading_is_rejected(passing_project: Path) 
     )
     combined = passing_project / "output/web/_combined_manuscript.md"
     combined.write_text("# Minimal audit fixture\n", encoding="utf-8")
-    assert_rejected(
-        refresh_manifest(passing_project),
-        "manuscript files lack a labelled H1 section heading: ['01_minimal.md']",
-    )
+    report = refresh_manifest(passing_project)
+    assert report["passed"] is False
+    assert report["checks"]["manuscript_section_labels"] is False
 
 
 def test_missing_bibliography_key_is_rejected(passing_project: Path) -> None:
@@ -600,7 +613,9 @@ def test_hand_edited_png_bytes_are_rejected(passing_project: Path) -> None:
 
 def test_hand_edited_svg_bytes_are_rejected(passing_project: Path) -> None:
     svg = passing_project / "output/figures/white_cover_art.svg"
-    svg.write_text(svg.read_text(encoding="utf-8") + "<!-- edited -->", encoding="utf-8")
+    svg.write_text(
+        svg.read_text(encoding="utf-8") + "<!-- edited -->", encoding="utf-8"
+    )
     assert_rejected(
         refresh_manifest(passing_project),
         "output/figures/white_cover_art.svg bytes do not match the svg_digest",
@@ -658,7 +673,9 @@ def test_render_dependent_error_matches_only_render_surface_errors() -> None:
     assert not render_dependent_error("figure registry is missing")
 
 
-def test_source_blocking_errors_keeps_source_defects_and_drops_render_and_manifest() -> None:
+def test_source_blocking_errors_keeps_source_defects_and_drops_render_and_manifest() -> (
+    None
+):
     """A render-phase carve-out must not swallow a real source-side blocker."""
 
     errors = [

@@ -17,11 +17,10 @@ contracts.
 - `test_serialization.py` — canonical JSON and registry digest
 - `test_figures.py` — figure determinism and registry metadata
 - `test_figure_legibility.py` — printed text size and page-fit constraints
-- `test_manuscript_bindings.py` — prose, figure, and bibliography bindings
+- `test_manuscript_bindings.py` — bibliography identity and reference integrity
 - `test_formalism.py` — formalism block parsing, prefixes, citation split
 - `test_formalism_claim_ledger.py` — the formalism claim ledger re-derived from manuscript and package
 - `test_audit.py` — audit_project gate checks
-- `test_docs.py` — documentation recipes produce expected output
 - `test_publication_metadata.py` — publication metadata across config and package
 - `test_scripts_cli.py` — every read-only script passes on good input
 - `test_standalone.py` — the package works without sibling repos

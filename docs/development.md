@@ -18,15 +18,16 @@ project's own deterministic builder, so the suite is order-independent rather
 than order-fragile. The rebuild is never masked: a builder failure surfaces as
 an error.
 
-The lint rules and the `py310` target are pinned in `pyproject.toml`, so the
-lint command reproduces rather than depending on whatever settings happen to be
-in effect. The target version is load-bearing and not cosmetic: the package
-declares `requires-python = ">=3.10"`, and ruff is the only gate here that
-catches a construct which parses on 3.12 but not on the declared floor. The
-standing `.github/workflows/ci.yml` matrix runs the suite on Python 3.10 and
-3.14. Each job builds figures and checks branch coverage, lint, types, the
-registry and source audit. Template publication checks remain a separate
-external release gate. Use `uv sync --locked` for the recorded tool versions.
+The lint rules and the `py311` target are pinned in `pyproject.toml`; mypy
+likewise targets Python 3.11. These targets enforce the declared
+`requires-python = ">=3.11"` floor even when development uses a newer
+interpreter. The selected development interpreter is Python 3.15, and the
+standing `.github/workflows/ci.yml` matrix runs Python 3.11 and 3.15. Each job
+builds figures and checks branch coverage, lint, types, the registry, and the
+source audit. Template publication checks remain a separate external release
+gate. Regenerate `uv.lock` with `uv lock` after dependency or Python-requirement
+changes, then use `uv sync --locked` for the recorded tool versions. Historical
+release packets retain the interpreter versions actually measured then.
 
 `white_line.figures.build_figures` writes seventeen deterministic SVG/PNG
 compositions plus the
@@ -83,12 +84,18 @@ cd "$TEMPLATE_ROOT"
 uv run python scripts/pipeline/stage_03_render.py --project working/white_line
 
 cd "$WHITE_LINE_ROOT"
-uv run python scripts/audit_project.py --write-manifest --report
+uv run python scripts/audit_project.py --require-render --write-manifest --report
 ```
 
 `working/white_line` is the qualified project name the template resolves, not a
 path relative to this repository. The render writes back into this checkout's
 `output/`, which is why the audit is run here afterwards.
+
+The default audit is source-only: its zero exit code may defer missing rendered
+artifacts, while the JSON still reports those errors and `passed: false`.
+Only `--require-render` is the post-render release gate. Its PDF check verifies
+the signature, not complete PDF validity; the external publication validator
+remains separate.
 
 The source manifest is a content fingerprint, not a timestamp or a claim that
 the observations are independently verified. If manuscript or figure inputs

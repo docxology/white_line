@@ -33,8 +33,11 @@ an authorization. The package deliberately has no `COMPLIANT`, `SAFE`, or
 5. Run `review_directives(report)`. Complete only the bounded follow-up that is
    appropriate to the context; preserve a withholding when disclosure would
    violate a duty.
-6. Re-run after material context changes or after a dated naming passes its
-   review horizon.
+6. Retain exact prior return-contract keys and record human/domain acceptance
+   separately, as in the recipe below. Matching a key does not fulfill it.
+7. Re-run after material context changes or after a dated naming passes its
+   review horizon. A new assessment uses its complete supplied cohort; it does
+   not patch or inherit an earlier report.
 
 ```python
 from white_line import AbsenceObservation, AbsenceState, assess_absence, review_directives
@@ -68,6 +71,77 @@ negative-space RECORD_OR_EXPLICITLY_SCOPE
 fallow-ground RECORD_OR_EXPLICITLY_SCOPE
 ineffable-remainder RECORD_OR_EXPLICITLY_SCOPE
 ```
+
+## Exact returns and a partial remainder
+
+The caller owns acceptance and the outstanding-key register; White Line does
+not evaluate fulfillment, infer standing, or merge reports. Retain the immutable
+prior report and its producing registry. Key every obligation by
+`(originating_report_ref, record_id)`, including unobserved categories. Do not
+remove an obligation just because a matching return arrived.
+
+In this example, a responsible reviewer has separately accepted the explanation
+that a question remains open. A boundary confirmation has arrived too, but has
+not yet been accepted by the responsible human. Neither step requests or stores
+the protected material. The literal acceptance sets below represent explicit
+human decisions in this example, not decisions made by the matcher.
+
+```python
+import white_line as w
+
+prior = w.assess_absence((
+    w.AbsenceObservation("unasked-question", w.AbsenceState.UNRESOLVED, "Still open."),
+    w.AbsenceObservation("withheld-material", w.AbsenceState.WITHHELD, "Duty boundary."),
+), as_of="2026-07-18")
+contracts = {
+    (c.originating_report_ref, c.record_id): c
+    for c in w.return_contracts(prior)
+}
+reference = w.report_digest(prior)
+question_key = (reference, "unasked-question")
+boundary_key = (reference, "withheld-material")
+question_return = w.AbsenceObservation(
+    "unasked-question", w.AbsenceState.UNRESOLVED,
+    "The question remains open within the stated scope.", "2026-07-19",
+)
+boundary_confirmation = "The duty boundary still holds."
+assert w.return_matches_contract(contracts[question_key], prior, *question_key)
+assert w.return_matches_contract(contracts[boundary_key], prior, *boundary_key)
+
+# Human decision: accept the bounded explanation, not yet the confirmation.
+human_accepted_keys = {question_key}
+outstanding = {key: c for key, c in contracts.items() if key not in human_accepted_keys}
+assert set(outstanding) == set(contracts) - human_accepted_keys
+assert boundary_key in outstanding
+print(len(outstanding), boundary_key in outstanding)
+
+# Later, someone with standing separately accepts only the boundary confirmation.
+# Its text is not parsed to infer standing, consent, truth, or acceptance.
+human_accepted_keys.add(boundary_key)
+outstanding = {key: c for key, c in contracts.items() if key not in human_accepted_keys}
+assert set(outstanding) == set(contracts) - human_accepted_keys
+print(len(outstanding), boundary_key in outstanding)
+
+# This is a fresh partial cohort, NOT an update or a discharge of prior keys.
+fresh = w.assess_absence((question_return,), as_of="2026-07-19")
+assert fresh.finding_for("unasked-question").state is w.AbsenceState.UNRESOLVED
+assert fresh.finding_for("withheld-material").state is w.AbsenceState.NOT_RECORDED
+assert prior.finding_for("withheld-material").state is w.AbsenceState.WITHHELD
+print(fresh.finding_for("withheld-material").state.value)
+```
+
+```text
+10 True
+9 False
+NOT_RECORDED
+```
+
+All nine other prior keys remain outstanding, regardless of the fresh report.
+To reassess a continuing review, supply the complete authorized cohort, including
+any boundary confirmations appropriate to that review; do not recover protected
+contents to fill a gap. An accepted unresolved return may leave a question open,
+and an accepted boundary confirmation may leave the record `WITHHELD`.
+See [witness_contracts.md](witness_contracts.md) for the exact binding boundary.
 
 ## Distributional analysis recipes
 

@@ -1,7 +1,7 @@
 """Derive how large a plate's smallest label prints on the rendered page.
 
-A White Line plate carries its meaning in shape and text as well as colour, so
-that the figure survives greyscale printing and colour-blind reading. That
+A White Line plate carries its meaning in shape and text as well as color, so
+that the figure survives grayscale printing and color-blind reading. That
 contract fails silently if the text is too small to read: the shipped figures
 once bottomed out at 3.39 pt, well under any legible size, and nothing in the
 build noticed.
@@ -137,9 +137,7 @@ def page_metrics(project_root: Path) -> PageMetrics:
             model, and would therefore report wrongly rather than not at all.
     """
 
-    config = (manuscript_dir(project_root) / "config.yaml").read_text(
-        encoding="utf-8"
-    )
+    config = (manuscript_dir(project_root) / "config.yaml").read_text(encoding="utf-8")
     geometry_match = _GEOMETRY_RE.search(config)
     if geometry_match is None:
         raise ValueError("manuscript/config.yaml declares no metadata.geometry")
@@ -152,9 +150,7 @@ def page_metrics(project_root: Path) -> PageMetrics:
     )
     front_match = _FRONT_MATTER_FRACTION_RE.search(config)
     front_fraction = (
-        float(front_match.group(1))
-        if front_match
-        else DEFAULT_FIGURE_HEIGHT_FRACTION
+        float(front_match.group(1)) if front_match else DEFAULT_FIGURE_HEIGHT_FRACTION
     )
     if front_fraction != fraction:
         raise ValueError(

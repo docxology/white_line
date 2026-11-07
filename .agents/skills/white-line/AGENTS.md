@@ -30,7 +30,7 @@ digest, or run the publication audit.
   name, so renaming it breaks callers.
 - The `description` carries the USE WHEN trigger. Keep it accurate: an
   over-broad trigger loads the skill for work it does not cover.
-- The gotchas section describes probed behaviour. Re-run the probe before
+- The gotchas section describes probed behavior. Re-run the probe before
   editing an entry — in particular the undated-date-object path, which is
   accepted, records `UNDATED_OBJECT`, and does not decay.
 - The claim boundary holds: the ledger records state and never infers why

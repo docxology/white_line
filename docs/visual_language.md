@@ -25,9 +25,9 @@ The visual system has three jobs:
    not evidence of a hidden cause, a higher caution rank is not a danger score,
    and a follow-up action is not an approval.
 
-Colour is always a second channel, never the only one. Each kind carries a
+Color is always a second channel, never the only one. Each kind carries a
 marker shape as well as a hue — circle, square, triangle — and every panel
-names its kind in words, so the figures read in greyscale and under colour
+names its kind in words, so the figures read in grayscale and under color
 vision differences. That contract only holds if the words can actually be
 read, which for a long time they could not: the shipped plates bottomed out at
 3.39 points because a height cap shrank the tall ones. Two mechanisms hold the

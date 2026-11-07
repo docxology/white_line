@@ -18,8 +18,8 @@ an accreditation, a moral authority, or a permission mechanism.
 uv run pytest -q                                                  # test suite
 uv run python scripts/check_registry.py                           # soundness + digest manifest
 uv run python scripts/build_figures.py                            # deterministic figures (writes output/figures/)
-uv run python scripts/audit_project.py --report                   # source/render consistency gate
-uv run python scripts/audit_project.py --write-manifest --report  # only after a fresh render
+uv run python scripts/audit_project.py --report                   # source-only gate; render errors may be deferred
+uv run python scripts/audit_project.py --require-render --write-manifest --report  # only after a fresh render
 ```
 
 The equivalent `.venv/bin/python` forms also work against the editable
@@ -31,7 +31,7 @@ Render the publication bundle with the external `docxology/template` engine —
 cloned or located anywhere on disk, with this checkout linked in as its
 `projects/working/white_line` — using
 `uv run python scripts/pipeline/stage_03_render.py --project working/white_line`,
-then return here for `audit_project.py --write-manifest --report`. That render
+then return here for `audit_project.py --require-render --write-manifest --report`. That render
 is the only step this repository cannot perform alone; see `STANDALONE.md`.
 
 ## States

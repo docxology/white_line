@@ -1,9 +1,10 @@
 # Tests
 
-The suite verifies the ledger contract, the public API, lexical guardrails,
-generated figures, documentation recipes, and artifact audit. Start with
-[`test_assessor.py`](test_assessor.py) for assessment behavior and
-[`test_docs.py`](test_docs.py) for pinned recipe execution.
+The suite verifies the ledger contract, the public API, generated figures, and
+artifact audit. Start with [`test_assessor.py`](test_assessor.py) for assessment
+behavior and [`test_review_identity.py`](test_review_identity.py) for exact
+return bindings and fresh-assessment boundaries. Exercise documentation recipes
+as disposable native smoke runs rather than pinning copied stdout.
 
 Run all checks with `uv run pytest -q`. For source coverage use `uv run pytest
 --cov=src --cov-report=term-missing -q`.

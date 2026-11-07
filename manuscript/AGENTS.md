@@ -5,7 +5,7 @@ This folder owns source manuscript sections, bibliography, and
 figure pixels, registry content, or package behavior.
 
 `config.yaml` provides the paper version; it must equal package and installed
-metadata. Numbered `.md` files are labelled sections, `preamble.md` supplies
+metadata. Numbered `.md` files are labeled sections, `preamble.md` supplies
 front matter, and `references.bib` supplies citation keys. Figures are embedded
 as `../output/figures/<name>.png`; every registered figure must be embedded and
 every embed must be registered. Do not hand-edit rendered output or change the
@@ -16,7 +16,7 @@ never people, motives, safety, legality, permission, or hidden causes. After a
 manuscript or figure input change, render through the external `docxology/template`
 checkout as described in
 [../docs/reproducibility.md](../docs/reproducibility.md), then run
-`uv run python scripts/audit_project.py --write-manifest --report`.
+`uv run python scripts/audit_project.py --require-render --write-manifest --report`.
 
 Read [README.md](README.md), [../AGENTS.md](../AGENTS.md),
 [../docs/claim_boundaries.md](../docs/claim_boundaries.md), and

@@ -66,9 +66,10 @@ Agent-facing operating guidance: the repository-root [AGENTS.md](../AGENTS.md)
 Boundaries and cross-references among the works are stated inside this
 repository in
 [manuscript/01b_line_set_relationship.md](../manuscript/01b_line_set_relationship.md).
-Each companion work is its own repository:
-[red_line](https://github.com/docxology/red_line),
-[black_line](https://github.com/docxology/black_line),
-[golden_line](https://github.com/docxology/golden_line), and the set reader
-[line_set](https://github.com/docxology/line_set), which carries the shared
-framing for all five. Nothing here imports or depends on them.
+The original four colors are Red, Black, Golden, and White; the current eight
+also include Silver, Violet, Blue, and Green. See the colorless
+[line_set](https://github.com/docxology/line_set) wrapper for declared membership
+and shared framing. [Witness Register](https://github.com/docxology/witness_register)
+co-registers reports and relations without aggregation and is not a color.
+Installation and access to optional or access-controlled sources are separate
+from membership. Nothing here imports or depends on a sibling instrument.

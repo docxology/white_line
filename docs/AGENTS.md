@@ -12,7 +12,8 @@ generated figures, or rendered artifacts; those belong respectively to
 - `architecture.md` explains the staged assessor and data model.
 - `review_protocol.md` owns the human follow-up loop and executable recipes.
   Every fenced `python` block is followed immediately by a fenced `text` block
-  containing exact stdout; `tests/test_docs.py` executes that convention.
+  illustrating stdout. Exercise recipes as disposable native smoke runs;
+  behavioral regressions belong in the native API tests, not copied-output tests.
 - `claim_boundaries.md` is the claim register; preserve its boundary that
   states describe records under a supplied review contract, never people,
   motives, safety, legality, permission, or hidden causes.
@@ -26,7 +27,7 @@ into a completeness, diligence, safety, or negligence result.
 
 ## Verification
 
-Run `uv run pytest tests/test_docs.py -v` for the recipe binding, then
+Exercise the recipes in a disposable native environment, then run
 `uv run pytest -q` for the project suite. Read [README.md](README.md) for the
 document index, [../AGENTS.md](../AGENTS.md) for repository invariants, and
 [../src/white_line/AGENTS.md](../src/white_line/AGENTS.md) before documenting a

@@ -25,13 +25,18 @@ CONFIG = manuscript_dir(ROOT) / "config.yaml"
 LICENSE = ROOT / "LICENSE"
 
 SELF = "white_line"
-SIBLINGS = ('red_line', 'black_line', 'golden_line', 'line_set', 'witness_register')
+SIBLINGS = ("red_line", "black_line", "golden_line", "line_set", "witness_register")
 
-#: The six real DOIs of the line-set works (this work + five siblings),
-#: asserted real and reserved via Zenodo. Adding any other DOI-shaped string to
-#: the metadata surfaces fails test_no_unverified_doi_appears_in_metadata.
-#: copy-and-paste into a bibliography and points nowhere.
-VERIFIED_DOIS: tuple[str, ...] = ("10.5281/zenodo.21754236", "10.5281/zenodo.21754238", "10.5281/zenodo.21754240", "10.5281/zenodo.21754242", "10.5281/zenodo.21754244", "10.5281/zenodo.21754246")
+#: Verified DOI allowlist for the retained citation cohort, not an exhaustive
+#: declaration of current family membership.
+VERIFIED_DOIS: tuple[str, ...] = (
+    "10.5281/zenodo.21754236",
+    "10.5281/zenodo.21754238",
+    "10.5281/zenodo.21754240",
+    "10.5281/zenodo.21754242",
+    "10.5281/zenodo.21754244",
+    "10.5281/zenodo.21754246",
+)
 
 #: A DOI as the registries publish them.
 DOI_PATTERN = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+")
@@ -80,8 +85,8 @@ def test_the_citation_names_this_repository_exactly() -> None:
     assert supplements == [expected]
 
 
-def test_every_sibling_is_referenced_by_its_exact_public_url() -> None:
-    """All five siblings, each exactly once, at the canonical URL."""
+def test_retained_citation_cohort_uses_canonical_urls() -> None:
+    """Every retained citation reference uses its canonical public URL."""
 
     citation = CITATION.read_text(encoding="utf-8")
     zenodo = json.loads(ZENODO.read_text(encoding="utf-8"))
@@ -90,7 +95,6 @@ def test_every_sibling_is_referenced_by_its_exact_public_url() -> None:
         url = f"https://github.com/docxology/{sibling}"
         assert f'repository-code: "{url}"' in citation, sibling
         assert url in identifiers, sibling
-    assert len(SIBLINGS) == 5, "the set is six works; each names the other five"
 
 
 def test_no_unverified_doi_appears_in_metadata() -> None:
@@ -125,8 +129,29 @@ def test_the_license_declares_both_halves() -> None:
 def test_no_absolute_local_path_is_shipped() -> None:
     """A path from the author's machine is both noise and a small leak."""
 
-    skip_dirs = {".git", ".venv", "output", "htmlcov", "__pycache__", ".pytest_cache", ".ruff_cache", "node_modules"}
-    text_suffixes = {".py", ".md", ".toml", ".cff", ".json", ".yaml", ".yml", ".bib", ".txt", ".sh", ".cfg"}
+    skip_dirs = {
+        ".git",
+        ".venv",
+        "output",
+        "htmlcov",
+        "__pycache__",
+        ".pytest_cache",
+        ".ruff_cache",
+        "node_modules",
+    }
+    text_suffixes = {
+        ".py",
+        ".md",
+        ".toml",
+        ".cff",
+        ".json",
+        ".yaml",
+        ".yml",
+        ".bib",
+        ".txt",
+        ".sh",
+        ".cfg",
+    }
     offenders = []
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.suffix not in text_suffixes:

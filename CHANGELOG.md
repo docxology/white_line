@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.9.0 — 2026-11-06
+
+- Correct the documented native witness signatures and add a human-governed
+  exact-return recipe that retains every unaccepted prior obligation.
+- Align CI, Ruff, mypy, and support prose with the existing Python >=3.11
+  requirement and selected Python 3.15 interpreter; dependency requirements
+  are unchanged.
+- Distinguish the original four colors from the current eight peer instruments,
+  the colorless wrapper, and Witness. Use American English in maintained prose
+  and figure sources; preserve historical evidence.
+- Replace wording and copied-output assertions with native behavioral return
+  regressions. Assessment, facets, contradiction handling, and registry/schema
+  identities are unchanged.
+- Keep facet-lattice state, staleness, and live-battery annotations inside their
+  cells with additional vertical clearance.
+- Clarify the retained citation cohort without treating it as the current
+  instrument roster; keep citation checks independent of incidental counts.
+- Express the figure-legibility geometry comment in millimeters and check the
+  typed rejection rather than pinning its wording.
+- Keep the rendered-bundle check false when a PDF exists but lacks its PDF
+  signature; the error list and check status now describe the same boundary.
+- Size reason-trail rows from the actual text leading, preserving clearance
+  between the computed reason trail and the next row.
+- Distinguish source-only audit success from the mandatory post-render
+  `--require-render` release gate. No new Zenodo deposition is asserted.
+
 ## 0.8.0 — 2026-10-21
 
 Bind derived views to the producing registry and return contracts to the exact

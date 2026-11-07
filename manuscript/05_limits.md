@@ -57,7 +57,7 @@ days remaining under a declared horizon, which is a statement about cadence and
 not about importance, risk, or how fast the underlying situation moves. It is
 also not a picture of everything due: a naming the evaluator could not date
 cannot expire and never enters the queue, and a naming already past its horizon
-has left by decaying. Both omissions are drawn as labelled bands rather than
+has left by decaying. Both omissions are drawn as labeled bands rather than
 dropped, because in a work about absence a silently missing row is the worst
 failure available, and the undated naming is exactly the one a reader assumes is
 current. The two positive-control batteries carry the mirror-image limit: each

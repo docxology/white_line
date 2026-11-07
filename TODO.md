@@ -7,10 +7,14 @@ claim regardless of anything listed here.
 ## Completed — review of 2026-10-20
 
 The review is resolved in [docs/reviews/2026-10-20-resolution.md](docs/reviews/2026-10-20-resolution.md).
-The standing Python 3.10/3.14 workflow replaces the historical one-off floor
-measurements below; current measured results belong to the release packet.
+The standing Python 3.11/3.15 workflow now follows the current support floor and
+selected interpreter. Historical measurements and release packets below retain
+their original versions and results; they are not current verification.
 
 ## Historical interpreter measurements (superseded by the standing matrix)
+Historical source: earlier support targets and British spellings are retained
+verbatim below; current prose uses American English (for example, “labeled”).
+
 
 - The 3.10 floor now has two real measurements beside the static check: on
   2026-07-29 the full suite was run under an actual Python 3.10 interpreter
@@ -61,7 +65,7 @@ measurements below; current measured results belong to the release packet.
 
 - After ANY manuscript or figure edit: re-render through the external
   `docxology/template` engine (path-independent invocation in
-  `docs/development.md`), then `audit_project.py --write-manifest --report`
+  `docs/development.md`), then `audit_project.py --require-render --write-manifest --report`
   (staleness alone no longer blocks the rewrite; every other error still does).
 - Reference the companion works by name and repository URL, never by a relative
   path and never by an import; `tests/test_standalone.py` fails on either. Never

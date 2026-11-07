@@ -2,12 +2,12 @@
 
 ## How to cite
 
-Version 0.8.0 is a repository release. Cite this software version by its tagged
-repository reference, separately from the last verified Zenodo deposition:
+Version 0.9.0 is prepared for repository release. After the release tag exists,
+cite its repository reference separately from the last verified Zenodo deposition:
 
 > Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim* (version
-> 0.8.0) [Software and manuscript]. GitHub.
-> <https://github.com/docxology/white_line/tree/v0.8.0>
+> 0.9.0) [Software and manuscript]. GitHub.
+> <https://github.com/docxology/white_line/tree/v0.9.0>
 
 BibTeX:
 
@@ -15,10 +15,10 @@ BibTeX:
 @software{friedman_white_line_2026,
   author  = {Friedman, Daniel Ari},
   title   = {White Line: A Typed Ledger for the Edge of the Claim},
-  version = {0.8.0},
+  version = {0.9.0},
   year    = {2026},
-  url     = {https://github.com/docxology/white_line/tree/v0.8.0},
-  note    = {Repository release; the next Zenodo version DOI remains pending}
+  url     = {https://github.com/docxology/white_line/tree/v0.9.0},
+  note    = {Repository release candidate; the next Zenodo version DOI remains pending}
 }
 ```
 
@@ -30,12 +30,12 @@ the repository version to it:
 
 `CITATION.cff`, `.zenodo.json`, and `manuscript/config.yaml` carry synchronized
 version metadata and retain the last verified DOI as required by the
-release procedure. That retained identifier does not identify a new 0.8.0
+release procedure. That retained identifier does not identify a new 0.9.0
 deposition. `tests/test_publication_metadata.py` checks their agreement.
 
 ## Persistent Identifiers and Verification
 
-Version 0.8.0 is a repository release. The DOI below remains the last verified
+Version 0.9.0 is a repository release candidate. The DOI below remains the last verified
 deposition; it does not assert that Zenodo has published this software version.
 Daniel must reserve and mint the new version DOI using the procedure below.
 
@@ -59,9 +59,14 @@ survives copy-and-paste into someone else's bibliography and points nowhere.
 
 ## The other works
 
-This work is one of six. They reference each other by name, repository URL, and
-verified DOI. No work imports another, and the shared report-envelope schema
-string is aligned by published convention rather than by dependency.
+The current Line Set has eight peer colors: Red, Black, Golden, White, Silver,
+Violet, Blue, and Green. The original four-color citation cohort below is
+retained with its already recorded DOI relationships; it is not an exhaustive
+membership or publication inventory. The colorless wrapper `line_set` and
+Witness Register are not colors. Optional or access-controlled source
+availability is separate from membership. No work imports another, and the
+shared report-envelope schema string is aligned by convention, not dependency.
+No new DOI or publication status is asserted here.
 
 | Work | Role | Repository | DOI |
 | --- | --- | --- | --- |

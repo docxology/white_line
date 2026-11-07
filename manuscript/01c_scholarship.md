@@ -72,7 +72,7 @@ not identifying another [@little1988]. Molenberghs, Beunckens, Sotto, and
 Kenward prove the stronger point: every MNAR model has an MAR counterpart that
 fits the observed data equally well, so observed data can never adjudicate
 between them [@molenberghs2008]. The mechanism is an assumption, argued rather
-than discovered. Manski's partial-identification programme takes the
+than discovered. Manski's partial-identification program takes the
 disciplined alternative — report the bounds the data and stated assumptions
 actually support instead of a point estimate that requires more [@manski2003].
 White Line's refusal is narrower: it estimates nothing, not even an interval.
@@ -94,7 +94,7 @@ D'Ignazio and Klein extend this concern into contemporary data practice. Their
 data-feminist account treats data work as a field of power, emphasizes that
 classification systems can reproduce hierarchy, and rejects the fantasy that
 data speak without human and institutional mediation [@dignazio_klein2020].
-So the counts stay descriptive, colour and marker shape carry the same
+So the counts stay descriptive, color and marker shape carry the same
 distinction redundantly, and every figure states what it does not establish. The
 registry is a small audit surface for classification choices. Versioning can
 expose a category's history and make revision inspectable; it cannot make a

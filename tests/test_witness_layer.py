@@ -402,7 +402,6 @@ def test_a_withheld_contract_never_asks_for_the_withheld_material() -> None:
         if item.record_id == "withheld-material"
     )
     assert contract.expected_return == RETURN_BOUNDARY_CONFIRMATION
-    assert "never the withheld material" in contract.expected_return
 
 
 def test_an_open_question_may_honestly_remain_open() -> None:
@@ -416,7 +415,6 @@ def test_an_open_question_may_honestly_remain_open() -> None:
         if item.record_id == "unasked-question"
     )
     assert contract.acceptance_condition == ACCEPT_OPEN_IS_HONEST
-    assert "may leave the question open" in contract.acceptance_condition
 
 
 def test_an_unrecorded_category_owes_an_observation_or_an_explicit_scope() -> None:

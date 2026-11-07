@@ -121,7 +121,7 @@ def test_the_scan_set_is_not_empty() -> None:
 def test_no_markdown_link_resolves_outside_the_repository() -> None:
     """The whole point of a separated copy: every internal link is reachable.
 
-    Cross-repository acknowledgements are kept, but addressed by name and URL
+    Cross-repository acknowledgments are kept, but addressed by name and URL
     rather than by a relative path that cannot resolve.
     """
 
@@ -156,7 +156,7 @@ def test_the_link_gate_rejects_a_planted_escape_and_a_planted_dead_link(
     assert escaping_links(tmp_path) == ["clean.md -> ../outside.md"]
     assert unresolvable_links(tmp_path) == ["clean.md -> docs/ghost.md"]
 
-    # An https acknowledgement of the same sibling work is not an escape.
+    # An https acknowledgment of the same sibling work is not an escape.
     clean.write_text(
         "See [line_set](https://github.com/docxology/line_set).\n", encoding="utf-8"
     )
@@ -281,15 +281,20 @@ def test_the_render_dependent_skips_assert_absence_before_skipping() -> None:
     """
 
     audit_source = (PROJECT_ROOT / "tests/test_audit.py").read_text(encoding="utf-8")
-    assert "pytest.skip(f\"no rendered bundle in this checkout: {missing}\")" in audit_source
-    assert "assert source_blocking_errors(report[\"errors\"]) == []" in audit_source
-    assert "assert report[\"checks\"][\"rendered_bundle\"] is False" in audit_source
+    assert (
+        'pytest.skip(f"no rendered bundle in this checkout: {missing}")' in audit_source
+    )
+    assert 'assert source_blocking_errors(report["errors"]) == []' in audit_source
+    assert 'assert report["checks"]["rendered_bundle"] is False' in audit_source
 
-    legibility_source = (
-        PROJECT_ROOT / "tests/test_figure_legibility.py"
-    ).read_text(encoding="utf-8")
+    legibility_source = (PROJECT_ROOT / "tests/test_figure_legibility.py").read_text(
+        encoding="utf-8"
+    )
     assert "if observed is None:" in legibility_source
-    assert 'pytest.skip("no rendered LaTeX artifacts in this checkout")' in legibility_source
+    assert (
+        'pytest.skip("no rendered LaTeX artifacts in this checkout")'
+        in legibility_source
+    )
 
 
 #: ``cd`` into a path that leaves the repository is the monorepo assumption in
@@ -334,9 +339,7 @@ def test_no_shipped_python_resolves_a_path_above_the_repository_root() -> None:
                 if not isinstance(node, ast.Subscript):
                     continue
                 value = node.value
-                if not (
-                    isinstance(value, ast.Attribute) and value.attr == "parents"
-                ):
+                if not (isinstance(value, ast.Attribute) and value.attr == "parents"):
                     continue
                 index = node.slice
                 if isinstance(index, ast.Constant) and isinstance(index.value, int):

@@ -66,8 +66,8 @@ def reason_trail() -> str:
     row_heights = [
         74
         + max(
-            sum(len(lines) for lines in reasons) * 24 + (len(reasons) - 1) * 6,
-            len(supplied) * 24 + 26,
+            sum(len(lines) for lines in reasons) * 30 + (len(reasons) - 1) * 8,
+            len(supplied) * 30 + 44,
         )
         for reasons, supplied in zip(wrapped, input_lines, strict=True)
     ]
@@ -107,7 +107,14 @@ def reason_trail() -> str:
             "700",
         ),
         _text(150, 326, "BRANCH AND SUPPLIED INPUT", 18, VIOLET, "700"),
-        _text(reason_x, 326, "THE ORDERED REASONS THE ASSESSOR RETURNED", 18, VIOLET, "700"),
+        _text(
+            reason_x,
+            326,
+            "THE ORDERED REASONS THE ASSESSOR RETURNED",
+            18,
+            VIOLET,
+            "700",
+        ),
     ]
     for index, probe in enumerate(probes):
         y = row_tops[index]
@@ -147,7 +154,9 @@ def reason_trail() -> str:
         reason_y = y + 50
         for reason_index, lines in enumerate(wrapped[index]):
             parts.append(
-                _text(reason_x - 34, reason_y + 8, f"{reason_index + 1}", 18, color, "700")
+                _text(
+                    reason_x - 34, reason_y + 8, f"{reason_index + 1}", 18, color, "700"
+                )
             )
             for line_index, line in enumerate(lines):
                 parts.append(
@@ -216,7 +225,9 @@ def invariant_battery() -> str:
             22,
             MUTED,
         ),
-        _text(110, 216, "carrying exactly the defect each one guards against.", 22, MUTED),
+        _text(
+            110, 216, "carrying exactly the defect each one guards against.", 22, MUTED
+        ),
         _text(
             110,
             266,
@@ -226,7 +237,9 @@ def invariant_battery() -> str:
             "700",
         ),
         _text(150, 326, "CHECK AND PLANTED DEFECT", 18, VIOLET, "700"),
-        _text(detail_x, 326, "WHAT THE CHECK RETURNED WHEN IT REFUSED", 18, VIOLET, "700"),
+        _text(
+            detail_x, 326, "WHAT THE CHECK RETURNED WHEN IT REFUSED", 18, VIOLET, "700"
+        ),
     ]
     for index, probe in enumerate(probes):
         y = row_tops[index]
@@ -301,9 +314,7 @@ def battery_facet_cells() -> dict[
     """
 
     records_by_id = {record.id: record for record in WHITE_RECORDS}
-    cells: dict[
-        tuple[EpistemicSettlement, DisclosureStance, TemporalStatus], int
-    ] = {}
+    cells: dict[tuple[EpistemicSettlement, DisclosureStance, TemporalStatus], int] = {}
     for probe in scoring_branch_battery():
         facets = finding_facets(
             probe.finding, records_by_id[probe.finding.record_id], WORKED_AS_OF
@@ -347,7 +358,8 @@ def facets_lattice() -> str:
         for index, temporality in enumerate(TemporalStatus)
     }
     top = 390
-    row_h = 106
+    # Reserve clearance for state, optional decay, and live-battery annotations.
+    row_h = 124
     rows = [
         (settlement, disclosure)
         for settlement in EpistemicSettlement
@@ -402,7 +414,9 @@ def facets_lattice() -> str:
         for temporality, column_x in columns.items():
             state = projected[(settlement, disclosure, temporality)]
             if state is None:
-                parts.append(_rect(column_x, y + 8, cell_w, row_h - 28, CREAM, MUTED, 2))
+                parts.append(
+                    _rect(column_x, y + 8, cell_w, row_h - 28, CREAM, MUTED, 2)
+                )
                 for offset in range(176, cell_w, 36):
                     parts.append(
                         f'<line x1="{column_x + offset}" y1="{y + 8}" '
@@ -412,9 +426,7 @@ def facets_lattice() -> str:
                 parts.append(
                     _text(column_x + 16, y + 44, "FAILS CLOSED", 18, MUTED, "700")
                 )
-                parts.append(
-                    _text(column_x + 16, y + 74, "not recordable", 18, MUTED)
-                )
+                parts.append(_text(column_x + 16, y + 74, "not recordable", 18, MUTED))
                 continue
             color = _STATE_COLOR[state]
             parts.append(

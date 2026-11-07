@@ -141,11 +141,11 @@ much information as the queue. A naming the evaluator could not date cannot
 expire, so it never enters — not because it is fresh, but because staleness
 accounting has nothing to measure against. A naming already past its horizon is
 reported `UNRESOLVED` rather than `NAMED`, so it has left by decaying. Both are
-drawn as labelled bands beneath the queue rather than dropped, because a
+drawn as labeled bands beneath the queue rather than dropped, because a
 silently absent row would be a strange failure in a work about absence, and the
 undated naming is the one a reviewer is most likely to assume is current.
 
-![The refresh queue computed by `expiry_horizon` over one assessed report: every current dated `NAMED` finding, ranked nearest-boundary-first, with its kind shown by colour and by marker shape, its age drawn as a filled portion of its own review horizon, and its remaining days stated in words. The helper's two documented omissions are drawn as labelled bands rather than dropped: a naming the evaluator could not date cannot expire, and a naming already past its horizon is reported `UNRESOLVED`. Queue position is a review cadence, not importance, risk, or a completeness score.](../output/figures/white_expiry_queue.png){#fig:white-expiry-queue width=100%}
+![The refresh queue computed by `expiry_horizon` over one assessed report: every current dated `NAMED` finding, ranked nearest-boundary-first, with its kind shown by color and by marker shape, its age drawn as a filled portion of its own review horizon, and its remaining days stated in words. The helper's two documented omissions are drawn as labeled bands rather than dropped: a naming the evaluator could not date cannot expire, and a naming already past its horizon is reported `UNRESOLVED`. Queue position is a review cadence, not importance, risk, or a completeness score.](../output/figures/white_expiry_queue.png){#fig:white-expiry-queue width=100%}
 
 The queue ranks by days remaining, not by weight. A record near the top is one
 the ledger will ask about soon, which is a statement about the cadence its
@@ -180,7 +180,7 @@ settlement projects to `UNRESOLVED` is the staleness decay, recovered here as
 a projection rather than a rewrite — the prior naming and its age survive as
 facets ([@prop:factorization]).
 
-![The full facet lattice computed by running `project_facets` over every settlement, disclosure-stance, and temporal-status combination: each cell is coloured and labelled by the single caution-ordered state the projection returns, the cells for an `UNDISCLOSED` settlement without a stated withholding are drawn hatched because that combination fails closed rather than projecting, and the cells inhabited by the live scoring battery are marked by factoring each of its findings through `finding_facets` at build time. The one cell where a `NAMED` settlement projects to `UNRESOLVED` is the staleness decay recovered as a projection. The lattice is a projection table of recorded-data facets; it is not a claim that richer states exist in the world, and an inhabited cell is a fact about the battery's constructed inputs, never about any observed work.](../output/figures/white_facets_lattice.png){#fig:white-facets-lattice width=100%}
+![The full facet lattice computed by running `project_facets` over every settlement, disclosure-stance, and temporal-status combination: each cell is colored and labeled by the single caution-ordered state the projection returns, the cells for an `UNDISCLOSED` settlement without a stated withholding are drawn hatched because that combination fails closed rather than projecting, and the cells inhabited by the live scoring battery are marked by factoring each of its findings through `finding_facets` at build time. The one cell where a `NAMED` settlement projects to `UNRESOLVED` is the staleness decay recovered as a projection. The lattice is a projection table of recorded-data facets; it is not a claim that richer states exist in the world, and an inhabited cell is a fact about the battery's constructed inputs, never about any observed work.](../output/figures/white_facets_lattice.png){#fig:white-facets-lattice width=100%}
 
 None of this ranks anything. The facets are derived views of recorded data,
 never new observations; a return contract earns a re-review, never a pass; and

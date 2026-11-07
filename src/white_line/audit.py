@@ -24,7 +24,11 @@ from .serialization import (
 from .version import LEDGER_VERSION_DIGEST
 from .facets import project_facets, report_facets
 from .returns import return_contracts
-from .envelope import envelope_matches_report, report_envelope, validate_envelope_contract
+from .envelope import (
+    envelope_matches_report,
+    report_envelope,
+    validate_envelope_contract,
+)
 from .serialization import report_digest
 from .worked_examples import worked_report
 from .model import WhiteReport
@@ -37,12 +41,19 @@ def _witness_contract_sound(report: WhiteReport) -> bool:
         envelope = report_envelope(report)
         validate_envelope_contract(envelope)
         return (
-            all(project_facets(facet) is finding.state for facet, finding in zip(facets, report.findings))
-            and all(contract.originating_report_ref == report_digest(report) for contract in contracts)
+            all(
+                project_facets(facet) is finding.state
+                for facet, finding in zip(facets, report.findings)
+            )
+            and all(
+                contract.originating_report_ref == report_digest(report)
+                for contract in contracts
+            )
             and envelope_matches_report(envelope, report)
         )
     except (TypeError, ValueError):
         return False
+
 
 MANIFEST_STALE_ERROR = (
     "source manifest digest does not match current manuscript and figure inputs"
@@ -181,7 +192,9 @@ def audit_project(
     checks: dict[str, bool] = {}
     checks["witness_contracts"] = _witness_contract_sound(worked_report())
     if not checks["witness_contracts"]:
-        errors.append("witness report/registry, facet, return, or envelope binding failed")
+        errors.append(
+            "witness report/registry, facet, return, or envelope binding failed"
+        )
 
     record_tuple = tuple(records)
     ledger_results = all_ledger_checks(record_tuple)
@@ -343,7 +356,7 @@ def audit_project(
             missing_section_labels.append(path.name)
     if missing_section_labels:
         errors.append(
-            f"manuscript files lack a labelled H1 section heading: {missing_section_labels}"
+            f"manuscript files lack a labeled H1 section heading: {missing_section_labels}"
         )
     checks["manuscript_section_labels"] = not missing_section_labels
     referenced_figures = set(FIGURE_REFERENCE_RE.findall(manuscript_text))
@@ -404,7 +417,8 @@ def audit_project(
         combined_text = ""
     else:
         combined_text = combined.read_text(encoding="utf-8")
-    if not pdf.is_file() or not pdf.read_bytes().startswith(b"%PDF-"):
+    pdf_valid = pdf.is_file() and pdf.read_bytes().startswith(b"%PDF-")
+    if not pdf_valid:
         errors.append("output/pdf/white_line_combined.pdf is missing or not a PDF")
     source_headings = []
     for path in manuscript_files:
@@ -428,7 +442,7 @@ def audit_project(
             f"rendered manuscript is missing source headings: {missing_headings}"
         )
     checks["rendered_bundle"] = (
-        not missing_headings and combined.is_file() and pdf.is_file()
+        not missing_headings and combined.is_file() and pdf_valid
     )
 
     source_digest, source_files = digest_inputs(root)
@@ -490,7 +504,11 @@ def source_blocking_errors(errors: list[str]) -> list[str]:
     the post-render audit, which is the gate that matters for release.
     """
 
-    return [error for error in manifest_blocking_errors(errors) if not render_dependent_error(error)]
+    return [
+        error
+        for error in manifest_blocking_errors(errors)
+        if not render_dependent_error(error)
+    ]
 
 
 def write_source_manifest(project_root: Path, report: dict[str, Any]) -> Path:

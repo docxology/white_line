@@ -2,15 +2,16 @@
 
 This repository is the whole of White Line. It carries its own Python package,
 tests, documentation, manuscript, references, figure builder, and release audit.
-It is one of five works in the line set, and it is the only one of them you need
-in order to run everything below.
+It is one of eight peer color instruments in the Line Set, and this repository
+is the only instrument source you need in order to run everything below.
 
 ## What a separated copy is
 
-The four line works — Red, Black, Golden, White — and the set reader `line_set`
-were extracted into their own repositories. A separated copy is a clone of one
-of them, held on its own, with no sibling checkout beside it and no monorepo
-around it. This document states what that copy can do and what it cannot, so a
+The original four color works were Red, Black, Golden, and White. The current
+eight also include Silver, Violet, Blue, and Green; `line_set` is their colorless
+wrapper, and Witness Register is a separate co-registration companion.
+A separated copy is a clone of one repository, held on its own, with no sibling
+checkout beside it and no monorepo around it. This document states what that copy can do and what it cannot, so a
 reader who has only this repository is never left guessing which documented step
 is unreachable.
 
@@ -19,7 +20,7 @@ is unreachable.
 From a clone of this repository and nothing else:
 
 - Install: `pyproject.toml` declares `dependencies = []`. The package is pure
-  standard library on Python 3.10 or later; the `dev` group adds `mypy`,
+  standard library on Python 3.11 or later; the `dev` group adds `mypy`,
   `pytest`, `pytest-cov`, and `ruff`.
 - Run the full test suite and meet the coverage gate (`fail_under = 90`).
 - `scripts/check_registry.py` — the live registry and its invariant battery.
@@ -78,7 +79,16 @@ a relative path and never by an import:
 | Red Line | <https://github.com/docxology/red_line> | the personal security boundary and explicit No document |
 | Black Line | <https://github.com/docxology/black_line> | strong practice |
 | Golden Line | <https://github.com/docxology/golden_line> | aspiration |
+| Silver Line | <https://github.com/docxology/line_set> (membership reference) | memory, custody, succession, and deliberate lapse/release |
+| Violet Line | <https://github.com/docxology/line_set> (membership reference) | affected-party consent; missing consent is never inferred |
+| Blue Line | <https://github.com/docxology/line_set> (membership reference) | ongoing stewardship |
+| Green Line | <https://github.com/docxology/line_set> (membership reference) | capacity under cultivation, not competence certification |
 | `line_set` | <https://github.com/docxology/line_set> | the thin reader that declares the set and carries its shared framing |
+| Witness Register | <https://github.com/docxology/witness_register> | co-registration of reports and relations, without aggregation; not a color |
+
+Membership is declared independently of local installation and source access.
+Optional or access-controlled instrument sources may not be available to every
+reader; the wrapper reference is not a claim of public source availability.
 
 White Line copies none of their prose, registries, or implementation modules,
 and defers to none of them. Their absence changes nothing about what this

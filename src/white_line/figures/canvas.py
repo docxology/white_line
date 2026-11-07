@@ -52,7 +52,7 @@ def text(
         ValueError: If ``size`` is under ``MIN_TEXT_SIZE``. Failing here rather
             than in review is the point: an illegible label is a defect in the
             accessibility contract these figures rely on, since shape and text
-            are what carry the meaning when colour is unavailable.
+            are what carry the meaning when color is unavailable.
     """
 
     if size < MIN_TEXT_SIZE:
@@ -77,9 +77,7 @@ def rect(
     return f'<rect x="{x}" y="{y}" width="{width}" height="{height}" fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}"/>'
 
 
-def wrap_lines(
-    value: str, size: int, max_width: int, bold: bool = False
-) -> list[str]:
+def wrap_lines(value: str, size: int, max_width: int, bold: bool = False) -> list[str]:
     """Break ``value`` into lines that each fit within ``max_width`` units.
 
     Word wrapping uses the same advance widths the legibility gate uses to
@@ -105,10 +103,10 @@ def wrap_lines(
 
 
 def marker(shape: str, cx: int, cy: int, radius: int, fill: str) -> str:
-    """Return one SVG marker of the named shape, centred on ``(cx, cy)``.
+    """Return one SVG marker of the named shape, centered on ``(cx, cy)``.
 
-    Shape carries the same distinction colour does, so a reader in greyscale
-    or with a colour-vision difference still recovers the category.
+    Shape carries the same distinction color does, so a reader in grayscale
+    or with a color-vision difference still recovers the category.
 
     Raises:
         ValueError: If ``shape`` is not one of the drawn shapes. A silent

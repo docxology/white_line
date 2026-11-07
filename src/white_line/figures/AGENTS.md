@@ -26,7 +26,7 @@ registry and report contract.
   dimensions. `legibility.py` turns those into a printed point size using the
   manuscript's embed width and page geometry.
 - `palette.py` provides constants and complete display maps, including a
-  marker shape per kind so no figure encodes a category in colour alone; it
+  marker shape per kind so no figure encodes a category in color alone; it
   has no public callables.
 
 Adding a plate is atomic: update `FIGURE_PLATES`, the count and label

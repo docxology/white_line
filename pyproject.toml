@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "white_line"
-version = "0.8.0"
+version = "0.9.0"
 description = "An absence ledger for unknowns, restraint, and negative space"
 authors = [{name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"}]
 requires-python = ">=3.11"
@@ -19,16 +19,11 @@ dev = [
 ]
 
 [tool.ruff]
-# Pinned so "ruff clean" is a reproducible statement rather than a claim about
-# whichever settings happened to be in effect. target-version matters here:
-# the tests reach the declared 3.10 floor, and ruff is what catches a construct
-# that only parses on a later interpreter — a backslash inside an f-string
-# expression did exactly that and made the whole bindings module uncollectable
-# on 3.10 and 3.11 while passing locally on 3.12.
-target-version = "py310"
+# Target the declared Python floor, including syntax checks on newer hosts.
+target-version = "py311"
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 check_untyped_defs = true
 files = ["src"]
 

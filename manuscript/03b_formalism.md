@@ -495,7 +495,7 @@ leaving a claim quietly unbound.
 | [@def:kinds] | `test_formalism.py::test_the_kind_alphabet_in_prose_is_the_enumeration` |
 | [@def:states] | `test_formalism.py::test_the_state_alphabet_in_prose_is_the_enumeration` |
 | [@def:record] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
-| [@def:registry] | `test_manuscript_bindings.py::test_registry_definition_counts_re_derive_from_the_registry` |
+| [@def:registry] | `test_registry.py::test_registry_has_eleven_records_covering_every_kind` |
 | [@def:caution-order] | `test_formalism.py::test_the_caution_order_in_prose_is_caution_rank` |
 | [@def:observation] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:finding] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |

@@ -82,7 +82,7 @@ PROSE = "\n".join(SOURCES[name] for name in sorted(SOURCES))
 def _body(label: str) -> str:
     """Return one formalism block's body, failing loudly if it is absent."""
 
-    assert label in BY_LABEL, f"no formalism block is labelled {label!r}"
+    assert label in BY_LABEL, f"no formalism block is labeled {label!r}"
     return BY_LABEL[label].body
 
 
@@ -90,8 +90,7 @@ def _mathit_tokens(body: str) -> list[str]:
     """Return the ``\\mathit{...}`` names a tuple definition lists, in order."""
 
     return [
-        token.replace("\\_", "_")
-        for token in re.findall(r"\\mathit\{([^}]+)\}", body)
+        token.replace("\\_", "_") for token in re.findall(r"\\mathit\{([^}]+)\}", body)
     ]
 
 
@@ -108,10 +107,10 @@ def test_the_manuscript_declares_formalism_blocks_at_all() -> None:
 def test_every_formalism_block_carries_a_unique_prefixed_label() -> None:
     """A block with no label is numbered but can never be referenced."""
 
-    unlabelled = [
+    unlabeled = [
         f"{block.source}:{block.printed}" for block in BLOCKS if not block.label
     ]
-    assert not unlabelled, unlabelled
+    assert not unlabeled, unlabeled
     wrong_prefix = [
         block.label
         for block in BLOCKS
@@ -122,11 +121,11 @@ def test_every_formalism_block_carries_a_unique_prefixed_label() -> None:
     assert len(labels) == len(set(labels)), "duplicate formalism label"
 
 
-def test_the_label_check_rejects_an_unlabelled_block() -> None:
+def test_the_label_check_rejects_an_unlabeled_block() -> None:
     """Positive control: a block written without an identifier is caught."""
 
     planted = parse_blocks(
-        {"planted.md": "::: {.definition title=\"Nameless\"}\nBody.\n:::\n"}
+        {"planted.md": '::: {.definition title="Nameless"}\nBody.\n:::\n'}
     )
     assert len(planted) == 1
     assert planted[0].label == ""
@@ -134,7 +133,7 @@ def test_the_label_check_rejects_an_unlabelled_block() -> None:
 
 
 def test_the_label_check_rejects_the_wrong_prefix_for_a_kind() -> None:
-    """Positive control: a proposition labelled ``def:`` is caught."""
+    """Positive control: a proposition labeled ``def:`` is caught."""
 
     planted = parse_blocks({"planted.md": "::: {.proposition #def:wrong}\nX.\n:::\n"})
     assert len(planted) == 1
@@ -148,7 +147,8 @@ def test_every_formalism_reference_resolves_to_a_declared_block() -> None:
     references, _keys = split_citations(PROSE, declared_prefixes(BLOCKS))
     assert references, "the manuscript makes no formalism references"
     dangling = sorted(
-        reference for reference in references
+        reference
+        for reference in references
         if reference not in BY_LABEL
         and reference.partition(":")[0] not in {"sec", "fig"}
     )
@@ -170,12 +170,12 @@ def test_the_reference_check_rejects_a_dangling_label() -> None:
 def test_no_manuscript_file_writes_a_formalism_number_by_hand() -> None:
     """The whole point of the fenced syntax is that no such literal exists."""
 
-    offences = {
+    offenses = {
         name: found
         for name, text in SOURCES.items()
         if (found := hand_written_numbers(text))
     }
-    assert not offences, offences
+    assert not offenses, offenses
 
 
 def test_the_hand_written_number_check_rejects_a_planted_literal() -> None:
@@ -369,8 +369,7 @@ def _intake_partition(body: str) -> list[frozenset[str]]:
     sentence = body.split("Intake therefore uses the whole code alphabet")[-1]
     sentence = sentence.split(". No input")[0]
     return [
-        frozenset(re.findall(r"`([A-Z_]+)`", group))
-        for group in sentence.split(";")
+        frozenset(re.findall(r"`([A-Z_]+)`", group)) for group in sentence.split(";")
     ]
 
 
@@ -437,9 +436,7 @@ def test_the_date_branch_check_rejects_a_wrong_expectation() -> None:
 def _quoted_reasons(body: str) -> list[str]:
     """Return the multi-word backticked strings the scoring definition quotes."""
 
-    return [
-        token for token in re.findall(r"`([^`]+)`", body) if " " in token
-    ]
+    return [token for token in re.findall(r"`([^`]+)`", body) if " " in token]
 
 
 def test_every_quoted_scoring_reason_is_produced_by_the_assessor() -> None:
@@ -618,7 +615,7 @@ def test_an_unnumbered_block_consumes_no_number() -> None:
         {
             "planted.md": (
                 "::: {.definition #def:a}\nOne.\n:::\n\n"
-                "::: {.definition .unnumbered #def:b title=\"Aside\"}\nTwo.\n:::\n\n"
+                '::: {.definition .unnumbered #def:b title="Aside"}\nTwo.\n:::\n\n'
                 "::: {.definition #def:c}\nThree.\n:::\n"
             )
         }

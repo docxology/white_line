@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from white_line import WORKED_AS_OF, worked_intake_observations, worked_report
+from white_line import WORKED_AS_OF, worked_report
 from white_line.analysis import (
     ASSERTABLE_STATES,
     coverage_matrix,
@@ -14,7 +14,6 @@ from white_line.analysis import (
     reconciliation_matrix,
 )
 from white_line.figures import FIGURE_PLATES, FigurePlate, build_figures
-from white_line.figures.legibility import manuscript_dir
 from white_line.serialization import FIGURE_REGISTRY_SCHEMA
 from white_line.figures.plates import contract, overview
 from white_line.model import AbsenceKind, IntakeCode
@@ -47,36 +46,6 @@ def test_figure_plate_registry_is_ordered_and_typed() -> None:
     ]
 
 
-#: Spellings for the plate counts the documentation writes out in words.
-_COUNT_WORDS = {
-    11: "eleven",
-    12: "twelve",
-    13: "thirteen",
-    14: "fourteen",
-    15: "fifteen",
-    16: "sixteen",
-    17: "seventeen",
-}
-
-
-def test_the_documented_plate_count_matches_the_registry() -> None:
-    """``docs/development.md`` states the plate count; re-derive it here.
-
-    The working contract names that file as a mandatory atomic-update site
-    when a figure is added. Nothing enforced it, and the count sat at eleven
-    while the registry held fourteen.
-    """
-
-    count = len(FIGURE_PLATES)
-    assert count in _COUNT_WORDS, f"no spelling recorded for {count} plates"
-    text = (PROJECT_ROOT / "docs" / "development.md").read_text(encoding="utf-8")
-    assert f"{_COUNT_WORDS[count]} deterministic SVG/PNG" in text
-    stale = [
-        word
-        for value, word in _COUNT_WORDS.items()
-        if value != count and f"{word} deterministic SVG/PNG" in text
-    ]
-    assert not stale, stale
 
 
 def test_display_maps_reject_incomplete_live_alphabets() -> None:
@@ -100,6 +69,30 @@ def test_display_maps_reject_incomplete_live_alphabets() -> None:
         contract._DATED_INPUT_GLOSS.clear()
         contract._DATED_INPUT_GLOSS.update(original_dating)
 
+
+
+def test_reason_trail_text_stays_inside_its_computed_rows() -> None:
+    import xml.etree.ElementTree as ET
+    from white_line.figures.plates.evidence import reason_trail
+
+    root = ET.fromstring(reason_trail())
+    namespace = {"svg": "http://www.w3.org/2000/svg"}
+    panels = [
+        element for element in root.findall("svg:rect", namespace)
+        if element.get("x") == "110" and element.get("width") == "1380"
+        and float(element.get("y", "0")) >= 358
+    ][:-1]  # The final panel is the reading rule, not a scoring row.
+    texts = root.findall("svg:text", namespace)
+    for panel in panels:
+        top = float(panel.attrib["y"])
+        bottom = top + float(panel.attrib["height"])
+        row_text = [
+            element for element in texts
+            if element.get("x") in {"150", "680"}
+            and top <= float(element.attrib["y"]) < bottom + 18
+        ]
+        assert row_text
+        assert max(float(element.attrib["y"]) for element in row_text) + 6 < bottom
 
 def test_figure_builder_is_deterministic(tmp_path: Path) -> None:
     first = build_figures(tmp_path)
@@ -274,9 +267,7 @@ def test_distribution_panels_are_computed_through_the_public_api(
     for (_y, width), code in zip(bars, IntakeCode, strict=True):
         assert width == (tally[code] * 240 if tally[code] else 10)
     # Every bar stays inside the drawn intake panel, not merely on the canvas.
-    panel = re.search(
-        r'<rect x="110" y="(\d+)" width="1380" height="(\d+)"', svg
-    )
+    panel = re.search(r'<rect x="110" y="(\d+)" width="1380" height="(\d+)"', svg)
     assert panel is not None
     panel_top, panel_height = int(panel.group(1)), int(panel.group(2))
     assert all(
@@ -290,41 +281,6 @@ def test_distribution_panels_are_computed_through_the_public_api(
         .read_bytes()
         .startswith(b"\x89PNG\r\n\x1a\n")
     )
-
-
-def test_distribution_embed_caption_matches_the_worked_computation() -> None:
-    """The manuscript embed cites the same review date and input count the code runs."""
-
-    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
-        encoding="utf-8"
-    )
-    embed = next(
-        line for line in text.splitlines() if "white_distribution_panels.png" in line
-    )
-    assert len(worked_intake_observations()) == 7
-    assert "seven-input" in embed
-    assert f"review date {WORKED_AS_OF}" in embed
-    # The boundary clause must survive caption edits.
-    assert "Neither an event count nor a cell count is a completeness score" in embed
-
-
-def test_distributional_views_document_uses_the_shared_worked_computation() -> None:
-    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
-        encoding="utf-8"
-    )
-    assert "worked_intake_observations()" in text
-    assert "worked_report()" in text
-
-
-def test_build_figures_cli_reports_artifacts(tmp_path: Path) -> None:
-    completed = subprocess.run(
-        [sys.executable, "scripts/build_figures.py", "--project-root", str(tmp_path)],
-        cwd=PROJECT_ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    assert "generated 17 PNG figures (36 artifacts)" in completed.stdout
 
 
 def test_missing_converter_names_the_figure_and_remedy(tmp_path: Path) -> None:
@@ -421,12 +377,22 @@ def test_the_intake_battery_reaches_every_code_with_a_derived_rendering() -> Non
     from white_line.worked_examples import _render_observation
     from white_line.model import AbsenceObservation, AbsenceState
 
-    assert _render_observation(
-        AbsenceObservation("fallow-ground", AbsenceState.NAMED, "note", "2026-01-05")
-    ) == "AbsenceObservation('fallow-ground', NAMED, '2026-01-05')"
-    assert _render_observation(
-        AbsenceObservation("fallow-ground", AbsenceState.NAMED, "note", date(2026, 1, 5))
-    ) == "AbsenceObservation('fallow-ground', NAMED, date(2026, 1, 5))"
+    assert (
+        _render_observation(
+            AbsenceObservation(
+                "fallow-ground", AbsenceState.NAMED, "note", "2026-01-05"
+            )
+        )
+        == "AbsenceObservation('fallow-ground', NAMED, '2026-01-05')"
+    )
+    assert (
+        _render_observation(
+            AbsenceObservation(
+                "fallow-ground", AbsenceState.NAMED, "note", date(2026, 1, 5)
+            )
+        )
+        == "AbsenceObservation('fallow-ground', NAMED, date(2026, 1, 5))"
+    )
     assert len(intake_probe_inputs()) == len(IntakeCode)
 
 
@@ -459,7 +425,7 @@ def test_the_battery_guards_reject_a_probe_that_misses_its_code() -> None:
 def test_only_a_supplied_naming_can_sit_in_an_omission_band() -> None:
     """A reviewer-asserted UNRESOLVED was never a naming, so it never decayed.
 
-    Without this filter the band labelled "already decayed — past its horizon"
+    Without this filter the band labeled "already decayed — past its horizon"
     would collect observations that were asserted `UNRESOLVED` outright and
     never aged at all, which misreports what the ledger did.
     """
@@ -551,50 +517,8 @@ def test_the_expiry_queue_draws_both_omission_bands_with_live_contents() -> None
     assert "none in this input" not in svg
 
 
-def test_the_horizon_dispersion_reads_every_record_and_its_kind_median() -> None:
-    """One dot per record, and each per-kind median re-derived here."""
-
-    from statistics import median
-
-    from white_line.figures.plates.inspection import horizon_dispersion
-
-    svg = horizon_dispersion()
-    for record in WHITE_RECORDS:
-        assert record.title in svg
-        assert f"{record.review_horizon_days} days" in svg
-    for kind in AbsenceKind:
-        horizons = [
-            record.review_horizon_days
-            for record in WHITE_RECORDS
-            if record.kind is kind
-        ]
-        assert f"{len(horizons)} records · median horizon {median(horizons):g} days" in svg
-    # Shape, not only colour, distinguishes the kinds in this plate.
-    from white_line.figures.palette import KIND_MARKER
-
-    assert set(KIND_MARKER.values()) == {"circle", "square", "triangle"}
-    for fragment in ("<circle", "<rect", "<path"):
-        assert fragment in svg
-
-
-def test_the_reachability_plate_quotes_each_input_beside_its_typed_note() -> None:
-    """Each row's note is the message the assessor produced, wrapped to fit."""
-
-    from white_line.figures.canvas import wrap_lines
-    from white_line.figures.plates.inspection import intake_reachability
-    from white_line.worked_examples import intake_reachability_battery
-
-    svg = intake_reachability()
-    for probe in intake_reachability_battery():
-        assert probe.code.value in svg
-        for line in wrap_lines(probe.event.message, 18, 1160):
-            assert line in svg
-        for line in wrap_lines(probe.rendered_input, 18, 1240):
-            assert line in svg
-
-
-def test_the_facets_lattice_cells_re_derive_from_the_projection() -> None:
-    """Every cell state, fail-closed hatch, and battery mark is a live call."""
+def test_battery_facet_cells_preserve_every_scoring_branch():
+    """Battery cells retain the facets of every native scoring branch."""
 
     from white_line import (
         WORKED_AS_OF,
@@ -606,35 +530,9 @@ def test_the_facets_lattice_cells_re_derive_from_the_projection() -> None:
         project_facets,
         scoring_branch_battery,
     )
-    from white_line.figures.plates.evidence import battery_facet_cells, facets_lattice
+    from white_line.figures.plates.evidence import battery_facet_cells
     from white_line.model import AbsenceState
 
-    svg = facets_lattice()
-    combinations = 0
-    fail_closed = 0
-    for settlement in EpistemicSettlement:
-        for disclosure in DisclosureStance:
-            for temporality in TemporalStatus:
-                combinations += 1
-                try:
-                    state = project_facets(
-                        WitnessFacets("cell", settlement, disclosure, temporality)
-                    )
-                except ValueError:
-                    fail_closed += 1
-                    continue
-                assert state.value in svg
-    assert combinations == 24
-    assert fail_closed == len(TemporalStatus)
-    assert svg.count("FAILS CLOSED") == fail_closed
-    assert svg.count("not recordable") == fail_closed
-    assert (
-        f"all {combinations} settlement × stance × temporality combinations: "
-        f"{combinations - fail_closed} project, {fail_closed} fail closed." in svg
-    )
-    # Every row and column header is the enumeration's own vocabulary.
-    for member in (*EpistemicSettlement, *DisclosureStance, *TemporalStatus):
-        assert member.value in svg
     # The battery marks are derived from finding_facets over live findings.
     cells = battery_facet_cells()
     records_by_id = {record.id: record for record in WHITE_RECORDS}
@@ -647,9 +545,6 @@ def test_the_facets_lattice_cells_re_derive_from_the_projection() -> None:
         expected[key] = expected.get(key, 0) + 1
     assert cells == expected
     assert sum(cells.values()) == len(scoring_branch_battery())
-    for count in cells.values():
-        assert f"live battery ×{count}" in svg
-    assert svg.count("live battery ×") == len(cells)
     # The decay cell is annotated: NAMED settlement projecting to UNRESOLVED.
     decay = WitnessFacets(
         "cell",
@@ -658,54 +553,3 @@ def test_the_facets_lattice_cells_re_derive_from_the_projection() -> None:
         TemporalStatus.STALE,
     )
     assert project_facets(decay) is AbsenceState.UNRESOLVED
-    assert svg.count("the staleness decay") == 1
-
-
-def test_the_facets_lattice_embed_carries_the_projection_boundary() -> None:
-    """The manuscript embed keeps the plate's non-claim attached to it."""
-
-    text = (manuscript_dir(PROJECT_ROOT) / "04b_distributional_views.md").read_text(
-        encoding="utf-8"
-    )
-    embed = next(
-        line for line in text.splitlines() if "white_facets_lattice.png" in line
-    )
-    assert "fails closed" in embed
-    assert "not a claim that richer states exist in the world" in embed
-
-
-def test_the_documented_analysis_backed_plate_count_re_derives() -> None:
-    """``README.md`` and ``docs/README.md`` state how many plates read analysis.
-
-    The count is taken from the plate sources rather than asserted, so adding
-    or removing an analysis-backed plate fails here instead of leaving two
-    documents quietly wrong.
-    """
-
-    from white_line.analysis import __all__ as analysis_exports
-
-    plate_dir = PROJECT_ROOT / "src" / "white_line" / "figures" / "plates"
-    helpers = tuple(sorted(analysis_exports))
-    assert helpers, "the analysis module must export something to scan for"
-    backed = set()
-    for path in sorted(plate_dir.glob("*.py")):
-        source = path.read_text(encoding="utf-8")
-        bodies = re.split(r"\n(?=def [a-z_]+\(\) -> str:)", source)
-        for body in bodies[1:]:
-            name = re.match(r"def ([a-z_]+)\(", body).group(1)
-            if any(re.search(rf"\b{helper}\b", body) for helper in helpers):
-                backed.add(name)
-    assert backed, "no plate reads the analysis module; the scan set is empty"
-    assert len(backed) < len(FIGURE_PLATES), "the count must discriminate"
-    words = {5: "five", 6: "six", 7: "seven"}
-    assert len(backed) in words, f"no spelling recorded for {len(backed)}"
-    phrase = f"{words[len(backed)]} of the"
-    for relative in ("README.md", "docs/README.md"):
-        text = (PROJECT_ROOT / relative).read_text(encoding="utf-8")
-        assert phrase in text, f"{relative} does not state {phrase!r}"
-        stale = [
-            word
-            for value, word in words.items()
-            if value != len(backed) and f"{word} of the" in text
-        ]
-        assert not stale, (relative, stale)

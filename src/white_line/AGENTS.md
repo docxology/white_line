@@ -40,16 +40,20 @@ nothing here is submodule-only.
 - `dates.py`: `coerce_date(value, argument) -> date` and
   `coerce_review_date(value) -> date` are supported caller-boundary helpers
   for explicit review-date coercion.
-- `facets.py`: `finding_facets(finding) -> WitnessFacets`,
-  `report_facets(report) -> tuple[WitnessFacets, ...]`, and
+- `facets.py`: `finding_facets(finding, record, review_date) -> WitnessFacets`,
+  `report_facets(report, records=WHITE_RECORDS) -> tuple[WitnessFacets, ...]`, and
   `project_facets(facets) -> AbsenceState`: the caution order factored into
   epistemic settlement x disclosure stance x temporal status, with the
   projection recovering the shipped state. A derived view, never a new
   observation.
-- `returns.py`: `return_contracts(report) -> tuple[ReturnContract, ...]` reads
-  each review horizon forward as a bounded follow-up obligation — trigger, due
-  date, expected return, and acceptance condition per finding.
-- `envelope.py`: `report_envelope(report, subject_id) -> ReportEnvelope`,
+- `returns.py`: `return_contracts(report, records=WHITE_RECORDS) ->
+  tuple[ReturnContract, ...]` reads each review horizon forward as a bounded
+  follow-up obligation — trigger, due date, expected return, and acceptance
+  condition per finding. `return_matches_contract(contract, report,
+  originating_report_ref, record_id, records=WHITE_RECORDS) -> bool` checks
+  exact identity and terms, never fulfillment.
+- `envelope.py`: `report_envelope(report, subject_id="",
+  source_snapshot_refs=()) -> ReportEnvelope`,
   `canonical_envelope(envelope)`, `envelope_matches_report(envelope, report)`,
   and `SCOPE_AND_NONCLAIMS`: the cross-instrument
   `line.report-envelope/1.0` transport record pointing at the complete
