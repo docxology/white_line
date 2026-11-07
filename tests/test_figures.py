@@ -46,8 +46,6 @@ def test_figure_plate_registry_is_ordered_and_typed() -> None:
     ]
 
 
-
-
 def test_display_maps_reject_incomplete_live_alphabets() -> None:
     """The plates fail rather than silently omitting a newly introduced member."""
 
@@ -70,7 +68,6 @@ def test_display_maps_reject_incomplete_live_alphabets() -> None:
         contract._DATED_INPUT_GLOSS.update(original_dating)
 
 
-
 def test_reason_trail_text_stays_inside_its_computed_rows() -> None:
     import xml.etree.ElementTree as ET
     from white_line.figures.plates.evidence import reason_trail
@@ -78,8 +75,10 @@ def test_reason_trail_text_stays_inside_its_computed_rows() -> None:
     root = ET.fromstring(reason_trail())
     namespace = {"svg": "http://www.w3.org/2000/svg"}
     panels = [
-        element for element in root.findall("svg:rect", namespace)
-        if element.get("x") == "110" and element.get("width") == "1380"
+        element
+        for element in root.findall("svg:rect", namespace)
+        if element.get("x") == "110"
+        and element.get("width") == "1380"
         and float(element.get("y", "0")) >= 358
     ][:-1]  # The final panel is the reading rule, not a scoring row.
     texts = root.findall("svg:text", namespace)
@@ -87,12 +86,14 @@ def test_reason_trail_text_stays_inside_its_computed_rows() -> None:
         top = float(panel.attrib["y"])
         bottom = top + float(panel.attrib["height"])
         row_text = [
-            element for element in texts
+            element
+            for element in texts
             if element.get("x") in {"150", "680"}
             and top <= float(element.attrib["y"]) < bottom + 18
         ]
         assert row_text
         assert max(float(element.attrib["y"]) for element in row_text) + 6 < bottom
+
 
 def test_figure_builder_is_deterministic(tmp_path: Path) -> None:
     first = build_figures(tmp_path)
@@ -135,6 +136,10 @@ def test_figure_builder_is_deterministic(tmp_path: Path) -> None:
     )
     assert "01c_scholarship.md" in scholarship["source"]
     assert all(item["source"].strip() for item in registry["figures"])
+    for plate, entry in zip(FIGURE_PLATES, registry["figures"], strict=True):
+        assert entry["alt_text"] == plate.alt
+        assert entry["alt_text"].strip()
+        assert "alt" not in entry
 
 
 def test_cover_art_version_text_is_bound_to_the_version_authority(

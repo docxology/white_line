@@ -39,6 +39,12 @@ not a truth verifier. For visual iteration, pass a disposable `project_root`
 on the mounted development volume to `build_figures`, inspect the resulting PNGs, and copy
 only the reviewed generated artifacts into the project output directory.
 
+The current figure metadata schema is `white-line.figure-registry/2.0`.
+Each figure, including the cover, serializes its authored description as
+`alt_text`; `caption` remains separate. Consumers must read `alt_text` rather
+than a legacy `alt` key or a caption fallback. The native audit requires a
+nonblank `alt_text`. Historical release artifacts retain their original schema.
+
 `tests/test_figure_legibility.py` is the printed-size gate. It reads each
 plate's canvas size out of its rendered SVG, the `width=` attribute out of the
 manuscript embed, and the page geometry out of `manuscript/config.yaml`, then

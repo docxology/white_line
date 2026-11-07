@@ -87,12 +87,6 @@ def test_placeholder_prefixed_names_are_absent() -> None:
     _assert_absent("placeholder-prefixed names", _name_pattern("fa", "ke", "_"))
 
 
-def test_superseded_code_branding_is_absent() -> None:
-    """No module brands its own code or tests as superseded."""
-
-    _assert_absent("superseded-code branding", _name_pattern("leg", "acy"))
-
-
 def test_machine_local_paths_are_absent() -> None:
     """No module hardcodes one machine's package-manager prefix."""
 

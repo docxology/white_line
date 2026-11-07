@@ -19,7 +19,7 @@ from .version import LEDGER_VERSION, __version__
 #: useless for telling one payload from another during review.
 REGISTRY_MANIFEST_SCHEMA = "white-line.registry-manifest/1.1"
 REGISTRY_ARTIFACT_SCHEMA = "white-line.registry-artifact/1.1"
-FIGURE_REGISTRY_SCHEMA = "white-line.figure-registry/1.3"
+FIGURE_REGISTRY_SCHEMA = "white-line.figure-registry/2.0"
 REPORT_SCHEMA = "white-line.report/1.1"
 
 
@@ -75,7 +75,9 @@ def canonical_report(report: WhiteReport) -> str:
                 "state": finding.state.value,
                 "reasons": list(finding.reasons),
                 "observed_on": finding.observed_on,
-                "asserted_state": finding.asserted_state.value if finding.asserted_state else None,
+                "asserted_state": finding.asserted_state.value
+                if finding.asserted_state
+                else None,
             }
             for finding in report.findings
         ],

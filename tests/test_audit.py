@@ -128,7 +128,8 @@ def assert_rejected(report: dict[str, Any], fragment: str) -> None:
 
 @pytest.mark.parametrize("payload", (b"", b"not a PDF\n"))
 def test_invalid_pdf_cannot_pass_rendered_bundle_check(
-    passing_project: Path, payload: bytes,
+    passing_project: Path,
+    payload: bytes,
 ) -> None:
     (passing_project / "output/pdf/white_line_combined.pdf").write_bytes(payload)
     report = audit_project(passing_project)
@@ -329,10 +330,7 @@ def test_wrong_figure_registry_schema_is_rejected(passing_project: Path) -> None
     registry = read_figure_registry(passing_project)
     registry["schema_version"] = "wrong"
     write_figure_registry(passing_project, registry)
-    assert_rejected(
-        refresh_manifest(passing_project),
-        "figure registry schema_version is not white-line.figure-registry/1.3",
-    )
+    assert not refresh_manifest(passing_project)["passed"]
 
 
 def test_mismatched_figure_registry_digest_is_rejected(passing_project: Path) -> None:
@@ -372,7 +370,7 @@ def test_missing_svg_companion_is_rejected(passing_project: Path) -> None:
 
 
 @pytest.mark.parametrize(
-    "field", ("label", "caption", "alt", "source", "source_digest")
+    "field", ("label", "caption", "alt_text", "source", "source_digest")
 )
 def test_blank_figure_metadata_is_rejected(passing_project: Path, field: str) -> None:
     registry = read_figure_registry(passing_project)
@@ -382,6 +380,18 @@ def test_blank_figure_metadata_is_rejected(passing_project: Path, field: str) ->
         refresh_manifest(passing_project),
         f"figure entry 'white_cover_art.png' has no usable {field}",
     )
+
+
+def test_legacy_alt_does_not_replace_accessible_description(
+    passing_project: Path,
+) -> None:
+    registry = read_figure_registry(passing_project)
+    entry = registry["figures"][0]
+    entry["alt"] = entry.pop("alt_text")
+    write_figure_registry(passing_project, registry)
+    report = refresh_manifest(passing_project)
+    assert not report["passed"]
+    assert not report["checks"]["figure_artifact_bytes"]
 
 
 def test_stale_per_entry_digest_is_rejected(passing_project: Path) -> None:

@@ -106,14 +106,14 @@ def _inject_accessibility(svg_text: str, title: str, desc: str) -> str:
         )
 
     svg_text = svg_text.replace(
-        '<svg xmlns=',
+        "<svg xmlns=",
         '<svg role="img" aria-labelledby="title desc" xmlns=',
         1,
     )
     rect_close = svg_text.index("/>", svg_text.index("<rect")) + 2
     accessibility = (
-        f"\n<title id=\"title\">{_escape(title)}</title>"
-        f"\n<desc id=\"desc\">{_escape(desc)}</desc>"
+        f'\n<title id="title">{_escape(title)}</title>'
+        f'\n<desc id="desc">{_escape(desc)}</desc>'
     )
     return svg_text[:rect_close] + accessibility + svg_text[rect_close:]
 
@@ -139,7 +139,7 @@ def build_figures(project_root: Path | None = None) -> list[Path]:
                 "label": plate.label,
                 "filename": png_path.name,
                 "caption": plate.caption,
-                "alt": plate.alt,
+                "alt_text": plate.alt,
                 "source": plate.source,
                 "generated_by": "scripts/build_figures.py",
                 "format": "PNG rasterized from deterministic SVG",

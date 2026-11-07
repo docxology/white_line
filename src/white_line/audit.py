@@ -274,7 +274,7 @@ def audit_project(
             for field in (
                 "label",
                 "caption",
-                "alt",
+                "alt_text",
                 "source",
                 "source_digest",
                 "png_digest",

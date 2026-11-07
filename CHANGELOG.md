@@ -11,8 +11,8 @@
   the colorless wrapper, and Witness. Use American English in maintained prose
   and figure sources; preserve historical evidence.
 - Replace wording and copied-output assertions with native behavioral return
-  regressions. Assessment, facets, contradiction handling, and registry/schema
-  identities are unchanged.
+  regressions. Assessment, facets, contradiction handling, and native ledger
+  and report identities are unchanged.
 - Keep facet-lattice state, staleness, and live-battery annotations inside their
   cells with additional vertical clearance.
 - Clarify the retained citation cohort without treating it as the current
@@ -25,6 +25,11 @@
   between the computed reason trail and the next row.
 - Distinguish source-only audit success from the mandatory post-render
   `--require-render` release gate. No new Zenodo deposition is asserted.
+- Emit figure registry 2.0 with canonical `alt_text` metadata and migrate the
+  native audit consumer, so the publication engine can resolve accessible
+  descriptions without falling back to captions. Retain historical registries.
+- Remove the lexical superseded-code branding check, which rejects descriptive
+  compatibility-test names without testing native behavior.
 
 ## 0.8.0 — 2026-10-21
 
