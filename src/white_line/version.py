@@ -15,7 +15,7 @@ together. Re-pin it with::
     python -c "from white_line import WHITE_RECORDS, registry_digest; print(registry_digest(WHITE_RECORDS))"
 """
 
-__version__ = "0.9.0"
+__version__ = "0.9.1"
 
 LEDGER_VERSION = "2026.07"
 

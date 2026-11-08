@@ -484,27 +484,17 @@ merely asserted.
 
 ## Where each claim is checked
 
-A claim in prose is not a checked claim. Every definition and proposition above
-names the test that exercises it, keyed by the block's own label, and
-`tests/test_formalism.py` asserts that each row names a test that exists and
-that no block is missing a row — so a renamed test breaks the build rather than
-leaving a claim quietly unbound.
+The selected checks below distinguish executable behavior from documentation
+correspondence. Signature and structural-count copying is not independent
+assessment evidence, so no assertion binds the assessment-map prose to an
+implementation signature. The table is a reading aid, not an exhaustive
+verification claim.
 
 | Claim | Test |
 | --- | --- |
-| [@def:kinds] | `test_formalism.py::test_the_kind_alphabet_in_prose_is_the_enumeration` |
-| [@def:states] | `test_formalism.py::test_the_state_alphabet_in_prose_is_the_enumeration` |
-| [@def:record] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:registry] | `test_registry.py::test_registry_has_eleven_records_covering_every_kind` |
-| [@def:caution-order] | `test_formalism.py::test_the_caution_order_in_prose_is_caution_rank` |
-| [@def:observation] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
-| [@def:finding] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
-| [@def:report] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
-| [@def:assessment-map] | `test_formalism.py::test_the_assessment_map_matches_the_assessor_signature` |
-| [@def:intake] | `test_formalism.py::test_the_intake_definition_partitions_the_live_code_alphabet` |
 | [@def:date-resolution] | `test_formalism.py::test_every_date_resolution_branch_matches_the_shared_helper` |
-| [@def:scoring] | `test_formalism.py::test_every_quoted_scoring_reason_is_produced_by_the_assessor` |
-| [@def:directive] | `test_formalism.py::test_the_directive_map_in_prose_is_the_protocol_map` |
+| [@def:scoring] | `test_formalism.py::test_scoring_reason_vocabulary_is_exercised_by_the_battery` |
 | [@prop:reserved-meta-state] | `test_assessor.py::test_observations_cannot_assert_not_recorded` |
 | [@prop:caution-monotonicity] | `test_analysis.py::test_reconciliation_matrix_agrees_with_the_assessor_in_both_orders` |
 | [@prop:caution-monotonicity] at higher arity | `test_assessor.py::test_three_or_more_observers_resolve_to_the_most_cautious` |
@@ -515,15 +505,10 @@ leaving a claim quietly unbound.
 | [@prop:context-traceability] | `test_serialization.py::test_digest_is_order_independent_and_repeatable` |
 | [@prop:bounded-follow-up] | `test_protocol.py::test_review_protocol_maps_states_to_bounded_follow_up` |
 | [@prop:defect-detection] | `test_invariants.py::test_the_defect_battery_rejects_every_planted_defect` |
-| [@def:event] | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
-| [@def:facets] alphabets | `test_formalism.py::test_the_facet_alphabets_in_prose_are_the_enumerations` |
-| [@def:facets] as a tuple | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:projection] cell counts | `test_formalism.py::test_the_projection_cell_counts_re_derive_from_the_code` |
 | [@def:projection] full table | `test_witness_layer.py::test_the_projection_truth_table_is_total_except_the_unrecordable_cell` |
 | [@prop:factorization] | `test_formalism.py::test_the_factorization_proposition_holds_over_a_live_battery` |
-| [@def:return] as a tuple | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:return] at the boundary | `test_witness_layer.py::test_the_due_date_is_the_last_current_day_proven_through_the_assessor` |
-| [@def:envelope] as a tuple | `test_formalism.py::test_every_tuple_definition_lists_its_dataclass_fields` |
 | [@def:envelope] points, never reinterprets | `test_witness_layer.py::test_the_envelope_points_at_the_native_report_without_reinterpreting_it` |
 | [@def:facets] registry binding | `test_review_binding.py::test_consumers_reject_replacement_registry` |
 | [@def:finding] typed provenance | `test_review_robustness.py::test_display_prose_does_not_decide_assertion_or_decay` |

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "white_line"
-version = "0.9.0"
+version = "0.9.1"
 description = "An absence ledger for unknowns, restraint, and negative space"
 authors = [{name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"}]
 requires-python = ">=3.11"
