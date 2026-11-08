@@ -30,4 +30,4 @@ The paper and the package are separate but linked objects. The package imports
 as a small library; the manuscript states the scope, limits, and review protocol
 that keep its output from being overread.
 
-The paper is structured as follows. [Section @sec:method](#sec:method) defines the three kinds of absence and the four ledger states. [Section @sec:formalism](#sec:formalism) states the evaluator and its invariants formally. [Section @sec:examples](#sec:examples) walks through worked ledger entries, and [Section @sec:limits](#sec:limits) closes with the instrument's safeguards and limits.
+The paper is structured as follows. Section [-@sec:method] defines the three kinds of absence and the four ledger states. Section [-@sec:formalism] states the evaluator and its invariants formally. Section [-@sec:examples] walks through worked ledger entries, and Section [-@sec:limits] closes with the instrument's safeguards and limits.

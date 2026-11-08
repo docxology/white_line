@@ -2,6 +2,8 @@
 
 ## 0.9.0 — 2026-11-06
 
+- Use native numbered section citations without duplicated prefixes or nested
+  hand-written links in the manuscript roadmap.
 - Correct the documented native witness signatures and add a human-governed
   exact-return recipe that retains every unaccepted prior obligation.
 - Align CI, Ruff, mypy, and support prose with the existing Python >=3.11
