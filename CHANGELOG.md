@@ -9,6 +9,8 @@
   and test-name wiring assertions without repinning them. Preserve native date
   branches, reason coverage, projection/factorization calculations, metadata
   validity, and historical byte custody; label the selected test table honestly.
+- Keep renderer-reference integrity checks executable by deriving their declared
+  label set from the parsed formalism blocks.
 - Synchronize current descriptive version metadata. Native evaluator semantics,
   ledger identity, schemas, historical captures, and DOI identities are unchanged.
   No generated artifacts, deposit, or new release verification is asserted here.

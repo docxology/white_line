@@ -53,6 +53,7 @@ MANUSCRIPT = manuscript_dir(PROJECT_ROOT)
 
 SOURCES = read_manuscript(MANUSCRIPT)
 BLOCKS = parse_blocks(SOURCES)
+DECLARED_LABELS = frozenset(block.label for block in BLOCKS)
 PROSE = "\n".join(SOURCES[name] for name in sorted(SOURCES))
 
 
@@ -111,7 +112,7 @@ def test_every_formalism_reference_resolves_to_a_declared_block() -> None:
     dangling = sorted(
         reference
         for reference in references
-        if reference not in BY_LABEL
+        if reference not in DECLARED_LABELS
         and reference.partition(":")[0] not in {"sec", "fig"}
     )
     assert not dangling, dangling
@@ -126,7 +127,7 @@ def test_the_reference_check_rejects_a_dangling_label() -> None:
     )
     assert references == frozenset({"def:kindz"})
     assert keys == frozenset({"haraway1988"})
-    assert "def:kindz" not in BY_LABEL
+    assert "def:kindz" not in DECLARED_LABELS
 
 
 def test_no_manuscript_file_writes_a_formalism_number_by_hand() -> None:
