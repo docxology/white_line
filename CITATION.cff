@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use or refer to this work, please cite it as below."
 type: software
 title: "White Line: A Typed Ledger for the Edge of the Claim"
-version: "0.9.1"
-date-released: "2026-11-08"
+version: "0.9.2"
+date-released: "2026-11-09"
 authors:
   - family-names: "Friedman"
     given-names: "Daniel Ari"
@@ -13,8 +13,6 @@ authors:
 repository-code: "https://github.com/docxology/white_line"
 url: "https://github.com/docxology/white_line"
 identifiers:
-  - type: doi
-    value: "10.5281/zenodo.21754242"
   - type: url
     value: "https://github.com/docxology/white_line"
 license:
@@ -36,6 +34,21 @@ abstract: >-
   review horizons, and refuses to infer why anything is absent.
   Withholding is recorded as a boundary, never mined as missing evidence.
 references:
+  - type: software
+    title: "White Line: A Typed Ledger for the Edge of the Claim"
+    version: "0.9.1"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+    doi: "10.5281/zenodo.24069434"
+    notes: "Previously verified source ZIP only; not a standalone manuscript identifier."
+  - type: software
+    title: "White Line: A Typed Ledger for the Edge of the Claim"
+    authors:
+      - family-names: "Friedman"
+        given-names: "Daniel Ari"
+    doi: "10.5281/zenodo.21754242"
+    notes: "Earlier historical archive; its edition is not established by this metadata."
   - type: software
     title: "red_line"
     authors:

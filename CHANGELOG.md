@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.2 — 2026-11-09
+
+- Separate current software citation from older edition identifiers, including the verified 0.9.1 source archive; do not identify a new source version or rendered manuscript with an older DOI.
+- Clarify public source release versus separately authorized artifact deposit and distinguish first-publication history from recurring release review.
+- Remove incidental DOI allowlist assertions while preserving metadata/schema/disclosure checks. Absence assessment, typed reconciliation, return semantics, ledger content, and historical bytes are unchanged.
+
 ## 0.9.1 — 2026-11-08
 
 - Documentation-only patch: use the current Line Set declaration, distinguish

@@ -2,11 +2,11 @@
 
 ## How to cite
 
-Version 0.9.1 is a documentation-only patch prepared for repository release.
-Use the repository and, once created, its tag separately from the last verified Zenodo deposition:
+For source version 0.9.2, use the repository citation until an archive for that
+exact edition is independently verified:
 
 > Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim* (version
-> 0.9.1) [Software and manuscript]. GitHub.
+> 0.9.2) [Software source]. GitHub.
 > <https://github.com/docxology/white_line>
 
 BibTeX:
@@ -15,57 +15,53 @@ BibTeX:
 @software{friedman_white_line_2026,
   author  = {Friedman, Daniel Ari},
   title   = {White Line: A Typed Ledger for the Edge of the Claim},
-  version = {0.9.1},
+  version = {0.9.2},
   year    = {2026},
-  url     = {https://github.com/docxology/white_line},
-  note    = {Repository release candidate; the next Zenodo version DOI remains pending}
+  url     = {https://github.com/docxology/white_line}
 }
 ```
 
-For the last verified deposition, cite the DOI separately, without attributing
-the repository version to it:
-
-> Friedman, D. A. (2026). *White Line: A Typed Ledger for the Edge of the Claim*
-> [Software and manuscript]. Zenodo. <https://doi.org/10.5281/zenodo.21754242>
+Previously verified source archive: version 0.9.1,
+<https://doi.org/10.5281/zenodo.24069434>. It identifies that source ZIP only,
+not version 0.9.2 or a standalone rendered manuscript. The earlier historical
+archive retains DOI `10.5281/zenodo.21754242`; this metadata does not establish
+its edition, so no software version is inferred for it.
 
 `CITATION.cff`, `.zenodo.json`, and `manuscript/config.yaml` carry synchronized
-version metadata and retain the last verified DOI as required by the
-release procedure. That retained identifier does not identify a new 0.9.1
-deposition. `tests/test_publication_metadata.py` checks their agreement.
+version metadata and separate prior archive references.
+`tests/test_publication_metadata.py` checks version agreement.
 
 ## Persistent Identifiers and Verification
 
-Version 0.9.1 is a repository release candidate. The DOI below remains the last verified
-deposition; it does not assert that Zenodo has published this software version.
-Verify the actual successor archive separately; no new DOI is asserted here.
+Verify the actual archive record's repository, tag, version, and contents before
+assigning its identifier to that edition/object. Current metadata uses the
+repository until the exact edition/object is independently verified.
+A local metadata assertion is not external publication evidence. Keep historical
+title/DOI pairs unchanged; never invent identifiers or rewrite issued bytes.
 
-This repository carries an asserted, verified Zenodo DOI (`10.5281/zenodo.21754242`).
-`tests/test_publication_metadata.py` refuses any unverified DOI-shaped string in
-the citation metadata unless that exact DOI is listed as verified inside the test
-itself. A placeholder DOI that renders like a real one is worse than no DOI: it
-survives copy-and-paste into someone else's bibliography and points nowhere.
-
-## Authorized automatic publication for this release
+## Authorized automatic publication
 
 On November 8, 2026, the owner authorized this GitHub Release campaign with the
-existing public repositories' Zenodo hooks left active. Inspect the authenticated
+existing public repositories' Zenodo hooks left active. Future use requires
+actual owner authority for that release and object. Inspect the authenticated
 hook state immediately before publication and verify the resulting archive's
 repository, tag, version, and contents. Never prefill a DOI or amend an immutable
 tag to add one learned afterward. PyPI, private-source disclosure, and new
 private-sibling deposit automation remain unauthorized. The manual procedure
-below is an alternative, not a prerequisite for this authorized integration.
+below is an alternative, not a universal prerequisite.
 
 ## Manual reserve-first DOI publication
 
-1. Create the Zenodo deposition **without publishing it**, and reserve its DOI.
-2. Record the reserved DOI in this repository: add it under `identifiers:` in
-   `CITATION.cff`, add it to `related_identifiers` in `.zenodo.json` if
-   relevant, add `publication.doi` to `manuscript/config.yaml`, and add the
-   exact string to the verified list in `tests/test_publication_metadata.py`.
-   The gate turns green only when a person has asserted the DOI is real.
-3. Re-render the manuscript so the printed artifact carries its own DOI. A PDF
-   deposited without its DOI on the cover cannot be cited from the paper alone.
-4. Upload the re-rendered artifacts and publish the deposition.
+1. With owner authority for the specific object, create an unpublished Zenodo
+   deposition and reserve its DOI. A reservation is not a published deposit.
+2. Identify the exact software source or standalone manuscript being deposited.
+   If rendering a manuscript with its reserved DOI, label the reservation
+   accurately; a source ZIP DOI does not identify a separate PDF.
+3. Publish only the authorized bytes, then independently verify the actual
+   record's repository, tag, version, and contents.
+4. Record the verified identifier for that exact edition/object. If source has
+   advanced, retain it as a versioned historical reference, not a current DOI.
+   Never amend an immutable tag or archive to insert a DOI learned afterward.
 
 ## The other works
 
@@ -74,9 +70,10 @@ The original four-color citation cohort below is
 retained with its already recorded DOI relationships; it is not an exhaustive
 membership or publication inventory. The colorless wrapper `line_set` and
 Witness Register are not colors. Optional or access-controlled source
-availability is separate from membership. No work imports another, and the
-shared report-envelope schema string is aligned by convention, not dependency.
-No new DOI or publication status is asserted here.
+availability is separate from membership. Native instruments do not import
+siblings. Main deliberately imports published namespace bindings only; Witness
+receives report envelopes by value. The shared report-envelope schema is aligned
+by convention, not a shared runtime dependency.
 Violet, Copper, and Iron sources are access-controlled. Copper records dimensioned
 resource use, outstanding commitments, and attributed burdens, not White
 completeness or fair allocation. Missing recovery evidence can be White absence;
@@ -90,12 +87,12 @@ Iron's recorded scenario-target comparisons do not promise future recovery.
 | `line_set` | the reader that declares the set and checks vocabulary separation | <https://github.com/docxology/line_set> | `https://doi.org/10.5281/zenodo.21754244` |
 | `witness_register` | companion beside the set — co-registration without aggregation | <https://github.com/docxology/witness_register> | `https://doi.org/10.5281/zenodo.21754246` |
 
-## Repository publication checklist (applied before this repository went public)
+## Before each release
 
 - [ ] Every gate in `AGENTS.md` green on a clean checkout.
 - [ ] `LICENSE` present and accurate.
 - [ ] No absolute local paths, secrets, or private-project names in any tracked
       file (`tests/test_publication_metadata.py` checks the first of these).
-- [ ] Git history contains nothing that should not be public — the published
-      history is a fresh initial-release commit, not a monorepo extract.
+- [ ] Review newly published Git history for disclosure. The fresh initial-release
+      history was a first-publication decision, not an instruction to reset it.
 - [ ] The rendered PDF regenerated at the release tree.
