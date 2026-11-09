@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.1 — 2026-11-08
+
+- Documentation-only patch: use the current Line Set declaration, distinguish
+  Copper's resource accounting from completeness and Iron's recorded recovery
+  comparisons from missing-evidence records, and state access-controlled sources.
+- Delete incidental signature, source-field, alphabet/prose, structural-count,
+  and test-name wiring assertions without repinning them. Preserve native date
+  branches, reason coverage, projection/factorization calculations, metadata
+  validity, and historical byte custody; label the selected test table honestly.
+- Keep renderer-reference integrity checks executable by deriving their declared
+  label set from the parsed formalism blocks.
+- Synchronize current descriptive version metadata. Native evaluator semantics,
+  ledger identity, schemas, historical captures, and DOI identities are unchanged.
+  No generated artifacts, deposit, or new release verification is asserted here.
+
 ## 0.9.0 — 2026-11-06
 
 - Use native numbered section citations without duplicated prefixes or nested

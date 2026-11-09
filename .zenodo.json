@@ -12,7 +12,7 @@
   ],
   "license": "cc-by-4.0",
   "access_right": "open",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "keywords": [
     "absence",
     "epistemic gaps",
@@ -80,5 +80,5 @@
       "scheme": "doi"
     }
   ],
-  "notes": "White Line is one of eight peer color instruments; the original four were Red, Black, Golden, and White. The colorless line_set wrapper and Witness Register are not colors. The five existing sibling DOI relationships are a retained citation cohort, not an exhaustive current membership or publication inventory. This work's own DOI is recorded in CITATION.cff identifiers and the record link. Membership does not establish installation or access to optional or access-controlled sources."
+  "notes": "White Line is a peer instrument whose current membership belongs to https://github.com/docxology/line_set; the original four were Red, Black, Golden, and White. The colorless reader and Witness Register are not colors. Copper resource accounting does not quantify White gaps or prove fair allocation; missing recovery evidence can be White absence, while Iron recorded recovery target comparisons do not promise future recovery. Violet, Copper, and Iron sources are access-controlled. Five existing sibling DOI relationships and this work's recorded DOI are retained historical identities, not an exhaustive inventory or a new DOI for 0.9.1. Membership is not source access. No deposit is asserted."
 }

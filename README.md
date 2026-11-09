@@ -1,6 +1,6 @@
 # White Line
 
-White Line is the absence ledger among the eight peer instruments of the Line Set. It records
+White Line is the absence ledger in the [Line Set](https://github.com/docxology/line_set). It records
 epistemic gaps, ethical restraint, and contemplative negative space without
 collapsing them into one claim or asserting a literal invisible causal force.
 
@@ -61,10 +61,12 @@ colors were [Red](https://github.com/docxology/red_line) (refusal and personal
 security boundaries), [Black](https://github.com/docxology/black_line)
 (disciplined work), [Golden](https://github.com/docxology/golden_line)
 (aspiration and direction), and White (absence, withholding, and epistemic
-restraint). The current eight also include Silver (memory, custody, succession,
-and deliberate lapse/release), Violet (affected-party consent, never inferred
-from silence), Blue (ongoing stewardship), and Green (capacity under
-cultivation, not competence certification).
+restraint). Current membership belongs to the Line Set declaration, including
+Silver (memory, custody, succession, and deliberate lapse/release), Violet
+(affected-party consent, never inferred from silence), Blue (ongoing stewardship),
+Green (capacity under cultivation), Copper (dimensioned finite resource use,
+outstanding commitments, and attributed burdens), and Iron (recorded recovery
+exercises compared with scenario-specific targets).
 
 The colorless [line_set](https://github.com/docxology/line_set) wrapper declares
 membership and shared framing; [Witness Register](https://github.com/docxology/witness_register)
@@ -73,6 +75,10 @@ Membership does not guarantee source installation or access: optional or
 access-controlled sources may be unavailable to a particular reader. White Line
 copies no sibling prose, registries, or implementation modules and imports none
 of them. These references are orientation, not dependencies.
+Copper does not turn White's gaps into quantities or prove fair allocation.
+Missing recovery evidence can be a White absence; only Iron makes its native
+target comparisons, without promising future recovery. Violet, Copper, and Iron
+sources are access-controlled; a membership link does not expose them.
 
 ```mermaid
 flowchart LR

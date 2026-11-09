@@ -54,10 +54,11 @@ project.
   `[@def:name]`. Never write a formalism number into the source: the renderer's
   `formalism.lua` filter numbers blocks per kind in document order and resolves
   each reference from its label. Every block needs a label with its kind's
-  prefix (`def:`, `prop:`), a row in the claim-to-test table keyed on that
-  label, and a named test that fails if the code diverges.
-  `tests/test_formalism.py` enforces all of it and `white_line.formalism`
-  supplies the reading the audit and the tests share.
+  prefix (`def:`, `prop:`). Keep the selected claim-to-test table accurate
+  without treating copied prose, signatures, field lists, or test-name wiring
+  as independent behavioral validation. `tests/test_formalism.py` preserves
+  renderer structure and native calculations; `white_line.formalism` parses
+  the manuscript for the audit.
 - Use `uv`; no mocks in tests; keep the package pure standard library.
 - Do not copy prose, registries, or implementation code from Red, Black, or
   Golden Line, and do not import them; the set is linked by naming each work

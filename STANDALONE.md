@@ -2,14 +2,14 @@
 
 This repository is the whole of White Line. It carries its own Python package,
 tests, documentation, manuscript, references, figure builder, and release audit.
-It is one of eight peer color instruments in the Line Set, and this repository
-is the only instrument source you need in order to run everything below.
+It is a peer instrument in the [Line Set](https://github.com/docxology/line_set),
+and this repository is the only instrument source needed to run everything below.
 
 ## What a separated copy is
 
-The original four color works were Red, Black, Golden, and White. The current
-eight also include Silver, Violet, Blue, and Green; `line_set` is their colorless
-wrapper, and Witness Register is a separate co-registration companion.
+The original four color works were Red, Black, Golden, and White. Current
+membership belongs to the [Line Set declaration](https://github.com/docxology/line_set);
+its colorless reader and Witness Register are separate companions.
 A separated copy is a clone of one repository, held on its own, with no sibling
 checkout beside it and no monorepo around it. This document states what that copy can do and what it cannot, so a
 reader who has only this repository is never left guessing which documented step
@@ -83,12 +83,17 @@ a relative path and never by an import:
 | Violet Line | <https://github.com/docxology/line_set> (membership reference) | affected-party consent; missing consent is never inferred |
 | Blue Line | <https://github.com/docxology/line_set> (membership reference) | ongoing stewardship |
 | Green Line | <https://github.com/docxology/line_set> (membership reference) | capacity under cultivation, not competence certification |
+| Copper Line | <https://github.com/docxology/line_set> (membership reference; access-controlled source) | dimensioned finite resource use, outstanding commitments, and attributed burdens |
+| Iron Line | <https://github.com/docxology/line_set> (membership reference; access-controlled source) | recorded recovery exercises compared with scenario-specific targets |
 | `line_set` | <https://github.com/docxology/line_set> | the thin reader that declares the set and carries its shared framing |
 | Witness Register | <https://github.com/docxology/witness_register> | co-registration of reports and relations, without aggregation; not a color |
 
 Membership is declared independently of local installation and source access.
 Optional or access-controlled instrument sources may not be available to every
 reader; the wrapper reference is not a claim of public source availability.
+Violet, Copper, and Iron sources are access-controlled. Copper does not quantify
+White's gaps or prove fair allocation. Missing recovery evidence can be a White
+absence; Iron's target comparisons do not promise future recovery.
 
 White Line copies none of their prose, registries, or implementation modules,
 and defers to none of them. Their absence changes nothing about what this
