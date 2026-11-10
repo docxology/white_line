@@ -440,7 +440,7 @@ def intake_reachability() -> str:
     # Rows are sized individually: a uniform height set by the longest note
     # would pad every other row and push the plate past a printable height.
     row_heights = [
-        84 + (len(note) + len(shown)) * 30
+        80 + (len(note) + len(shown)) * 30
         for note, shown in zip(wrapped, wrapped_inputs, strict=True)
     ]
     row_tops: list[int] = []
