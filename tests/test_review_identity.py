@@ -74,16 +74,24 @@ def test_envelope_factory_and_validator_refuse_surrogate_provenance(field, unsup
         wl.validate_envelope_contract(replace(envelope, **{field: value}))
 
 
-@pytest.mark.parametrize("subject", ["", "café e\u0301 \U0001f680", "\u0000\ud7ff\ue000\U0010ffff"])
+@pytest.mark.parametrize(
+    "subject", ["", "café e\u0301 \U0001f680", "\u0000\ud7ff\ue000\U0010ffff"]
+)
 def test_scalar_envelope_provenance_round_trips_without_normalization(subject):
     refs = ["snapshot:é", "snapshot:e\u0301", "snapshot:\U0001f680"]
-    envelope = wl.report_envelope(report(), subject_id=subject, source_snapshot_refs=refs)
+    envelope = wl.report_envelope(
+        report(), subject_id=subject, source_snapshot_refs=refs
+    )
     refs.reverse()
     refs.append("later")
     encoded = wl.canonical_envelope(envelope).encode("utf-8")
     payload = json.loads(encoded)
     assert payload["subject_id"] == subject
-    assert payload["source_snapshot_refs"] == ["snapshot:é", "snapshot:e\u0301", "snapshot:\U0001f680"]
+    assert payload["source_snapshot_refs"] == [
+        "snapshot:é",
+        "snapshot:e\u0301",
+        "snapshot:\U0001f680",
+    ]
     assert envelope.source_snapshot_refs == tuple(payload["source_snapshot_refs"])
     assert wl.envelope_digest(envelope) == hashlib.sha256(encoded).hexdigest()
     wl.validate_envelope_contract(envelope)

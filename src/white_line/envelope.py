@@ -153,9 +153,12 @@ def validate_envelope_contract(envelope: ReportEnvelope) -> None:
                 or state not in {item.value for item in AbsenceState}):
             raise ValueError("invalid or duplicate native status")
         seen.add(record_id)
-    if (not isinstance(envelope.source_snapshot_refs, tuple)
-            or not all(_scalar_text(ref) and ref.strip() for ref in envelope.source_snapshot_refs)):
-        raise ValueError("source_snapshot_refs must be a tuple of nonblank Unicode scalar strings")
+    if not isinstance(envelope.source_snapshot_refs, tuple) or not all(
+        _scalar_text(ref) and ref.strip() for ref in envelope.source_snapshot_refs
+    ):
+        raise ValueError(
+            "source_snapshot_refs must be a tuple of nonblank Unicode scalar strings"
+        )
     if (not isinstance(envelope.scope_and_nonclaims, tuple)
             or not all(isinstance(item, str) and item.strip() for item in envelope.scope_and_nonclaims)
             or not set(SCOPE_AND_NONCLAIMS).issubset(envelope.scope_and_nonclaims)):

@@ -313,16 +313,19 @@ def test_stripping_code_preserves_line_offsets() -> None:
     assert "before" in stripped and "after" in stripped
 
 
-@pytest.mark.parametrize("literal", [
-    "```markdown\n{sample}```\n",
-    "~~~~markdown\n{sample}~~~~\n",
-    "````markdown\n```\n{sample}```\n`````\n",
-    "~~~markdown\n```\n{sample}~~\n~~~\n",
-    "   ```markdown\n{sample}   ```\n",
-    "    ::: {{.definition #def:quoted}}\n    Definition 4 [@Quoted]\n    :::\n",
-    "\t::: {{.definition #def:quoted}}\n\tDefinition 4 [@Quoted]\n\t:::\n",
-    "`` {sample} ` still literal ``\n",
-])
+@pytest.mark.parametrize(
+    "literal",
+    [
+        "```markdown\n{sample}```\n",
+        "~~~~markdown\n{sample}~~~~\n",
+        "````markdown\n```\n{sample}```\n`````\n",
+        "~~~markdown\n```\n{sample}~~\n~~~\n",
+        "   ```markdown\n{sample}   ```\n",
+        "    ::: {{.definition #def:quoted}}\n    Definition 4 [@Quoted]\n    :::\n",
+        "\t::: {{.definition #def:quoted}}\n\tDefinition 4 [@Quoted]\n\t:::\n",
+        "`` {sample} ` still literal ``\n",
+    ],
+)
 def test_literal_samples_do_not_declare_cite_or_number_formalism(literal):
     sample = "::: {.definition #def:quoted}\nDefinition 4 [@Quoted]\n:::\n"
     quoted = literal.format(sample=sample)
@@ -331,7 +334,8 @@ def test_literal_samples_do_not_declare_cite_or_number_formalism(literal):
     blocks = parse_blocks({"sample.md": text})
     assert [(block.label, block.number) for block in blocks] == [("def:real", 1)]
     assert split_citations(text, declared_prefixes(blocks)) == (
-        frozenset({"def:real"}), frozenset({"RealBook", "OtherBook"})
+        frozenset({"def:real"}),
+        frozenset({"RealBook", "OtherBook"}),
     )
     assert hand_written_numbers(text) == ("Proposition B",)
 
@@ -346,29 +350,39 @@ def test_live_formalism_retains_original_code_body_and_ignores_literal_closers()
         "More live prose."
     )
     text = "::: {.definition #def:real}\n" + body + "\n:::\n"
-    block, = parse_blocks({"body.md": text})
+    (block,) = parse_blocks({"body.md": text})
     assert block.label == "def:real"
     assert block.number == 1
     assert block.body == body
     assert split_citations(block.body, declared_prefixes((block,))) == (
-        frozenset(), frozenset({"Book"})
+        frozenset(),
+        frozenset({"Book"}),
     )
     assert hand_written_numbers(block.body) == ()
 
 
-@pytest.mark.parametrize("literal_closer", [
-    "```\n:::\n```\n", "~~~\n:::\n~~~\n", "    :::\n", "`\n:::\n`\n",
-])
+@pytest.mark.parametrize(
+    "literal_closer",
+    [
+        "```\n:::\n```\n",
+        "~~~\n:::\n~~~\n",
+        "    :::\n",
+        "`\n:::\n`\n",
+    ],
+)
 def test_literal_closers_cannot_hide_an_unclosed_live_div(literal_closer):
     with pytest.raises(ValueError):
         parse_blocks({"unclosed.md": "::: {.definition #def:real}\n" + literal_closer})
 
 
-@pytest.mark.parametrize("text", [
-    "before\r\n````\r\n```\r\nDefinition 4\r\n````\r\nafter `inline` end\r\n",
-    "before\n~~~\n[@Quoted]\n~~~\nafter `` x ` y `` end\n",
-    "before\n\n    Definition 4\n\t[@Quoted]\n\nafter\n",
-])
+@pytest.mark.parametrize(
+    "text",
+    [
+        "before\r\n````\r\n```\r\nDefinition 4\r\n````\r\nafter `inline` end\r\n",
+        "before\n~~~\n[@Quoted]\n~~~\nafter `` x ` y `` end\n",
+        "before\n\n    Definition 4\n\t[@Quoted]\n\nafter\n",
+    ],
+)
 def test_literal_mask_preserves_character_offsets_and_line_breaks(text):
     masked = strip_code(text)
     assert len(masked) == len(text)
@@ -383,10 +397,12 @@ def test_literal_mask_preserves_character_offsets_and_line_breaks(text):
 def test_equal_inline_runs_keep_real_citations_outside_literal_spans():
     text = "`` ` [@Quoted] `` and `[@Hidden]` but [@Live; @def:real]."
     assert split_citations(text, frozenset({"def"})) == (
-        frozenset({"def:real"}), frozenset({"Live"})
+        frozenset({"def:real"}),
+        frozenset({"Live"}),
     )
     assert split_citations("`unclosed [@Live]", frozenset()) == (
-        frozenset(), frozenset({"Live"})
+        frozenset(),
+        frozenset({"Live"}),
     )
 
 
@@ -397,10 +413,16 @@ def test_unmatched_inline_runs_do_not_cross_paragraph_or_block_boundaries(separa
     assert split_citations(text, frozenset()) == (frozenset(), frozenset({"Live"}))
 
 
-@pytest.mark.parametrize("opener,closer", [
-    ("````", "```"), ("~~~~", "~~~"), ("```", "~~~"), ("~~~", "```"),
-    ("```", "``` not a closer"),
-])
+@pytest.mark.parametrize(
+    "opener,closer",
+    [
+        ("````", "```"),
+        ("~~~~", "~~~"),
+        ("```", "~~~"),
+        ("~~~", "```"),
+        ("```", "``` not a closer"),
+    ],
+)
 def test_short_wrong_or_nonterminal_fences_leave_the_literal_open(opener, closer):
     text = opener + "\n" + closer + "\nDefinition 4 [@Quoted]\n"
     assert hand_written_numbers(text) == ()

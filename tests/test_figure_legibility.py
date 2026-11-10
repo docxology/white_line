@@ -431,11 +431,14 @@ def test_page_metrics_refuses_unequal_figure_height_fractions(tmp_path: Path) ->
     )
 
 
-@pytest.mark.parametrize("geometry_comment,height_comment", [
-    ("", " # quarter-page cap"),
-    (" # page margins", ""),
-    (" # page margins", " # quarter-page cap"),
-])
+@pytest.mark.parametrize(
+    "geometry_comment,height_comment",
+    [
+        ("", " # quarter-page cap"),
+        (" # page margins", ""),
+        (" # page margins", " # quarter-page cap"),
+    ],
+)
 def test_page_metrics_honors_trailing_comments_without_defaulting(
     tmp_path, geometry_comment, height_comment
 ):
@@ -445,7 +448,8 @@ def test_page_metrics_honors_trailing_comments_without_defaulting(
         "metadata:\n"
         '  # geometry: "left=3in,right=3in,top=3in,bottom=3in"\n'
         '  geometry: "left=0.5in,right=0.5in,top=1in,bottom=1in"'
-        + geometry_comment + "\n"
+        + geometry_comment
+        + "\n"
         "rendering:\n"
         "  # figure_height_fraction: 0.9\n"
         "  # front_matter_figure_height_fraction: 0.9\n"

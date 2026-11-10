@@ -149,8 +149,11 @@ def strip_code(text: str) -> str:
             literal = True
             if boundary:
                 run, tail = boundary.groups()
-                if (run[0] == fence_character and len(run) >= fence_length
-                        and not tail.strip(" \t")):
+                if (
+                    run[0] == fence_character
+                    and len(run) >= fence_length
+                    and not tail.strip(" \t")
+                ):
                     fence_character = ""
         elif _INDENTED_CODE_RE.match(line):
             blank(offset, offset + len(line))
