@@ -2,6 +2,8 @@
 
 ## 0.9.2 — 2026-11-09
 
+- Size intake cards from their actual text baselines and mask horizon-label
+  backgrounds so panel borders and median strokes do not cross annotations.
 - Refuse unsupported surrogate-bearing observation text before returning a
   report, and reject non-scalar subject and snapshot provenance in envelope
   construction and validation. Preserve supported Unicode, canonical bytes,
