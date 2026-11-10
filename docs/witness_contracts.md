@@ -59,10 +59,14 @@ other digest receives `custom/unknown`; caller-provided version labels are
 not vouched for. The contract validator checks shape, not completeness of a
 custom registry; matching and registry binding provide the other checks.
 Subject and snapshot references are stored as unverified caller provenance.
-A snapshot collection must be an iterable of nonblank strings, never a scalar
-string or bytes. Keep the envelope digest in a separately trusted archival
-manifest (or sign that manifest); storing a newly computed digest beside an
-editable envelope does not authenticate it.
+The subject may be empty; every subject and reference must be a Unicode scalar
+string, without surrogate code points. A snapshot collection must be an
+iterable of nonblank strings, never a scalar string or bytes. The factory
+detaches it to an ordered tuple, and the validator enforces the same scalar
+boundary. Supported Unicode is neither normalized nor replaced.
+Keep the envelope digest in a separately trusted archival manifest (or sign
+that manifest); storing a newly computed digest beside an editable envelope
+does not authenticate it.
 
 ## Retention and producer boundary
 
@@ -84,3 +88,12 @@ Intake rejection, reconciliation replacement, and accepted undated input are
 separate dispositions. Unsupported date objects are accepted undated without
 coercion or equality calls and cannot age. This boundary does not sandbox
 arbitrary Python producers or methods on subclasses.
+
+Assessment explicitly refuses surrogate-bearing observation identifiers, notes,
+and date strings before returning a report. These unsupported strings cannot
+be preserved as scalar UTF-8 in the canonical archive or its digest. Ordinary
+malformed inputs retain their existing policies: non-string notes are empty,
+non-string dates are accepted undated, and unreadable scalar date strings
+remain in the retained finding without participating in staleness accounting.
+The canonical encoding, supported scalar text, and historical report bytes do
+not change.
