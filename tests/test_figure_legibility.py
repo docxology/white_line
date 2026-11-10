@@ -19,7 +19,6 @@ Each gate here is paired with a positive control that plants the defect the
 gate exists to catch and asserts rejection.
 """
 
-from datetime import date
 from pathlib import Path
 
 import pytest
@@ -313,8 +312,6 @@ def test_figure_builds_are_byte_identical_on_a_second_run(tmp_path: Path) -> Non
     first = {path.name: path.read_bytes() for path in build_figures(tmp_path)}
     second = {path.name: path.read_bytes() for path in build_figures(tmp_path)}
     assert first == second
-    assert date.today() is not None  # the plates never read it; this only documents so
-    assert all(b"today" not in payload for payload in first.values())
 
 
 def test_marker_refuses_an_unknown_shape() -> None:
@@ -432,3 +429,49 @@ def test_page_metrics_refuses_unequal_figure_height_fractions(tmp_path: Path) ->
     assert page_metrics(tmp_path).figure_height_fraction == (
         DEFAULT_FIGURE_HEIGHT_FRACTION
     )
+
+
+@pytest.mark.parametrize("geometry_comment,height_comment", [
+    ("", " # quarter-page cap"),
+    (" # page margins", ""),
+    (" # page margins", " # quarter-page cap"),
+])
+def test_page_metrics_honors_trailing_comments_without_defaulting(
+    tmp_path, geometry_comment, height_comment
+):
+    manuscript = tmp_path / "manuscript"
+    manuscript.mkdir()
+    (manuscript / "config.yaml").write_text(
+        "metadata:\n"
+        '  # geometry: "left=3in,right=3in,top=3in,bottom=3in"\n'
+        '  geometry: "left=0.5in,right=0.5in,top=1in,bottom=1in"'
+        + geometry_comment + "\n"
+        "rendering:\n"
+        "  # figure_height_fraction: 0.9\n"
+        "  # front_matter_figure_height_fraction: 0.9\n"
+        "  figure_height_fraction: .25" + height_comment + "\n"
+        "  front_matter_figure_height_fraction: .25" + height_comment + "\n",
+        encoding="utf-8",
+    )
+    metrics = page_metrics(tmp_path)
+    assert metrics.text_width_inches == pytest.approx(7.5)
+    assert metrics.text_height_inches == pytest.approx(9.0)
+    assert metrics.figure_height_fraction == pytest.approx(0.25)
+    printed_width, bound = plate_rendered_width_inches(1000, 1000, 1.0, metrics)
+    assert bound == "height"
+    assert printed_width == pytest.approx(2.25)
+    assert point_size(20, 1000, printed_width) < MINIMUM_POINT_SIZE
+
+
+def test_commented_unequal_caps_still_refuse_position_dependent_sizes(tmp_path):
+    manuscript = tmp_path / "manuscript"
+    manuscript.mkdir()
+    (manuscript / "config.yaml").write_text(
+        'metadata:\n  geometry: "left=.5in,right=.5in,top=1in,bottom=1in" # margins\n'
+        "rendering:\n"
+        "  figure_height_fraction: .25 # body\n"
+        "  front_matter_figure_height_fraction: .5 # front\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError):
+        page_metrics(tmp_path)

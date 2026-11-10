@@ -43,12 +43,16 @@ DEFAULT_FIGURE_HEIGHT_FRACTION = 0.50
 
 POINTS_PER_INCH = 72.0
 
-_GEOMETRY_RE = re.compile(r'^\s*geometry:\s*"([^"]+)"\s*$', re.MULTILINE)
+_GEOMETRY_RE = re.compile(
+    r'^[ \t]*geometry:[ \t]*"([^"\r\n]+)"[ \t]*(?:#[^\r\n]*)?$', re.MULTILINE
+)
 _HEIGHT_FRACTION_RE = re.compile(
-    r"^\s*figure_height_fraction:\s*([0-9.]+)\s*$", re.MULTILINE
+    r"^[ \t]*figure_height_fraction:[ \t]*([0-9.]+)[ \t]*(?:[ \t]#[^\r\n]*)?$",
+    re.MULTILINE,
 )
 _FRONT_MATTER_FRACTION_RE = re.compile(
-    r"^\s*front_matter_figure_height_fraction:\s*([0-9.]+)\s*$", re.MULTILINE
+    r"^[ \t]*front_matter_figure_height_fraction:[ \t]*([0-9.]+)[ \t]*(?:[ \t]#[^\r\n]*)?$",
+    re.MULTILINE,
 )
 _EMBED_RE = re.compile(
     r"\]\((?:\./|\.\./)*output/figures/([^)]+\.png)\)\{([^}]*)\}",

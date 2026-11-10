@@ -1,3 +1,5 @@
+import hashlib
+import json
 from dataclasses import replace
 
 import pytest
@@ -60,6 +62,33 @@ def test_snapshot_collection_is_not_a_scalar(outer):
         wl.report_envelope(report(), source_snapshot_refs=outer)
 
 
+@pytest.mark.parametrize("unsupported", ["\ud800", "\udfff", "\ud83d\ude80"])
+@pytest.mark.parametrize("field", ["subject_id", "source_snapshot_refs"])
+def test_envelope_factory_and_validator_refuse_surrogate_provenance(field, unsupported):
+    value = unsupported if field == "subject_id" else (unsupported,)
+    native = report()
+    with pytest.raises(ValueError):
+        wl.report_envelope(native, **{field: value})
+    envelope = wl.report_envelope(native)
+    with pytest.raises(ValueError):
+        wl.validate_envelope_contract(replace(envelope, **{field: value}))
+
+
+@pytest.mark.parametrize("subject", ["", "café e\u0301 \U0001f680", "\u0000\ud7ff\ue000\U0010ffff"])
+def test_scalar_envelope_provenance_round_trips_without_normalization(subject):
+    refs = ["snapshot:é", "snapshot:e\u0301", "snapshot:\U0001f680"]
+    envelope = wl.report_envelope(report(), subject_id=subject, source_snapshot_refs=refs)
+    refs.reverse()
+    refs.append("later")
+    encoded = wl.canonical_envelope(envelope).encode("utf-8")
+    payload = json.loads(encoded)
+    assert payload["subject_id"] == subject
+    assert payload["source_snapshot_refs"] == ["snapshot:é", "snapshot:e\u0301", "snapshot:\U0001f680"]
+    assert envelope.source_snapshot_refs == tuple(payload["source_snapshot_refs"])
+    assert wl.envelope_digest(envelope) == hashlib.sha256(encoded).hexdigest()
+    wl.validate_envelope_contract(envelope)
+
+
 def test_custom_registry_is_not_labeled_as_shipped():
     records = (
         replace(wl.WHITE_RECORDS[0], prompt="custom prompt"),
@@ -98,12 +127,6 @@ def test_envelope_fields_have_separate_validation_boundaries(
         with pytest.raises(ValueError):
             wl.validate_envelope_contract(changed)
     assert wl.envelope_digest(changed) != wl.envelope_digest(envelope)
-
-
-def test_valid_envelope_and_digest_repeat():
-    envelope = wl.report_envelope(report(), source_snapshot_refs=("snapshot-1",))
-    wl.validate_envelope_contract(envelope)
-    assert wl.envelope_digest(envelope) == wl.envelope_digest(envelope)
 
 
 def test_partial_fresh_assessment_does_not_inherit_or_replace_prior_findings():
