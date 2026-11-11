@@ -317,3 +317,7 @@ verbatim below; current prose uses American English (for example, “labeled”)
   `tests/test_audit.py`) and the stale-manifest rewrite deadlock fix;
   `.agents/skills/white-line/SKILL.md` and `AGENTS.md` created. Suite
   50 → 75 passing; audit `passed: true` with zero errors.
+
+## Workflowz review — 2026-11-10
+
+Coverage note: this read-only pass inspected the project guidance, README, existing TODO, runtime/development configuration, and all supplied source excerpts, including the visible intake, audit, figure-rendering, compatibility-alias, and facet fail-closed paths. No concrete correctness, maintainability, documentation, validation, or dead-code improvement survived with exact packet evidence and a behavioral acceptance probe. Coverage is bounded by the packet: 5 project files and excerpts from 19 of 63 source candidates were visible, not the complete repository or every line; no test, build, render, or audit command was executed. Re-review on a concrete failure or source change.
