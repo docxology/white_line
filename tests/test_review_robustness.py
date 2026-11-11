@@ -1,3 +1,5 @@
+import hashlib
+import json
 from dataclasses import replace
 from datetime import date, datetime
 
@@ -100,3 +102,61 @@ def test_archive_intentionally_loses_displaced_notes_but_refs_can_distinguish():
     assert wl.canonical_envelope(wl.report_envelope(first)) == wl.canonical_envelope(wl.report_envelope(second))
     assert wl.envelope_digest(wl.report_envelope(first, source_snapshot_refs=("authorized-a",))) != wl.envelope_digest(
         wl.report_envelope(second, source_snapshot_refs=("authorized-b",)))
+
+
+@pytest.mark.parametrize("field", ["record_id", "note", "observed_on"])
+@pytest.mark.parametrize("unsupported", ["\ud800", "\udfff", "\ud83d\ude80"])
+def test_observation_surrogates_are_refused_before_report_custody(field, unsupported):
+    observation = wl.AbsenceObservation(
+        "unasked-question", wl.AbsenceState.NAMED, "scope", "2026-07-01"
+    )
+    with pytest.raises(ValueError):
+        wl.assess_absence(
+            (replace(observation, **{field: unsupported}),), as_of="2026-07-18"
+        )
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "ASCII",
+        "café",
+        "e\u0301",
+        "\u0000",
+        "\ud7ff",
+        "\ue000",
+        "\uffff",
+        "\U0001f680",
+        "\U0010ffff",
+    ],
+)
+def test_scalar_notes_and_unreadable_dates_keep_archivable_identity(text):
+    native = wl.assess_absence(
+        (wl.AbsenceObservation("unasked-question", wl.AbsenceState.NAMED, text, text),),
+        as_of="2026-07-18",
+    )
+    encoded = wl.canonical_report(native).encode("utf-8")
+    payload = json.loads(encoded)
+    finding = next(
+        item for item in payload["findings"] if item["record_id"] == "unasked-question"
+    )
+    assert finding["state"] == "NAMED"
+    assert finding["observed_on"] == text
+    assert any(text in reason for reason in finding["reasons"])
+    assert wl.report_digest(native) == hashlib.sha256(encoded).hexdigest()
+    assert wl.envelope_matches_report(wl.report_envelope(native), native)
+
+
+def test_ordinary_malformed_note_and_date_policies_remain_undated():
+    native = wl.assess_absence(
+        (wl.AbsenceObservation("unasked-question", wl.AbsenceState.WITHHELD, 42, 42),),
+        as_of="2026-07-18",
+    )
+    finding = next(
+        item for item in native.findings if item.record_id == "unasked-question"
+    )
+    assert finding.state is wl.AbsenceState.WITHHELD
+    assert finding.observed_on == ""
+    assert native.set_aside_count == 0
+    assert native.intake_events[0].code is wl.IntakeCode.UNDATED_OBJECT
+    assert json.loads(wl.canonical_report(native))["review_date"] == "2026-07-18"

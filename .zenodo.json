@@ -12,7 +12,7 @@
   ],
   "license": "cc-by-4.0",
   "access_right": "open",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "keywords": [
     "absence",
     "epistemic gaps",
@@ -24,6 +24,8 @@
     "open science"
   ],
   "related_identifiers": [
+    {"identifier": "10.5281/zenodo.24069434", "relation": "references", "scheme": "doi"},
+    {"identifier": "10.5281/zenodo.21754242", "relation": "references", "scheme": "doi"},
     {
       "identifier": "https://github.com/docxology/white_line",
       "relation": "isSupplementTo",
@@ -80,5 +82,5 @@
       "scheme": "doi"
     }
   ],
-  "notes": "White Line is a peer instrument whose current membership belongs to https://github.com/docxology/line_set; the original four were Red, Black, Golden, and White. The colorless reader and Witness Register are not colors. Copper resource accounting does not quantify White gaps or prove fair allocation; missing recovery evidence can be White absence, while Iron recorded recovery target comparisons do not promise future recovery. Violet, Copper, and Iron sources are access-controlled. Five existing sibling DOI relationships and this work's recorded DOI are retained historical identities, not an exhaustive inventory or a new DOI for 0.9.1. Membership is not source access. No deposit is asserted."
+  "notes": "White Line is a peer instrument whose current membership belongs to https://github.com/docxology/line_set; the original four were Red, Black, Golden, and White. The colorless reader and Witness Register are not colors. Copper resource accounting does not quantify White gaps or prove fair allocation; missing recovery evidence can be White absence, while Iron recorded recovery target comparisons do not promise future recovery. Violet, Copper, and Iron sources are access-controlled. Five existing sibling DOI relationships are retained historical identities, not an exhaustive inventory. Membership is not source access. Previously verified source archive: 0.9.1, DOI 10.5281/zenodo.24069434; identifies that source ZIP only, not a standalone manuscript. DOI 10.5281/zenodo.21754242 remains an earlier historical archive reference. This metadata cites later source through its repository until that exact edition/object is independently verified."
 }

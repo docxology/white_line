@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.9.2 — 2026-11-09
+
+- Size intake cards from their actual text baselines and mask horizon-label
+  backgrounds so panel borders and median strokes do not cross annotations.
+- Reserve data-derived right-side badge space on the shared horizon axis so
+  the annual labels and their backgrounds remain inside their kind panels.
+- Refuse unsupported surrogate-bearing observation text before returning a
+  report, and reject non-scalar subject and snapshot provenance in envelope
+  construction and validation. Preserve supported Unicode, canonical bytes,
+  ordinary malformed-input policies, and the existing state semantics.
+- Share a length- and newline-preserving literal mask across formalism,
+  citation, and hand-written-number scans. Respect fence and inline run
+  boundaries and indentation while retaining original live block bodies.
+- Honor trailing geometry and height-cap comments in the figure config reader
+  without changing front-matter equality, the page model, or the six-point floor.
+- Add consumer regressions for scalar admission and literal-code boundaries;
+  remove incidental archive-string and self-comparison assertions. Historical
+  artifacts and manuscript prose remain unchanged.
+- Separate current software citation from older edition identifiers, including the verified 0.9.1 source archive; do not identify a new source version or rendered manuscript with an older DOI.
+- Clarify public source release versus separately authorized artifact deposit and distinguish first-publication history from recurring release review.
+- Remove incidental DOI allowlist assertions while preserving metadata/schema/disclosure checks. Absence assessment, typed reconciliation, return semantics, ledger content, and historical bytes are unchanged.
+
 ## 0.9.1 — 2026-11-08
 
 - Documentation-only patch: use the current Line Set declaration, distinguish

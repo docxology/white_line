@@ -88,10 +88,10 @@ _HAND_NUMBER_RE = re.compile(
     r"\b(" + "|".join(sorted(FORMALISM_TITLES.values())) + r")\s+([0-9]+|[A-Z])\b"
 )
 
-#: Fenced code blocks, which are quoted material rather than prose. A code
-#: sample may legitimately contain any of the shapes above.
-_CODE_FENCE_RE = re.compile(r"^```.*?^```", re.MULTILINE | re.DOTALL)
-_INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
+#: Literal block boundaries: up to three spaces may precede a code fence.
+_CODE_FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})([^\r\n]*)")
+_BACKTICK_RUN_RE = re.compile(r"`+")
+_INDENTED_CODE_RE = re.compile(r"^(?: {4}| {0,3}\t)")
 
 
 @dataclass(frozen=True)
@@ -122,17 +122,77 @@ class FormalismBlock:
 
 
 def strip_code(text: str) -> str:
-    """Return ``text`` with fenced and inline code replaced by blanks.
+    """Mask literal code with spaces, preserving every offset and newline.
 
-    Blanks rather than deletions: the replacement keeps the surrounding prose
-    at the same offsets, so a match reported against the stripped text still
-    points at the right place in the original.
+    Backtick and tilde fences close only with the same character and at least
+    the opening run length. Inline code closes with an equal backtick run;
+    four-space or tab-indented code lines are literal too.
     """
 
-    without_fences = _CODE_FENCE_RE.sub(
-        lambda match: "\n" * match.group(0).count("\n"), text
-    )
-    return _INLINE_CODE_RE.sub(lambda match: " " * len(match.group(0)), without_fences)
+    masked = list(text)
+
+    def blank(start: int, end: int) -> None:
+        for position in range(start, end):
+            if text[position] not in "\r\n":
+                masked[position] = " "
+
+    fence_character = ""
+    fence_length = 0
+    prose_start = 0
+    prose_spans: list[tuple[int, int]] = []
+    offset = 0
+    for line in text.splitlines(keepends=True):
+        boundary = _CODE_FENCE_RE.match(line)
+        literal = False
+        if fence_character:
+            blank(offset, offset + len(line))
+            literal = True
+            if boundary:
+                run, tail = boundary.groups()
+                if (
+                    run[0] == fence_character
+                    and len(run) >= fence_length
+                    and not tail.strip(" \t")
+                ):
+                    fence_character = ""
+        elif _INDENTED_CODE_RE.match(line):
+            blank(offset, offset + len(line))
+            literal = True
+        elif boundary:
+            run, tail = boundary.groups()
+            if run[0] == "~" or "`" not in tail:
+                fence_character, fence_length = run[0], len(run)
+                blank(offset, offset + len(line))
+                literal = True
+        if literal or not line.strip():
+            if prose_start < offset:
+                prose_spans.append((prose_start, offset))
+            prose_start = offset + len(line)
+        offset += len(line)
+    if prose_start < len(text):
+        prose_spans.append((prose_start, len(text)))
+
+    # Pair only equal runs within prose, never across a literal block or a
+    # paragraph break. A shorter run inside a span is literal content.
+    active = "".join(masked)
+    for start, end in prose_spans:
+        runs = list(_BACKTICK_RUN_RE.finditer(active, start, end))
+        following: dict[int, int] = {}
+        closers: dict[int, int] = {}
+        for index in range(len(runs) - 1, -1, -1):
+            length = len(runs[index].group())
+            if length in following:
+                closers[index] = following[length]
+            following[length] = index
+        index = 0
+        while index < len(runs):
+            closing = closers.get(index)
+            if closing is None:
+                index += 1
+            else:
+                blank(runs[index].start(), runs[closing].end())
+                index = closing + 1
+    return "".join(masked)
 
 
 def parse_blocks(sources: dict[str, str]) -> tuple[FormalismBlock, ...]:
@@ -157,11 +217,12 @@ def parse_blocks(sources: dict[str, str]) -> tuple[FormalismBlock, ...]:
     counters: dict[str, int] = {}
     for name in sorted(sources):
         text = sources[name]
-        for opening in _OPEN_RE.finditer(text):
-            closing = _CLOSE_RE.search(text, opening.end())
+        active = strip_code(text)
+        for opening in _OPEN_RE.finditer(active):
+            closing = _CLOSE_RE.search(active, opening.end())
             if closing is None:
                 raise ValueError(f"{name}: unclosed formalism fence at {opening.end()}")
-            attrs = opening.group("attrs")
+            attrs = text[opening.start("attrs") : opening.end("attrs")]
             kind = opening.group("kind")
             label_match = _LABEL_RE.search(attrs)
             title_match = _TITLE_RE.search(attrs)
@@ -217,7 +278,7 @@ def split_citations(
 
     references: set[str] = set()
     keys: set[str] = set()
-    for token in _CITATION_RE.findall(text):
+    for token in _CITATION_RE.findall(strip_code(text)):
         prefix, separator, _rest = token.partition(":")
         if separator and prefix in prefixes:
             references.add(token)

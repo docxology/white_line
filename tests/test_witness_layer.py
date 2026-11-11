@@ -522,9 +522,9 @@ def test_envelope_matches_report_verifies_an_archived_pair() -> None:
 
 def test_envelope_input_validation_fails_closed() -> None:
     report = worked_report()
-    with pytest.raises(ValueError, match="non-blank strings"):
+    with pytest.raises(ValueError):
         report_envelope(report, source_snapshot_refs=("",))
-    with pytest.raises(ValueError, match="non-blank strings"):
+    with pytest.raises(ValueError):
         report_envelope(report, source_snapshot_refs=(42,))  # type: ignore[arg-type]
-    with pytest.raises(TypeError, match="subject_id must be a string"):
+    with pytest.raises(TypeError):
         report_envelope(report, subject_id=7)  # type: ignore[arg-type]

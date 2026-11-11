@@ -55,6 +55,19 @@ template-side geometry change surfaces as a failure rather than as a quietly
 wrong number. Re-render before trusting a green legibility run after any
 `config.yaml` or embed-width edit.
 
+The targeted config reader ignores commented-out keys and accepts ordinary
+trailing comments on quoted geometry and numeric height caps without a YAML
+dependency. Front-matter and body height caps must still agree. The US Letter,
+inch-margin model and six-point floor are unchanged.
+
+Formalism declarations, citations, and hand-written-number checks share one
+offset- and newline-preserving literal-code mask. Backtick and tilde fences
+close only with the same character and a sufficient run length; inline code
+uses equal backtick runs, and four-space or tab-indented code is excluded.
+Literal examples cannot declare or close live Divs, consume their numbers, or
+add bibliography keys. Parsed live blocks retain their original source bodies,
+including code samples; live citations still determine bibliography membership.
+
 Numeric manuscript claims that are not already emitted by the package or its
 configuration are registered in `data/claim_ledger.json`. Each row names the
 claim and points to the manuscript source that explains it; the sibling

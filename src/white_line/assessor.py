@@ -132,6 +132,14 @@ def _intake(
                 )
             )
             continue
+        for field in ("record_id", "note", "observed_on"):
+            value = getattr(observation, field)
+            if isinstance(value, str) and any(
+                "\ud800" <= character <= "\udfff" for character in value
+            ):
+                raise ValueError(
+                    f"observation {field} must contain only Unicode scalars"
+                )
         if (
             not isinstance(observation.record_id, str)
             or observation.record_id not in known_ids

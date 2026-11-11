@@ -76,6 +76,12 @@ class ReportEnvelope:
     scope_and_nonclaims: tuple[str, ...]
 
 
+def _scalar_text(value: object) -> bool:
+    return isinstance(value, str) and not any(
+        "\ud800" <= character <= "\udfff" for character in value
+    )
+
+
 def report_envelope(
     report: WhiteReport,
     subject_id: str = "",
@@ -93,10 +99,12 @@ def report_envelope(
     if isinstance(source_snapshot_refs, (str, bytes)):
         raise TypeError("source_snapshot_refs must be a collection, not str or bytes")
     refs = tuple(source_snapshot_refs)
-    if not all(isinstance(ref, str) and ref.strip() for ref in refs):
-        raise ValueError("source_snapshot_refs must be non-blank strings")
+    if not all(_scalar_text(ref) and ref.strip() for ref in refs):
+        raise ValueError("source_snapshot_refs must be nonblank Unicode scalar strings")
     if not isinstance(subject_id, str):
         raise TypeError("subject_id must be a string")
+    if not _scalar_text(subject_id):
+        raise ValueError("subject_id must contain only Unicode scalars")
     envelope = ReportEnvelope(
         ENVELOPE_SCHEMA,
         WHITE_LINE_ID,
@@ -118,8 +126,8 @@ def validate_envelope_contract(envelope: ReportEnvelope) -> None:
         raise ValueError("expected a ReportEnvelope")
     if envelope.schema_version != ENVELOPE_SCHEMA or envelope.line_id != WHITE_LINE_ID:
         raise ValueError("unsupported envelope schema or line identity")
-    if not isinstance(envelope.subject_id, str):
-        raise ValueError("subject_id must be a string")
+    if not _scalar_text(envelope.subject_id):
+        raise ValueError("subject_id must be a Unicode scalar string")
     if not isinstance(envelope.review_date, str):
         raise ValueError("review_date must be an ISO string")
     coerce_date(envelope.review_date, "review_date")
@@ -145,9 +153,12 @@ def validate_envelope_contract(envelope: ReportEnvelope) -> None:
                 or state not in {item.value for item in AbsenceState}):
             raise ValueError("invalid or duplicate native status")
         seen.add(record_id)
-    if (not isinstance(envelope.source_snapshot_refs, tuple)
-            or not all(isinstance(ref, str) and ref.strip() for ref in envelope.source_snapshot_refs)):
-        raise ValueError("source_snapshot_refs must be a tuple of nonblank strings")
+    if not isinstance(envelope.source_snapshot_refs, tuple) or not all(
+        _scalar_text(ref) and ref.strip() for ref in envelope.source_snapshot_refs
+    ):
+        raise ValueError(
+            "source_snapshot_refs must be a tuple of nonblank Unicode scalar strings"
+        )
     if (not isinstance(envelope.scope_and_nonclaims, tuple)
             or not all(isinstance(item, str) and item.strip() for item in envelope.scope_and_nonclaims)
             or not set(SCOPE_AND_NONCLAIMS).issubset(envelope.scope_and_nonclaims)):

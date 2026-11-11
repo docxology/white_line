@@ -19,8 +19,9 @@ Each gate here is paired with a positive control that plants the defect the
 gate exists to catch and asserts rejection.
 """
 
-from datetime import date
+from collections import Counter
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import pytest
 from white_line.figures import FIGURE_PLATES, build_figures
@@ -49,6 +50,7 @@ from white_line.figures.metrics import (
     read_labels,
     svg_canvas_size,
 )
+from white_line.registry import WHITE_RECORDS
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -214,6 +216,33 @@ def test_the_overflow_check_rejects_a_label_placed_past_the_edge() -> None:
     assert beyond == ["runs off the right edge"]
 
 
+def test_horizon_day_badges_stay_inside_their_kind_panels() -> None:
+    plate = next(item for item in FIGURE_PLATES if item.name == "white_horizon_dispersion")
+    root = ET.fromstring(plate.render())
+    namespace = "{http://www.w3.org/2000/svg}"
+    expected = Counter(f"{record.review_horizon_days} days" for record in WHITE_RECORDS)
+    labels = [node for node in root.iter(namespace + "text") if node.text in expected]
+    assert Counter(node.text for node in labels) == expected
+    rectangles = [
+        tuple(float(node.attrib.get(key, 0)) for key in ("x", "y", "width", "height"))
+        for node in root.iter(namespace + "rect")
+    ]
+    for label in labels:
+        x, y = (float(label.attrib[key]) for key in ("x", "y"))
+        containing = sorted(
+            (
+                box
+                for box in rectangles
+                if box[0] <= x <= box[0] + box[2] and box[1] <= y <= box[1] + box[3]
+            ),
+            key=lambda box: box[2] * box[3],
+        )
+        assert len(containing) >= 2, label.text
+        badge, panel = containing[:2]
+        assert badge[0] >= panel[0], label.text
+        assert badge[0] + badge[2] <= panel[0] + panel[2], label.text
+
+
 def test_wrap_lines_keeps_every_line_inside_the_requested_width() -> None:
     """The wrapper and the overflow check share one width estimate."""
 
@@ -313,8 +342,6 @@ def test_figure_builds_are_byte_identical_on_a_second_run(tmp_path: Path) -> Non
     first = {path.name: path.read_bytes() for path in build_figures(tmp_path)}
     second = {path.name: path.read_bytes() for path in build_figures(tmp_path)}
     assert first == second
-    assert date.today() is not None  # the plates never read it; this only documents so
-    assert all(b"today" not in payload for payload in first.values())
 
 
 def test_marker_refuses_an_unknown_shape() -> None:
@@ -432,3 +459,53 @@ def test_page_metrics_refuses_unequal_figure_height_fractions(tmp_path: Path) ->
     assert page_metrics(tmp_path).figure_height_fraction == (
         DEFAULT_FIGURE_HEIGHT_FRACTION
     )
+
+
+@pytest.mark.parametrize(
+    "geometry_comment,height_comment",
+    [
+        ("", " # quarter-page cap"),
+        (" # page margins", ""),
+        (" # page margins", " # quarter-page cap"),
+    ],
+)
+def test_page_metrics_honors_trailing_comments_without_defaulting(
+    tmp_path, geometry_comment, height_comment
+):
+    manuscript = tmp_path / "manuscript"
+    manuscript.mkdir()
+    (manuscript / "config.yaml").write_text(
+        "metadata:\n"
+        '  # geometry: "left=3in,right=3in,top=3in,bottom=3in"\n'
+        '  geometry: "left=0.5in,right=0.5in,top=1in,bottom=1in"'
+        + geometry_comment
+        + "\n"
+        "rendering:\n"
+        "  # figure_height_fraction: 0.9\n"
+        "  # front_matter_figure_height_fraction: 0.9\n"
+        "  figure_height_fraction: .25" + height_comment + "\n"
+        "  front_matter_figure_height_fraction: .25" + height_comment + "\n",
+        encoding="utf-8",
+    )
+    metrics = page_metrics(tmp_path)
+    assert metrics.text_width_inches == pytest.approx(7.5)
+    assert metrics.text_height_inches == pytest.approx(9.0)
+    assert metrics.figure_height_fraction == pytest.approx(0.25)
+    printed_width, bound = plate_rendered_width_inches(1000, 1000, 1.0, metrics)
+    assert bound == "height"
+    assert printed_width == pytest.approx(2.25)
+    assert point_size(20, 1000, printed_width) < MINIMUM_POINT_SIZE
+
+
+def test_commented_unequal_caps_still_refuse_position_dependent_sizes(tmp_path):
+    manuscript = tmp_path / "manuscript"
+    manuscript.mkdir()
+    (manuscript / "config.yaml").write_text(
+        'metadata:\n  geometry: "left=.5in,right=.5in,top=1in,bottom=1in" # margins\n'
+        "rendering:\n"
+        "  figure_height_fraction: .25 # body\n"
+        "  front_matter_figure_height_fraction: .5 # front\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError):
+        page_metrics(tmp_path)
