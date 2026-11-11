@@ -19,7 +19,9 @@ Each gate here is paired with a positive control that plants the defect the
 gate exists to catch and asserts rejection.
 """
 
+from collections import Counter
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import pytest
 from white_line.figures import FIGURE_PLATES, build_figures
@@ -48,6 +50,7 @@ from white_line.figures.metrics import (
     read_labels,
     svg_canvas_size,
 )
+from white_line.registry import WHITE_RECORDS
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -211,6 +214,33 @@ def test_the_overflow_check_rejects_a_label_placed_past_the_edge() -> None:
         if label.right_edge > canvas_width - 8
     ]
     assert beyond == ["runs off the right edge"]
+
+
+def test_horizon_day_badges_stay_inside_their_kind_panels() -> None:
+    plate = next(item for item in FIGURE_PLATES if item.name == "white_horizon_dispersion")
+    root = ET.fromstring(plate.render())
+    namespace = "{http://www.w3.org/2000/svg}"
+    expected = Counter(f"{record.review_horizon_days} days" for record in WHITE_RECORDS)
+    labels = [node for node in root.iter(namespace + "text") if node.text in expected]
+    assert Counter(node.text for node in labels) == expected
+    rectangles = [
+        tuple(float(node.attrib.get(key, 0)) for key in ("x", "y", "width", "height"))
+        for node in root.iter(namespace + "rect")
+    ]
+    for label in labels:
+        x, y = (float(label.attrib[key]) for key in ("x", "y"))
+        containing = sorted(
+            (
+                box
+                for box in rectangles
+                if box[0] <= x <= box[0] + box[2] and box[1] <= y <= box[1] + box[3]
+            ),
+            key=lambda box: box[2] * box[3],
+        )
+        assert len(containing) >= 2, label.text
+        badge, panel = containing[:2]
+        assert badge[0] >= panel[0], label.text
+        assert badge[0] + badge[2] <= panel[0] + panel[2], label.text
 
 
 def test_wrap_lines_keeps_every_line_inside_the_requested_width() -> None:

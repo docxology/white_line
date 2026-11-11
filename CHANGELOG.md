@@ -4,6 +4,8 @@
 
 - Size intake cards from their actual text baselines and mask horizon-label
   backgrounds so panel borders and median strokes do not cross annotations.
+- Reserve data-derived right-side badge space on the shared horizon axis so
+  the annual labels and their backgrounds remain inside their kind panels.
 - Refuse unsupported surrogate-bearing observation text before returning a
   report, and reject non-scalar subject and snapshot provenance in envelope
   construction and validation. Preserve supported Unicode, canonical bytes,

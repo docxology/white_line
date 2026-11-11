@@ -260,7 +260,11 @@ def horizon_dispersion() -> str:
     }
     horizons = sorted({record.review_horizon_days for record in WHITE_RECORDS})
     axis_max = max(horizons)
-    label_right, x0, x1 = 660, 720, 1420
+    label_right, x0, panel_right = 660, 720, 1490
+    day_label_widths = {
+        days: int(_advance(f"{days} days", 18, True)) + 8 for days in horizons
+    }
+    x1 = panel_right - 18 - max(day_label_widths.values()) - 12
     row_stride = 42
     top = 350
 
@@ -360,7 +364,7 @@ def horizon_dispersion() -> str:
                 _rect(
                     cx + 18,
                     y - 15,
-                    int(_advance(label, 18, True)) + 8,
+                    day_label_widths[record.review_horizon_days],
                     28,
                     PANEL,
                     PANEL,
