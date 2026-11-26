@@ -1,14 +1,20 @@
 # Development
 
-Run the pure-standard-library instrument and its reproducible outputs with:
+From the White Line repository root, install `uv` and librsvg's
+`rsvg-convert` (the `librsvg2-bin` package on Debian or Ubuntu). Use Python
+3.11 or later. The package has no runtime Python dependencies. The locked
+development environment installs pytest, Ruff, mypy, and coverage tools.
+
+Run the following to set up the environment and check the source and figures.
 
 ```bash
-uv run python scripts/check_registry.py
-uv run python scripts/build_figures.py
-uv run pytest tests/ --cov=src --cov-branch --cov-report=term-missing
-uv run ruff check src tests scripts
-uv run mypy src
-uv run python scripts/audit_project.py --report
+uv sync --locked --python 3.11
+uv run --locked --python 3.11 python scripts/check_registry.py
+uv run --locked --python 3.11 python scripts/build_figures.py
+uv run --locked --python 3.11 pytest tests/ --cov=src --cov-branch --cov-report=term-missing
+uv run --locked --python 3.11 ruff check src tests scripts
+uv run --locked --python 3.11 mypy src
+uv run --locked --python 3.11 python scripts/audit_project.py --report
 ```
 
 Every command above runs from a clone of this repository alone. `output/` is
@@ -47,7 +53,7 @@ nonblank `alt_text`. Historical release artifacts retain their original schema.
 
 `tests/test_figure_legibility.py` is the printed-size gate. It reads each
 plate's canvas size out of its rendered SVG, the `width=` attribute out of the
-manuscript embed, and the page geometry out of `manuscript/config.yaml`, then
+manuscript embed, and the page geometry out of `docs/manuscript/config.yaml`, then
 computes what a label of `N` canvas units measures on paper and fails below
 six points. Two further checks cross-read the `\textwidth` and per-figure
 `width`/`height` fractions from the last rendered `.log` and `.tex`, so a
@@ -76,39 +82,47 @@ template's evidence-registry validator checks those paths during Stage 04.
 Figure rasterization requires `rsvg-convert` from librsvg on `PATH`; it is a
 system rendering prerequisite, not a runtime package dependency.
 
-For a full rendered bundle you need one external tool: the `docxology/template`
-render engine. It is not vendored here and nothing in this repository can
-produce `output/pdf/` or `output/web/` without it. That is an honest external
-dependency, and everything above — tests, coverage, registry check, figures, the
-legibility gate, and the source-side audit — runs without it.
+## Render and validate the manuscript
 
-The template locates a project by a qualified name under its own `projects/`
-directory, so link this checkout in from wherever it lives rather than assuming
-any particular layout:
+[The manuscript source](manuscript/README.md) lives in `docs/manuscript/`.
+`config.yaml` sets the publication metadata, page geometry, figure height, and
+output formats. The numbered Markdown sections use `preamble.md` and
+`references.bib`. Run with a fresh checkout so all generated files belong to
+the same source revision.
+
+Install Pandoc, XeLaTeX, and the TeX packages listed in the
+[pinned template requirements](https://github.com/docxology/template/blob/87704feae0a4490ef7dad9c931d268e8c30273c2/README.md#L565-L574).
+The template uses Python 3.14 or later. Run the following from the White Line repository root.
 
 ```bash
-# WHITE_LINE_ROOT: this checkout, anywhere on disk.
-# TEMPLATE_ROOT:   a clone of https://github.com/docxology/template, anywhere.
-# Both are assigned here; change either path to suit your machine.
-export WHITE_LINE_ROOT="$(pwd)"
-export TEMPLATE_ROOT="${TEMPLATE_ROOT:-$HOME/template}"
+white_line_root="$(pwd)"
+template_root="$(mktemp -d)/template"
+git clone https://github.com/docxology/template "$template_root"
+git -C "$template_root" checkout --detach 87704feae0a4490ef7dad9c931d268e8c30273c2
 
-# Clone the engine only if that directory does not already hold one.
-[ -d "$TEMPLATE_ROOT/.git" ] || git clone https://github.com/docxology/template "$TEMPLATE_ROOT"
+uv sync --locked --python 3.11
+uv run --locked --python 3.11 python scripts/build_figures.py
 
-mkdir -p "$TEMPLATE_ROOT/projects/working"
-ln -sfn "$WHITE_LINE_ROOT" "$TEMPLATE_ROOT/projects/working/white_line"
+mkdir -p "$template_root/projects/working"
+ln -s "$white_line_root" "$template_root/projects/working/white_line"
 
-cd "$TEMPLATE_ROOT"
-uv run python scripts/pipeline/stage_03_render.py --project working/white_line
+(
+  cd "$template_root"
+  uv sync --locked --no-dev
+  uv run --no-sync python scripts/pipeline/stage_03_render.py --project working/white_line
+  uv run --no-sync python scripts/pipeline/stage_04_validate.py --project working/white_line
+)
 
-cd "$WHITE_LINE_ROOT"
-uv run python scripts/audit_project.py --require-render --write-manifest --report
+uv run --locked --python 3.11 python scripts/audit_project.py --require-render --write-manifest --report
+uv run --locked --python 3.11 python scripts/check_figure_layout.py
 ```
 
-`working/white_line` is the qualified project name the template resolves, not a
-path relative to this repository. The render writes back into this checkout's
-`output/`, which is why the audit is run here afterwards.
+The template resolves `working/white_line` inside its own `projects/` tree and
+discovers `docs/manuscript/` in that checkout. It writes the PDF to
+`output/pdf/white_line_combined.pdf` and the HTML to `output/web/index.html`
+under the White Line checkout. The strict audit writes
+`output/reports/white_line_audit.json`. Review the PDF and HTML for the ordered
+sections, bibliography entries, and figure embeds before publishing.
 
 The default audit is source-only: its zero exit code may defer missing rendered
 artifacts, while the JSON still reports those errors and `passed: false`.

@@ -22,7 +22,7 @@ project.
   manuscript, figures (`white_line.figures` → `output/figures/`), and
   the audit gate together, and bump `LEDGER_VERSION` when registry content
   changes.
-- Paper-version authority is `manuscript/config.yaml`; the package and installed
+- Paper-version authority is `docs/manuscript/config.yaml`; the package and installed
   metadata must remain equal to it, and tests bind all three. The cover art
   derives its version text from `white_line.version.__version__`.
 - `white_line.analysis` stays pure and additive: sweeps and tables computed
@@ -39,14 +39,14 @@ project.
 - Adding a figure touches, atomically: the plate builder, its `FIGURE_PLATES`
   registration, the count and label assertions in `tests/test_figures.py`, the
   count in `docs/development.md`, and an embed by filename in a
-  `manuscript/*.md` file. A generated-but-unembedded figure is inert and
+  `docs/manuscript/*.md` file. A generated-but-unembedded figure is inert and
   forbidden; the audit fails on it in both directions. No module docstring
   carries a plate count — the count lives in `docs/development.md` and in
   `tests/test_figures.py`, which are the only two places to update.
 - Every label a plate draws must print at or above six points on the page.
   `canvas.text` refuses a size below `MIN_TEXT_SIZE`, and
   `tests/test_figure_legibility.py` re-derives each plate's printed size from
-  the manuscript embed width and `manuscript/config.yaml` geometry. Widening a
+  the manuscript embed width and `docs/manuscript/config.yaml` geometry. Widening a
   canvas shrinks every label on it, so `MAX_CANVAS_WIDTH` is a hard cap: grow a
   plate downward, never sideways.
 - The manuscript states every definition and proposition as a fenced Div —
@@ -82,7 +82,7 @@ it is not verification of any observation, boundary, or safety property.
 The render is this project's only external dependency, and it is declared, not
 hidden: without it the tests, coverage gate, registry check, figure build,
 legibility gate, and source-side audit all still run. See
-[STANDALONE.md](STANDALONE.md).
+[docs/standalone.md](docs/standalone.md).
 
 An agent-facing operating summary lives at
 `.agents/skills/white-line/SKILL.md`.

@@ -32,7 +32,7 @@ cloned or located anywhere on disk, with this checkout linked in as its
 `projects/working/white_line` — using
 `uv run python scripts/pipeline/stage_03_render.py --project working/white_line`,
 then return here for `audit_project.py --require-render --write-manifest --report`. That render
-is the only step this repository cannot perform alone; see `STANDALONE.md`.
+is the only step this repository cannot perform alone; see `docs/standalone.md`.
 
 ## States
 
@@ -148,14 +148,14 @@ is structural agreement, not truth verification.
 - Duplicate same-state observations for one record keep the last-listed and
   log a `DUPLICATE_STATE` event; conflicting states log `CONFLICTING_STATES`
   and keep the more cautious.
-- Paper-version authority is `manuscript/config.yaml`; package and installed
+- Paper-version authority is `docs/manuscript/config.yaml`; package and installed
   metadata are kept equal by the version tests. Registry content changes must
   bump `LEDGER_VERSION` **and** re-pin `LEDGER_VERSION_DIGEST` in
   `src/white_line/version.py`; the audit fails until they agree, so a reworded
   description can no longer slip through with counts and kinds unchanged.
   Re-pin with `uv run python -c "from white_line import WHITE_RECORDS,
   registry_digest; print(registry_digest(WHITE_RECORDS))"`.
-- Every generated figure must be embedded by filename in a `manuscript/*.md`
+- Every generated figure must be embedded by filename in a `docs/manuscript/*.md`
   file; a generated-but-unembedded figure fails the audit and is forbidden.
   `figure_registry.json` records each PNG and SVG byte digest and the audit
   re-derives them, so a hand-edited raster fails too.
@@ -164,7 +164,7 @@ is structural agreement, not truth verification.
   `MAX_CANVAS_WIDTH`, and `tests/test_figure_legibility.py` re-derives the
   printed size from the embed width and page geometry. Grow a plate downward,
   never sideways, and re-render before trusting a green legibility run after
-  editing `manuscript/config.yaml` or an embed width.
+  editing `docs/manuscript/config.yaml` or an embed width.
 
 ## The report envelope (cross-instrument transport)
 

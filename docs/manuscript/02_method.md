@@ -38,4 +38,4 @@ an extension should state its kind, its scope, and the non-claim it protects;
 the evaluator refuses an extension that fails the structural checks. The report's
 date and registry digest should be stored with any downstream review.
 
-![The White Line review atlas: type the limit, reconcile the record, and open a bounded next question. Counts and actions are derived from the live registry, state alphabet, and review protocol; the atlas is not a summary of an observed population.](../output/figures/white_review_atlas.png){#fig:white-review-atlas width=100%}
+![The White Line review atlas: type the limit, reconcile the record, and open a bounded next question. Counts and actions are derived from the live registry, state alphabet, and review protocol; the atlas is not a summary of an observed population.](../../output/figures/white_review_atlas.png){#fig:white-review-atlas width=100%}

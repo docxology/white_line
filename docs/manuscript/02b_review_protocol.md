@@ -10,7 +10,7 @@ confirming the boundary without seeking disclosure, and `NAMED` to retaining
 the naming without treating it as resolution. None of these directives is an
 approval, compliance, safety, or truth verdict.
 
-![The bounded White Line review protocol maps each state to human follow-up without producing permission, compliance, or safety approval. It is derived from the state enumeration and review directives, not from observed safety data.](../output/figures/white_review_protocol.png){#fig:white-review-protocol width=100%}
+![The bounded White Line review protocol maps each state to human follow-up without producing permission, compliance, or safety approval. It is derived from the state enumeration and review directives, not from observed safety data.](../../output/figures/white_review_protocol.png){#fig:white-review-protocol width=100%}
 
 The operator loop is deliberately short:
 

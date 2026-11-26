@@ -30,7 +30,7 @@ def _config_paper_version() -> str:
             match = re.match(r'\s+version:\s*"([^"]+)"\s*$', line)
             if match:
                 return match.group(1)
-    raise AssertionError("paper.version not found in manuscript/config.yaml")
+    raise AssertionError("paper.version not found in docs/manuscript/config.yaml")
 
 
 def _cff_field(name: str) -> str:

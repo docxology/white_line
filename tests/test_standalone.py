@@ -222,12 +222,12 @@ def test_the_gitignore_does_not_swallow_the_source_of_truth() -> None:
     tracked = [
         "src/white_line/audit.py",
         "tests/test_standalone.py",
-        "manuscript/01b_line_set_relationship.md",
-        "manuscript/config.yaml",
+        "docs/manuscript/01b_line_set_relationship.md",
+        "docs/manuscript/config.yaml",
         "data/claim_ledger.json",
         "pyproject.toml",
         "README.md",
-        "STANDALONE.md",
+        "docs/standalone.md",
         ".gitignore",
     ]
     swallowed = [item for item in tracked if is_ignored(item, patterns)]
@@ -237,7 +237,7 @@ def test_the_gitignore_does_not_swallow_the_source_of_truth() -> None:
 def test_standalone_guide_exists_and_names_the_external_render_dependency() -> None:
     """A separated copy must explain its own purpose and limits."""
 
-    text = (PROJECT_ROOT / "STANDALONE.md").read_text(encoding="utf-8")
+    text = (PROJECT_ROOT / "docs/standalone.md").read_text(encoding="utf-8")
     assert "docxology/template" in text
     for sibling in ("red_line", "black_line", "golden_line", "line_set"):
         assert f"https://github.com/docxology/{sibling}" in text, sibling
@@ -252,7 +252,7 @@ def test_standalone_guide_names_the_tests_that_actually_skip() -> None:
     Binding it to the real function names makes the guide fail with the code.
     """
 
-    guide = (PROJECT_ROOT / "STANDALONE.md").read_text(encoding="utf-8")
+    guide = (PROJECT_ROOT / "docs/standalone.md").read_text(encoding="utf-8")
     named = {
         "tests/test_audit.py": (
             "test_real_project_has_no_release_blocker_beyond_manifest_staleness"

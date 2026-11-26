@@ -2,7 +2,7 @@
 
 `src/` is the import root for the `white_line` package. It owns package code,
 not command-line orchestration (`../scripts/`), tests (`../tests/`), prose
-(`../docs/` and `../manuscript/`), or generated artifacts (`../output/`).
+(`../docs/`), or generated artifacts (`../output/`).
 
 The only package directory is [`white_line/`](white_line/). Its public import
 surface is defined by `white_line.__all__`; preserve that surface when

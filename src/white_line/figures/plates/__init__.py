@@ -69,7 +69,7 @@ FIGURE_PLATES = (
         "fig:white-scholarship-map",
         "A non-exhaustive scholarship-to-design matrix connecting situated knowledge, produced ignorance, missing-data methodology, classification, epistemic justice, refusal, opacity, and contemplative restraint to a limited White Line operation: type, bound, and revisit. The matrix distinguishes reviewer responsibilities from code behavior; it does not claim that the cited traditions are one theory.",
         "Scholarship matrix connecting seven intellectual conversations to the questions they force and White Line's limited type, bound, and revisit operations.",
-        "manuscript/01c_scholarship.md synthesis and scripts/build_figures.py layout",
+        "docs/manuscript/01c_scholarship.md synthesis and scripts/build_figures.py layout",
     ),
     FigurePlate(
         "white_state_machine",

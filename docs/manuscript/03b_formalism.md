@@ -57,7 +57,7 @@ Withholding outranks an open question, which outranks a settled naming, which
 outranks silence.
 :::
 
-![The defined caution order, read directly from `caution_rank`. When observers of one record disagree, the evaluator keeps the higher rung; staleness moves a naming from `NAMED` to `UNRESOLVED`, toward greater caution. Each rung also reports, live from `reconciliation_matrix`, in how many of the nine ordered pairs it is the kept state; the rules that use the order are drawn in the conflict-lattice and decay-timeline figures. A higher rung means more restraint, not more danger. The figure is a deterministic schematic generated from the state enumeration, not a severity score.](../output/figures/white_caution_ladder.png){#fig:white-caution-ladder width=100%}
+![The defined caution order, read directly from `caution_rank`. When observers of one record disagree, the evaluator keeps the higher rung; staleness moves a naming from `NAMED` to `UNRESOLVED`, toward greater caution. Each rung also reports, live from `reconciliation_matrix`, in how many of the nine ordered pairs it is the kept state; the rules that use the order are drawn in the conflict-lattice and decay-timeline figures. A higher rung means more restraint, not more danger. The figure is a deterministic schematic generated from the state enumeration, not a severity score.](../../output/figures/white_caution_ladder.png){#fig:white-caution-ladder width=100%}
 
 ::: {.definition #def:observation title="Observation"}
 An observation is a tuple
@@ -201,9 +201,9 @@ The action is a prompt for human review, not a claim that the observation is
 true, safe, authorized, or complete.
 :::
 
-![The staged evaluator's decision path: intake sets aside untrusted input while leaving a typed note, matching keeps at most one — and the more cautious — observation per record, and scoring assigns exactly one of the four ledger states. The set-aside and match categories name every `IntakeCode` member, and the figure build fails if that enumeration changes, so the panels cannot silently drift from the intake rules. The labeled staleness arrow shows a dated `NAMED` naming decaying to `UNRESOLVED` once it ages past its horizon. The figure is generated from the evaluator contract, not from observed safety data; the reading rule beneath it is essential when the visual is read without the surrounding prose.](../output/figures/white_state_machine.png){#fig:white-state-machine width=100%}
+![The staged evaluator's decision path: intake sets aside untrusted input while leaving a typed note, matching keeps at most one — and the more cautious — observation per record, and scoring assigns exactly one of the four ledger states. The set-aside and match categories name every `IntakeCode` member, and the figure build fails if that enumeration changes, so the panels cannot silently drift from the intake rules. The labeled staleness arrow shows a dated `NAMED` naming decaying to `UNRESOLVED` once it ages past its horizon. The figure is generated from the evaluator contract, not from observed safety data; the reading rule beneath it is essential when the visual is read without the surrounding prose.](../../output/figures/white_state_machine.png){#fig:white-state-machine width=100%}
 
-![One row per branch of the scoring rule, each computed by a live `assess_absence` call and drawn with the ordered reason trail the evaluator returned. The two conditional reasons appear only in the branch that adds them: a blank-note withholding gains the duty reason, and a dated naming gains either its age line or the decay line. The plate quotes what the evaluator wrote, so a reworded reason moves the figure rather than leaving the prose behind. A reason is an explanation of one scoring decision, never a judgment of the observation or of whoever supplied it.](../output/figures/white_reason_trail.png){#fig:white-reason-trail width=100%}
+![One row per branch of the scoring rule, each computed by a live `assess_absence` call and drawn with the ordered reason trail the evaluator returned. The two conditional reasons appear only in the branch that adds them: a blank-note withholding gains the duty reason, and a dated naming gains either its age line or the decay line. The plate quotes what the evaluator wrote, so a reworded reason moves the figure rather than leaving the prose behind. A reason is an explanation of one scoring decision, never a judgment of the observation or of whoever supplied it.](../../output/figures/white_reason_trail.png){#fig:white-reason-trail width=100%}
 
 ## Semantic guarantees
 
@@ -236,7 +236,7 @@ $c$ — and the test suite checks every cell against a real two-observer
 identity diagonal, and `NOT_RECORDED` appears in no pair and no cell, because
 intake screens it out before reconciliation can see it.
 
-![The full ordered-pair conflict-resolution table for assertable states, generated from `caution_rank` via `reconciliation_matrix`. Every cell keeps the more cautious input, the table is symmetric under swapping the observers — arrival order carries no authority — and the ledger-reserved `NOT_RECORDED` appears nowhere because observations may not assert it. The lattice records the reconciliation contract, not a severity score or a judgment of any observer.](../output/figures/white_conflict_lattice.png){#fig:white-conflict-lattice width=100%}
+![The full ordered-pair conflict-resolution table for assertable states, generated from `caution_rank` via `reconciliation_matrix`. Every cell keeps the more cautious input, the table is symmetric under swapping the observers — arrival order carries no authority — and the ledger-reserved `NOT_RECORDED` appears nowhere because observations may not assert it. The lattice records the reconciliation contract, not a severity score or a judgment of any observer.](../../output/figures/white_conflict_lattice.png){#fig:white-conflict-lattice width=100%}
 
 ::: {.proposition #prop:staleness title="Staleness"}
 A dated `NAMED` observation whose age exceeds its record's horizon is reported
@@ -259,7 +259,7 @@ observations; it is not observed data about any work, and a fully decayed
 cohort is not a finding that anything is wrong — only that the namings are due
 for re-review.
 
-![Staleness decay computed by sweeping `assess_absence` over review dates via `decay_timeline`: every registry record receives a `NAMED` observation dated 2026-01-01, and the same input is re-assessed at each later date. Each dashed crossing is one review horizon expiring — days 91, 121, 181, and 366, one day past the horizons 90, 120, 180, and 365 — moving records from `NAMED` to `UNRESOLVED`. Decay only raises caution; the curve describes the staleness contract applied to an illustrative cohort, not observed data about any work.](../output/figures/white_decay_timeline.png){#fig:white-decay-timeline width=100%}
+![Staleness decay computed by sweeping `assess_absence` over review dates via `decay_timeline`: every registry record receives a `NAMED` observation dated 2026-01-01, and the same input is re-assessed at each later date. Each dashed crossing is one review horizon expiring — days 91, 121, 181, and 366, one day past the horizons 90, 120, 180, and 365 — moving records from `NAMED` to `UNRESOLVED`. Decay only raises caution; the curve describes the staleness contract applied to an illustrative cohort, not observed data about any work.](../../output/figures/white_decay_timeline.png){#fig:white-decay-timeline width=100%}
 
 ::: {.proposition #prop:no-silent-discard title="No silent discard"}
 Every set-aside input, resolved conflict, and same-state duplicate contributes
@@ -480,7 +480,7 @@ an exclusivity or allowed-collateral-failure claim. The plate
 below draws what that call returned, so the claim above is visible rather than
 merely asserted.
 
-![One row per structural invariant, computed by running the whole check battery over the live registry and then over a registry carrying exactly the defect that invariant guards against. Each row shows the check's verdict on the real registry and the detail string it returned when it rejected the planted defect, so a check that stopped rejecting would empty its own row rather than pass quietly. The plate demonstrates detection of the planted defects; it is not a claim that the six checks exhaust the structural faults a registry could carry.](../output/figures/white_invariant_battery.png){#fig:white-invariant-battery width=100%}
+![One row per structural invariant, computed by running the whole check battery over the live registry and then over a registry carrying exactly the defect that invariant guards against. Each row shows the check's verdict on the real registry and the detail string it returned when it rejected the planted defect, so a check that stopped rejecting would empty its own row rather than pass quietly. The plate demonstrates detection of the planted defects; it is not a claim that the six checks exhaust the structural faults a registry could carry.](../../output/figures/white_invariant_battery.png){#fig:white-invariant-battery width=100%}
 
 ## Where each claim is checked
 

@@ -10,9 +10,9 @@ This module supplies the arithmetic that turns a canvas-unit font size into a
 printed point size, reading the inputs from the project rather than from
 constants:
 
-* ``manuscript/config.yaml`` declares the LaTeX ``geometry`` margins, which fix
+* ``docs/manuscript/config.yaml`` declares the LaTeX ``geometry`` margins, which fix
   the width and height of the text block.
-* ``manuscript/*.md`` declares each figure's ``width=NN%`` embed attribute.
+* ``docs/manuscript/*.md`` declares each figure's ``width=NN%`` embed attribute.
 * ``rendering.figure_height_fraction`` in the same config caps a figure's
   height as a fraction of ``\\textheight``. Because Pandoc emits
   ``keepaspectratio``, the *smaller* of the width and height bounds wins — so a
