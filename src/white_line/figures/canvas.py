@@ -17,7 +17,7 @@ MAX_CANVAS_WIDTH = 1600
 #: Derivation, reproduced by ``tests/test_figure_legibility.py`` from the
 #: rendered geometry rather than asserted here: the manuscript's text block is
 #: ``\textwidth`` = 7.66 in wide (letter paper less the 0.42 in side margins
-#: declared in ``manuscript/config.yaml``). A plate embedded at ``width=100%``
+#: declared in ``docs/manuscript/config.yaml``). A plate embedded at ``width=100%``
 #: on a ``MAX_CANVAS_WIDTH``-unit canvas renders one canvas unit at
 #: ``7.66 / 1600`` in, so an ``N``-unit label renders at
 #: ``N * 7.66 * 72 / 1600`` = ``N * 0.3447`` pt. A floor of 18 units therefore
@@ -26,7 +26,7 @@ MAX_CANVAS_WIDTH = 1600
 #: at 3.39 pt.
 #:
 #: The height cap matters too. ``rendering.figure_height_fraction`` in
-#: ``manuscript/config.yaml`` must stay large enough that width, not height,
+#: ``docs/manuscript/config.yaml`` must stay large enough that width, not height,
 #: binds the rendered size; otherwise a tall plate is shrunk and this floor
 #: buys nothing. The legibility test checks that condition per figure.
 MIN_TEXT_SIZE = 18

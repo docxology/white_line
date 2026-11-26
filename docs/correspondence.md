@@ -95,6 +95,6 @@ the real formalism prose each failed exactly their named test, and the
 facets-lattice plate was checked cell-by-cell against its registration. One
 number in the window's own log was corrected during that pass: the truth
 table has 21 projecting cells and three fail-closed cells, not 23 and one
-(TODO.md log records the re-derivation). The skill descriptor gained the
+([project log](TODO.md#log) records the re-derivation). The skill descriptor gained the
 envelope surface. The companion register now exists and accepted this
 line's actually-exported envelope unmodified.

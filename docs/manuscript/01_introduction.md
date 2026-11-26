@@ -7,7 +7,7 @@ wrote White Line to give those absences a place to remain different from each
 other, because the pressure I feel while writing is not to hide a gap so much as
 to let three unlike things blur into one apology.
 
-![White Line's cover art: congested graphite marks press toward an irregular open field while three typed traces cross it without closing it. The art is a deterministic conceptual composition for interpretation, not evidence of a hidden cause.](../output/figures/white_cover_art.png){#fig:white-cover-art width=100%}
+![White Line's cover art: congested graphite marks press toward an irregular open field while three typed traces cross it without closing it. The art is a deterministic conceptual composition for interpretation, not evidence of a hidden cause.](../../output/figures/white_cover_art.png){#fig:white-cover-art width=100%}
 
 The concern is old. Nāgārjuna warns against turning conceptual absence into a
 hidden substance [@nagarjuna200]; Maimonides develops negative ways of speaking
@@ -30,4 +30,7 @@ The paper and the package are separate but linked objects. The package imports
 as a small library; the manuscript states the scope, limits, and review protocol
 that keep its output from being overread.
 
-The paper is structured as follows. Section [-@sec:method] defines the three kinds of absence and the four ledger states. Section [-@sec:formalism] states the evaluator and its invariants formally. Section [-@sec:examples] walks through worked ledger entries, and Section [-@sec:limits] closes with the instrument's safeguards and limits.
+The [method](#sec:method) defines the three kinds of absence and the four
+ledger states. The [formal method](#sec:formalism) states the evaluator and
+its invariants. The [worked examples](#sec:examples) apply the ledger, and
+the [limits](#sec:limits) describe the instrument's safeguards.

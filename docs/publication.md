@@ -27,7 +27,7 @@ not version 0.9.2 or a standalone rendered manuscript. The earlier historical
 archive retains DOI `10.5281/zenodo.21754242`; this metadata does not establish
 its edition, so no software version is inferred for it.
 
-`CITATION.cff`, `.zenodo.json`, and `manuscript/config.yaml` carry synchronized
+`CITATION.cff`, `.zenodo.json`, and `docs/manuscript/config.yaml` carry synchronized
 version metadata and separate prior archive references.
 `tests/test_publication_metadata.py` checks version agreement.
 

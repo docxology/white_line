@@ -98,29 +98,27 @@ true, safe, authorized, or attributable to any person or cause.
 
 ## Quick start
 
-Everything here runs from a fresh clone of this repository alone. `output/` is
-generated and git-ignored, so build the figures before the checks that read
-them; the test suite also rebuilds them itself if they are absent.
+From a fresh clone, install `uv` and the librsvg rasterizer described in the
+[development guide](docs/development.md). The test suite builds figures if
+`output/figures/` is missing.
 
 ```bash
-uv run python scripts/check_registry.py
-uv run python scripts/build_figures.py
-uv run pytest tests/ --cov=src --cov-branch --cov-report=term-missing
-uv run python scripts/audit_project.py --report
+uv sync --locked --python 3.11
+uv run --locked --python 3.11 python scripts/check_registry.py
+uv run --locked --python 3.11 python scripts/build_figures.py
+uv run --locked --python 3.11 pytest tests/ --cov=src --cov-branch --cov-report=term-missing
+uv run --locked --python 3.11 python scripts/audit_project.py --report
 ```
 
 `scripts/build_figures.py` needs `rsvg-convert` from librsvg on `PATH`; that is
 a system rasterizer, not a Python dependency, and the build says so plainly if
 it is missing.
 
-For a publication bundle you need one tool that is not in this repository: the
-`docxology/template` render engine. Clone or locate it anywhere, link this
-checkout in as its `projects/working/white_line`, render with the qualified
-project name `working/white_line`, then run `uv run python
-scripts/audit_project.py --require-render --write-manifest --report` back here. The
-path-independent commands are in
-[docs/development.md](docs/development.md), and
-[STANDALONE.md](STANDALONE.md) states what a separated copy can and cannot do.
+Find the [documentation index](docs/README.md) for the ledger contract and
+publication workflow. Build and validate the manuscript from
+[its canonical source](docs/manuscript/README.md) with the pinned template
+commands in the [development guide](docs/development.md#render-and-validate-the-manuscript).
+The [standalone guide](docs/standalone.md) describes checks a single clone can run.
 A passing strict post-render audit means the local source and rendered bundle
 agree structurally; a source-only zero exit code does not. Neither verifies the
 truth of observations.

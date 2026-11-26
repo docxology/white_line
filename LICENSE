@@ -6,7 +6,7 @@ are reusing.
 - **Code** — everything under `src/`, `tests/`, and `scripts/` — is licensed
   under the **MIT License**, reproduced in full below.
 - **Prose, manuscripts, figures, and documentation** — everything under
-  `manuscript/` and `docs/`, the README, and the generated figures — are
+  `docs/`, the README, and the generated figures — are
   licensed under **Creative Commons Attribution 4.0 International
   (CC BY 4.0)**. The authoritative legal code is published by Creative Commons
   at <https://creativecommons.org/licenses/by/4.0/legalcode> and is referenced

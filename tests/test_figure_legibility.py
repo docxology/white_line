@@ -9,7 +9,7 @@ and shrank the whole image.
 
 The gate derives the printed size rather than asserting it. For each plate it
 reads the canvas size out of the rendered SVG, the ``width=`` attribute out of
-the manuscript embed, and the page geometry out of ``manuscript/config.yaml``,
+the manuscript embed, and the page geometry out of ``docs/manuscript/config.yaml``,
 then computes how many points a label of ``N`` canvas units occupies on paper.
 Two further tests cross-check that derivation against the geometry the last
 render actually used, so a template-side change cannot leave the number quietly

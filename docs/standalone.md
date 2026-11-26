@@ -62,12 +62,10 @@ bounded and named:
     — skips as `no rendered LaTeX artifacts in this checkout` after
     `observed_latex_geometry` returns `None`.
 
-The path-independent render invocation is in
-[docs/development.md](docs/development.md): clone or locate the template
-anywhere, link this checkout in as its `projects/working/white_line`, and render
-with the qualified project name `working/white_line`. That name is resolved by
-the template inside its own `projects/` tree; it is not a path relative to this
-repository.
+The [development guide](development.md#render-and-validate-the-manuscript)
+shows how to pin the template checkout, register White Line as
+`working/white_line`, and render and validate the bundle from
+`docs/manuscript/`.
 
 ## The other works
 
@@ -103,6 +101,6 @@ repository does.
 
 It is not a claim that the instrument is correct, that any recorded absence is
 true, or that a passing audit certifies anything about the world. Those limits
-are stated in [docs/claim_boundaries.md](docs/claim_boundaries.md) and
+are stated in [claim_boundaries.md](claim_boundaries.md) and
 [manuscript/05_limits.md](manuscript/05_limits.md), and nothing here softens
 them.

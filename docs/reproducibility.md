@@ -23,23 +23,14 @@ Use this order:
 2. Build figures from the live registry. The generated registry JSON and
    figure registry carry the registry digest; the figure builder has no clock
    or random seed in its output.
-3. Render the bundle with the external `docxology/template` engine. Clone or
-   locate that repository anywhere on disk, link this checkout in under its
-   `projects/working/white_line`, and run
-   `uv run python scripts/pipeline/stage_03_render.py --project working/white_line`
-   from the template root — `working/white_line` is the qualified project name
-   the template resolves, not a path relative to this repository. The exact
-   commands are in [development.md](development.md). This step, and only this
-   step, requires a tool outside this repository; steps 1, 2, and the source
-   side of step 4 all run from this checkout alone.
-4. Run `scripts/audit_project.py`. It checks that figure links, labels,
-   bibliography keys, section labels, source headings, and required PDF/HTML
-   artifacts agree. A stale source manifest is expected after a source edit;
-   missing artifacts and other errors must be repaired first.
-5. After a fresh render and a clean audit aside from manifest staleness, run
-   `--write-manifest --report`. The source manifest records a content
-   fingerprint for the manuscript and generated figure inputs. A later source
-   edit invalidates it.
+3. Follow the [development guide](development.md#render-and-validate-the-manuscript)
+   to register White Line with the pinned template, render the PDF and HTML
+   from `docs/manuscript/`, and validate both outputs.
+4. Run `scripts/audit_project.py --require-render --write-manifest --report`
+   after a fresh render. It checks figure links and labels, bibliography keys,
+   source headings, and required PDF/HTML artifacts. The source manifest records
+   a content fingerprint for the manuscript and generated figure inputs. A later
+   source edit invalidates it.
 
 The exact numeric contract values used by the formal and distributional sections
 are declared in `data/claim_ledger.json`; this keeps the template evidence

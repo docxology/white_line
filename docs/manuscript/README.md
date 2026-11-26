@@ -8,10 +8,8 @@ instrument boundary.
 Render with the external `docxology/template` engine — cloned or located
 anywhere on disk — using the qualified project name `working/white_line`; the
 path-independent commands are in
-[`../docs/development.md`](../docs/development.md).
+[development guide](../development.md).
 Do not edit files in `output/pdf/` or `output/web/` by hand.
 
-Read [AGENTS.md](AGENTS.md), [../docs/README.md](../docs/README.md), and
-[../README.md](../README.md) next.
-
-Project root: [AGENTS.md](../AGENTS.md) and [README.md](../README.md).
+See the [manuscript contract](AGENTS.md), [documentation index](../README.md),
+and [project README](../../README.md).

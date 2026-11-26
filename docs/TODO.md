@@ -6,7 +6,7 @@ claim regardless of anything listed here.
 
 ## Completed — review of 2026-10-20
 
-The review is resolved in [docs/reviews/2026-10-20-resolution.md](docs/reviews/2026-10-20-resolution.md).
+The review is resolved in [the October 20 resolution](reviews/2026-10-20-resolution.md).
 The standing Python 3.11/3.15 workflow now follows the current support floor and
 selected interpreter. Historical measurements and release packets below retain
 their original versions and results; they are not current verification.

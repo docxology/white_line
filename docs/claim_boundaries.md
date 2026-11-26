@@ -39,7 +39,7 @@ epistemic injustice, resistance, refusal, contextual integrity, and opacity
 places limits on whose information may be demanded. White Line converts those
 cautions into review prompts and refusal rules, not into automated diagnoses.
 See the full mapping in [scholarship_map.md](scholarship_map.md) and the cited
-sources in [references.bib](../manuscript/references.bib).
+sources in [references.bib](manuscript/references.bib).
 
 For release review, use the following evidence order:
 

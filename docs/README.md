@@ -7,6 +7,15 @@ technical folder contract is [AGENTS.md](AGENTS.md); repository orientation is
 the root [README.md](../README.md) and its working rules are in
 [AGENTS.md](../AGENTS.md).
 
+- [Development](development.md) covers setup, verification, and the pinned
+  render and validation commands.
+- [Manuscript source](manuscript/README.md) indexes the White Line paper, its
+  bibliography, and its configuration.
+- [Publication and citation](publication.md) records identifiers and deposit
+  requirements.
+- [Standalone use](standalone.md) describes what an independent clone can run.
+- [Release notes](releases/README.md) and the [project log](TODO.md) record prior
+  checks and current work.
 - [architecture.md](architecture.md) — module layout, the staged
   `assess_absence` semantics, report traceability, typed intake events, the
   review protocol, the invariant battery with defined-defect detection tests, and
@@ -20,12 +29,11 @@ the root [README.md](../README.md) and its working rules are in
 - [scholarship_map.md](scholarship_map.md) — the scholarship-to-design
   translation and explicit boundaries around what the package does not claim
   to solve.
+- [Witness contracts](witness_contracts.md) describes report archives and validation.
 - [claim_boundaries.md](claim_boundaries.md) — the release claim register,
   evidence classes, and explicit empirical non-claims.
 - [correspondence.md](correspondence.md) — external design reviews received
   and the adopted/deferred/declined decision record.
-- [development.md](development.md) — how to run tests, registry checks,
-  figure generation, and the source/artifact audit.
 - [AGENTS.md](AGENTS.md) — technical ownership, document boundaries, and
   verification commands for this folder.
 
@@ -65,7 +73,7 @@ Agent-facing operating guidance: the repository-root [AGENTS.md](../AGENTS.md)
 
 Boundaries and cross-references among the works are stated inside this
 repository in
-[manuscript/01b_line_set_relationship.md](../manuscript/01b_line_set_relationship.md).
+[manuscript/01b_line_set_relationship.md](manuscript/01b_line_set_relationship.md).
 The original four colors are Red, Black, Golden, and White. Current membership
 belongs to the
 [line_set](https://github.com/docxology/line_set) wrapper for declared membership
