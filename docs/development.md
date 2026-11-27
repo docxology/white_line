@@ -88,7 +88,7 @@ system rendering prerequisite, not a runtime package dependency.
 `config.yaml` sets the publication metadata, page geometry, figure height, and
 output formats. The numbered Markdown sections use `preamble.md` and
 `references.bib`. Run with a fresh checkout so all generated files belong to
-the same source revision.
+the same source revision. Name its directory `white_line`.
 
 Install Pandoc, XeLaTeX, and the TeX packages listed in the
 [pinned template requirements](https://github.com/docxology/template/blob/87704feae0a4490ef7dad9c931d268e8c30273c2/README.md#L565-L574).
