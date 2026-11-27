@@ -5,7 +5,7 @@ release workflow. It does not own assessment semantics, registry content,
 generated figures, or rendered artifacts; those belong respectively to
 [`../src/white_line/`](../src/white_line/),
 [`../src/white_line/registry.py`](../src/white_line/registry.py), and
-[`../output/`](../output/).
+the generated `output/` directory. See [reproducibility](reproducibility.md) for its build commands.
 
 ## Contents and boundaries
 
